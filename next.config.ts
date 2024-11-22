@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         pathname: '/**',
       },
+      {
+        hostname: 'practice-log.vercel.app',
+        protocol: 'https',
+        pathname: '/**',
+      }
     ],
   },
 };
