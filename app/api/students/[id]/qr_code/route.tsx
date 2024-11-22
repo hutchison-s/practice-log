@@ -3,11 +3,10 @@ import QRCode from 'qrcode'
 
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL_BASE;
 
-export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}) {
+export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const time = searchParams.get('time');
     const code = searchParams.get('code');
-    const {id} = await params;
     if (!time || !code) {
         return new NextResponse("Missing parameters", { status: 400 });
     }

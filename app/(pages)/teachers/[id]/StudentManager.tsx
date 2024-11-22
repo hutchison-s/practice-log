@@ -1,6 +1,6 @@
 'use client'
-import { User } from "@/app/_usercontext/UserContext"
-import { PrimaryButton, PrimaryLinkButton, SecondaryButton } from "@/app/ui/components/Buttons";
+import { EnrolleeWithCurrentWeekPractice, logRow } from "@/app/types";
+import { PrimaryButton, } from "@/app/ui/components/Buttons";
 import PracticeLogList from "@/app/ui/components/PracticeLogList";
 import SubHeading from "@/app/ui/components/SubHeading";
 import { Pencil, PlusCircle, QrCode, Trash } from "lucide-react";
@@ -8,21 +8,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 
-interface Enrollee extends User {
-    total_practice_time: string,
-    subject: string,
-    log?: any[],
-    weekly_goal: string,
-    day_of_week: string
-}
-
-function StudentManager({student, setSelected}: {student?: Enrollee, setSelected: (u?: Enrollee)=>void}) {
+function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWeekPractice, setSelected: (u?: EnrolleeWithCurrentWeekPractice)=>void}) {
     const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
     const siteURL = process.env.NEXT_PUBLIC_SITE_URL_BASE;
-    const d = new Date(student?.created_at!);
-    const time = d.getTime();
-    const [activeLog, setActiveLog] = useState<any[]>([]);
+    const [activeLog, setActiveLog] = useState<logRow[]>([]);
     const [isEditing, setIsEditing] = useState(false);
+    const [time, setTime] = useState(0);
     const [name, setName] = useState(student?.name || '');
     const [subject, setSubject] = useState(student?.subject || '');
     const [dow, setDow] = useState(student?.day_of_week || 0);
@@ -39,7 +30,7 @@ function StudentManager({student, setSelected}: {student?: Enrollee, setSelected
                     throw new Error('Delete request failed')
                 }
                 return res.json()})
-            .then(json => {
+            .then(() => {
                 setActiveLog([]);
                 setSelected(undefined)
                 router.refresh();
@@ -68,7 +59,7 @@ function StudentManager({student, setSelected}: {student?: Enrollee, setSelected
                     throw new Error('Update request failed')
                 }
                 return res.json()})
-            .then(json => {
+            .then(() => {
                 setIsEditing(false);
                 router.refresh();
             })
@@ -80,11 +71,14 @@ function StudentManager({student, setSelected}: {student?: Enrollee, setSelected
     useEffect(()=>{
         const getLog = async () => {
             const log = await (await fetch(`${apiURL}/students/${student?.id}/logs?limit=6`)).json();
-            setActiveLog(old => {
+            setActiveLog(() => {
                 return log.data ? [...log.data] : [];
             });
         }
         if (student) {
+            const d = new Date(student.created_at);
+            const time = d.getTime();
+            setTime(time);
             getLog();
             const nextLesson = new Date();
             if (student)
@@ -95,7 +89,7 @@ function StudentManager({student, setSelected}: {student?: Enrollee, setSelected
             setNextLessonDay(nextLesson)
         }
         
-    }, [student])
+    }, [apiURL, student])
 
     useEffect(()=>{
         if (isEditing) {
@@ -107,7 +101,7 @@ function StudentManager({student, setSelected}: {student?: Enrollee, setSelected
         } else {
             modalRef.current?.close();
         }
-    }, [isEditing])
+    }, [isEditing, student?.day_of_week, student?.name, student?.subject, student?.weekly_goal])
   return (
     <>
         <section className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">

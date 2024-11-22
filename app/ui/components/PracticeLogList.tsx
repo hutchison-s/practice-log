@@ -1,6 +1,7 @@
+import { logRow } from "@/app/types"
 import LogDisplay from "./LogDisplay"
 
-function PracticeLogList({logs}: {logs: any[]}) {
+function PracticeLogList({logs}: {logs: logRow[]}) {
     
   return (
     <div className="grid gap-2">

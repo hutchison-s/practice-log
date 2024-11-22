@@ -28,7 +28,7 @@ function Page(props: {searchParams: Promise<{code: string, time: string}>}) {
             })
         }
         go();
-    }, [])
+    }, [apiURL, code, login, router, time])
 
 
   return (

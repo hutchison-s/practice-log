@@ -1,26 +1,19 @@
 'use client'
 
-import { User } from "@/app/_usercontext/UserContext"
+
 import { useEffect, useState } from "react"
 import StudentList from "./StudentList"
 import StudentManager from "./StudentManager"
+import { EnrolleeWithCurrentWeekPractice } from "@/app/types"
 
-interface Enrollee extends User {
-    total_practice_time: string,
-    subject: string,
-    log?: any[],
-    weekly_goal: string,
-    day_of_week: string
-}
-
-function StudentBrowser({students}: {students: Enrollee[]}) {
-    const [activeStudent, setActiveStudent] = useState<Enrollee>()
+function StudentBrowser({students}: {students: EnrolleeWithCurrentWeekPractice[]}) {
+    const [activeStudent, setActiveStudent] = useState<EnrolleeWithCurrentWeekPractice>()
 
     useEffect(()=>{
         if (students.length > 0) {
             setActiveStudent(students[0])
         }
-    }, [])
+    }, [students])
     
   return (
     <>

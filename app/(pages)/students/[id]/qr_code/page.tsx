@@ -1,7 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { Download } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { NextResponse } from 'next/server';
 import loader from '../../../../_assets/images/loading_qr.png' 
 import { Suspense } from 'react';

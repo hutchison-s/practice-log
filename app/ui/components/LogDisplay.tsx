@@ -18,8 +18,6 @@ function LogDisplay({log}: {log: logRow}) {
 
     if (log.seconds == 0) return null;
     const timestamp = utcToTimeZone(log.start, 'day, month, year, date, hour, minute');
-    const d = new Date(timestamp);
-    const ts = d.getDay();
     return (
         <div className="relative px-4 py-2 border-[1px] border-slate-600 border-l-4 border-l-txtprimary rounded shadow-sm">
             <div onClick={()=>setIsOpen(!isOpen)}>

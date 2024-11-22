@@ -1,20 +1,15 @@
 import { createContext } from "react";
+import { User } from "../types";
 
-export type User = {
-    id: string,
-    name: string,
-    email?: string,
-    code?: string
-    created_at?: string
-}
 export const defaultUser: User = {
     id: '',
-    name: ''
+    name: '',
+    created_at: ''
 }
 
 const initialContext = {
     user: defaultUser,
-    login: (u: User)=>{},
+    login: (u: User)=>{console.log(u)},
     logout: ()=>{}
 }
 

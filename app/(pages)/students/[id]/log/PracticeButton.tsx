@@ -24,7 +24,7 @@ function handleStop(id: string, journal: string) {
     const url = `${apiURL}/students/${id}/logs`
     fetch(url, {method: 'PATCH', headers: {"Content-type": "application/json"}, body: JSON.stringify({log_id: window.localStorage.getItem(id+"_current_log"), journal: journal})})
         .then(res => res.json())
-        .then(response => {
+        .then(() => {
             window.localStorage.removeItem(id+"_current_log");
         })
     

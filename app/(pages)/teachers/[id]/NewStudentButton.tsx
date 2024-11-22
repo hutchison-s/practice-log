@@ -35,6 +35,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                 throw new Error('Failed to create student')
             }
             const data = await res.json();
+            console.log(data.message)
             setName('');
             setIsOpen(false);
             router.refresh();
@@ -75,14 +76,14 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                 <input
                     id='name' 
                     type="text" 
-                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(n => e.target.value)}} 
+                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(e.target.value)}} 
                     className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
                 />
                 <label htmlFor="subject" className="mt-4">Subject or Instrument</label>
                 <input
                     id='subject' 
                     type="text" 
-                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(n => e.target.value)}} 
+                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(e.target.value)}} 
                     className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
                 />
                 <label htmlFor="weeklyGoal" className="mt-4">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span></label>
@@ -90,12 +91,12 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     id='weeklyGoal' 
                     type="number" 
                     defaultValue={60}
-                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(n => parseInt(e.target.value))}} 
+                    onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}} 
                     className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
                 />
                 <label htmlFor="dow" className="mt-4">Lesson Day</label>
                 <select name="dow" id="dow" className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary' 
-                    onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(n => e.target.value)}}>
+                    onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
                     <option value="0">Sunday</option>
                     <option value="1">Monday</option>
                     <option value="2">Tuesday</option>

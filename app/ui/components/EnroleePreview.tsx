@@ -1,15 +1,7 @@
-import { User } from "@/app/_usercontext/UserContext";
+import { EnrolleeWithCurrentWeekPractice } from "@/app/types";
 import PieChart from "./PieChart";
 
-interface Enrollee extends User {
-  total_practice_time: string,
-  subject: string,
-  log?: any[],
-  weekly_goal: string,
-  current_week_minutes?: string
-}
-
-function EnroleePreview({student, isSelected}: {student: Enrollee, isSelected: boolean}) {
+function EnroleePreview({student, isSelected}: {student: EnrolleeWithCurrentWeekPractice, isSelected: boolean}) {
     const weekSum = Number.isNaN(parseInt(student.current_week_minutes || "0")) ? 0 : Math.round(parseInt(student.current_week_minutes || "0"));
     const weekGoal = student.weekly_goal;
     const percent = Math.min(Math.round((weekSum / parseInt(weekGoal)) * 100), 100);

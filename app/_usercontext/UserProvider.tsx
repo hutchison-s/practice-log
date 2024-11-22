@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { defaultUser, User, UserContext } from "./UserContext"
+import { defaultUser, UserContext } from "./UserContext"
+import { User } from "../types";
 
 export default function UserProvider({children}: {children: React.ReactNode}) {
     const [user, setUser] = useState<User>(defaultUser);
@@ -16,7 +17,7 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
     }
 
     const logout = ()=>{
-        setUser({id: '', name: ''})
+        setUser(defaultUser)
     }
 
     useEffect(()=>{
@@ -24,7 +25,7 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
             fetch('http://localhost:3000/api/auth/current_user')
                 .then(res => res.json())
                 .then(u => setUser(u))
-                .catch(err => console.error)
+                .catch(err => console.error(err))
         }
         init();
     }, [])

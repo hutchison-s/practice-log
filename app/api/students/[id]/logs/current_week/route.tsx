@@ -1,18 +1,19 @@
 import { sql } from "@vercel/postgres";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken'
+import { apiResponse, WeeklyPractice } from "@/app/types";
 
-export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}) {
+export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<WeeklyPractice> {
     const id = (await params).id;
     const token = request.cookies.get('token')?.value;
     if (!token) {
         console.error('-----------no token present in request-----------------------')
-        return new Response(JSON.stringify({message: 'access denied'}), {status: 401})
+        return NextResponse.json({message: 'access denied'}, {status: 401})
     }
     const user = jwt.decode(token, {json: true});
-    if (!user) return new Response(JSON.stringify({message: 'access denied'}), {status: 401})
+    if (!user) return NextResponse.json({message: 'access denied'}, {status: 401})
     const studentResponse = await sql`SELECT id, weekly_goal, day_of_week FROM students WHERE id = ${id} AND (id = ${user.userId} OR teacher_id = ${user.userId})`;
-    if (studentResponse.rowCount !== 1) return new Response(JSON.stringify({message: 'invalid request'}), {status: 400})
+    if (studentResponse.rowCount !== 1) return NextResponse.json({message: 'invalid request'}, {status: 400})
     const student = studentResponse.rows[0];
     const weekStart = new Date();
     while (weekStart.getDay() != parseInt(student.day_of_week)) {
@@ -41,12 +42,12 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
         `;
 
         
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             message: 'success', 
-            data: rowCount == 1 ? rows[0] : []
-        }), { status: 200 });
+            data: rowCount == 1 ? rows[0] as WeeklyPractice : undefined
+        }, { status: 200 });
     } catch (error) {
         console.error(error);
-        return new Response(JSON.stringify({ message: 'failure on server' }), { status: 500 });
+        return NextResponse.json({ message: 'failure on server' }, { status: 500 });
     }
 }

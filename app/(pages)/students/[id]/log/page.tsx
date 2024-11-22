@@ -3,26 +3,11 @@ import PageTitle from "../../../../ui/components/PageTitle";
 import PracticeButton from "./PracticeButton";
 import Link from "next/link";
 import LogDisplay from "@/app/ui/components/LogDisplay";
-import { User } from "@/app/_usercontext/UserContext";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import PieChart from "@/app/ui/components/PieChart";
+import { Enrollee, logRow, WeeklyPractice } from "@/app/types";
 
-type logRow = {
-    log_id: number,
-    student_id: number,
-    name: string,
-    start: string,
-    seconds: number,
-    journal: string
-  }
 
-  interface Enrollee extends User {
-    total_practice_time: string,
-    subject: string,
-    log?: any[],
-    weekly_goal: string,
-    weekly_practice_time: string
-}
 
 function PracticeTotal({logs}: {logs: logRow[]}) {
     if (!logs || logs.length == 0) {
@@ -43,9 +28,10 @@ function PracticeTotal({logs}: {logs: logRow[]}) {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
     const id = (await params).id;
-    const {data:student, message: studentMessage}: {data: Enrollee, message: string} = await fetchJSONWithToken(`${apiURL}/students/${id}`)
-    const {data:logs}: {data: logRow[]} = await fetchJSONWithToken(`${apiURL}/students/${id}/logs?limit=6`);
-    const {data:thisWeek}: {data: {id: string, weekly_goal: string, current_week_minutes: string}} = await fetchJSONWithToken(`${apiURL}/students/${id}/logs/current_week`);
+    const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`)
+    const {data:logs}: {data?: logRow[]} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=6`);
+    const {data:thisWeek}: {data?: WeeklyPractice} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${id}/logs/current_week`);
+    if (!student || !logs || !thisWeek) throw new Error("Could not locate student records.")
     return (
         <>
             <PageTitle>Student Portal</PageTitle>

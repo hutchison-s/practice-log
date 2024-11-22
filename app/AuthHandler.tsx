@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { User } from "./_usercontext/UserContext";
+import { apiPayload } from "./types";
 
 export async function fetchWithToken(url: string): Promise<Response> {
     const cookieStore = await cookies();
@@ -14,12 +14,13 @@ export async function fetchWithToken(url: string): Promise<Response> {
     })
 }
 
-export async function fetchJSONWithToken(url: string): Promise<any> {
+export async function fetchJSONWithToken<T>(url: string): Promise<apiPayload<T>> {
     return new Promise(async (resolve, reject)=>{
         try {
             const response = await fetchWithToken(url);
             if (!response.ok) reject(response);
-            resolve(await response.json())
+            const payload = await response.json();
+            resolve(payload as apiPayload<T>)
         } catch (error) {
             reject({message: 'Error occured', error})
         }

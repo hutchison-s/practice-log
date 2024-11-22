@@ -1,6 +1,5 @@
 "use client";
 import { useUser } from "@/app/_usercontext/useUser";
-import { LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
 import LogInOutButton from "./LogInOutButton";
 

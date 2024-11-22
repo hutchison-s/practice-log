@@ -1,7 +1,9 @@
+import { apiResponse, Enrollee } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: Request): apiResponse<Enrollee> {
     try {
         const {name, subject, teacher_id, weeklyGoal, dow} = await request.json();
         if (!name || !subject || !teacher_id || !weeklyGoal || !dow) {
@@ -9,11 +11,12 @@ export async function POST(request: Request) {
         }
         const insertResponse = await sql`INSERT INTO students (name, subject, teacher_id, weekly_goal, day_of_week) VALUES (${name}, ${subject}, ${teacher_id}, ${weeklyGoal}, ${parseInt(dow)}) RETURNING *`;
         if (insertResponse.rowCount == 0) {
-            return new Response(JSON.stringify({message: 'failed to fetch'}), {status: 400})
+            return NextResponse.json({message: 'failed to fetch'}, {status: 400})
         }
         revalidatePath('/')
-        return new Response(JSON.stringify({message: 'success', student: insertResponse.rows[0]}), {status: 200})
+        return NextResponse.json({message: 'success', data: insertResponse.rows[0] as Enrollee}, {status: 200})
     } catch (error) {
-        return new Response(JSON.stringify({message: 'error on server'}), {status: 500})
+        console.error(error)
+        return NextResponse.json({message: 'error on server'}, {status: 500})
     }
 }

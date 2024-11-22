@@ -3,28 +3,7 @@ import { FormEventHandler, useEffect, useRef, useState } from "react";
 import PageTitle from "../ui/components/PageTitle";
 import { PrimaryButton } from "../ui/components/Buttons";
 import { useRouter } from "next/navigation";
-
-
-
-function validatePassword(pass: string): boolean {
-    const tests = [
-        /[A-Z]+/,
-        /[a-z]+/,
-        /[0-9]+/,
-        /[!@#$%^&*()?]+/,
-        /.{8,}/
-    ]
-    return tests.every(test => test.test(pass))
-}
-
-function validateEmail(email: string): boolean {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-}
-
-function validateName(name: string) : boolean {
-    return /^[a-zA-ZÀ-ž']{2,15}[-\s_]*[a-zA-ZÀ-ž']{1,15}$/.test(name);
-}
+import { validateEmail, validateName, validatePassword } from "../_functions/data_validation";
 
 
 export default function Page() {

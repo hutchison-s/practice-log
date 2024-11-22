@@ -1,13 +1,6 @@
+import { logRow } from "@/app/types";
 import LogDisplay from "@/app/ui/components/LogDisplay";
 import PageTitle from "@/app/ui/components/PageTitle";
-
-type logRow = {
-    log_id: number,
-    student_id: number,
-    name: string,
-    start: string,
-    seconds: number
-  }
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
 

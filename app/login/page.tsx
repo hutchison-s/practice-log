@@ -5,29 +5,10 @@ import { PrimaryButton } from "../ui/components/Buttons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "../_usercontext/useUser";
-
-
-
-function validatePassword(pass: string): boolean {
-    const tests = [
-        /[A-Z]+/,
-        /[a-z]+/,
-        /[0-9]+/,
-        /[!@#$%^&*()?]+/,
-        /.{8,}/
-    ]
-    return tests.every(test => test.test(pass))
-}
-
-function validateEmail(email: string): boolean {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-}
-
+import { validateEmail, validatePassword } from "../_functions/data_validation";
 
 export default function Page() {
     const [userInfo, setUserInfo] = useState<{email: string, password: string}>({email: '', password: ''})
-    const [status, setStatus] = useState<'unsent' | 'sending' | 'invalid' | 'valid'>('unsent');
     const [message, setMessage] = useState("");
     const emailRef = useRef<HTMLInputElement>(null);
     const passRef = useRef<HTMLInputElement>(null);
@@ -59,7 +40,6 @@ export default function Page() {
             .then(async res => {
                 const data = await res.json();
                 if (!res.ok) {
-                    setStatus('invalid');
                     console.log('login failed');
                     setMessage(data.message);
                     throw new Error("could not login user")
@@ -102,7 +82,6 @@ export default function Page() {
             <form 
                 onSubmit={(e)=>{
                     e.preventDefault();
-                    setStatus(old => 'sending');
                     handleSubmit(e);
                 }} 
                 onChange={(e)=>{
@@ -124,7 +103,7 @@ export default function Page() {
                 
             </form>
             <div className="text-center leading-6">
-                <p>Don't have an account yet?</p>
+                <p>Don&apos;t have an account yet?</p>
                 <Link href={'/signup'} className="text-lighter underline">Create an Account</Link>
             </div>
             </main>

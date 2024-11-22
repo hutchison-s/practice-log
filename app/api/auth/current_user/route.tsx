@@ -1,9 +1,8 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
 import jwt from 'jsonwebtoken';
 import { sql } from "@vercel/postgres";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
     if (!token) return new Response(null, {status: 200})

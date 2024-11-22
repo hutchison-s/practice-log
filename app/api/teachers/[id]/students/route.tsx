@@ -1,16 +1,16 @@
 import { sql } from "@vercel/postgres";
-import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 import { fetchJSONWithToken } from "@/app/AuthHandler";
+import { apiResponse, EnrolleeWithCurrentWeekPractice, WeeklyPractice } from "@/app/types";
 
-export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}) {
+export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<EnrolleeWithCurrentWeekPractice[]> {
+    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
     const id = (await params).id;
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token');
-    if (!token) return new Response(JSON.stringify({message: 'not authorized'}), {status: 401})
-    const user = jwt.decode(token!.value, {json: true});
-    if (!user || id != user.userId) return new Response(JSON.stringify({message: 'not authorized'}), {status: 401})
+    const token = request.cookies.get('token')?.value
+    if (!token) return NextResponse.json({message: 'not authorized'}, {status: 401})
+    const user = jwt.decode(token, {json: true});
+    if (!user || id != user.userId) return NextResponse.json({message: 'not authorized'}, {status: 401})
     try {
         const id = (await params).id;
         if (!id) throw new Error('No id parameter present');
@@ -44,15 +44,15 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.day_of_week;
         `;
         for (const s of rows) {
-            const {data} = await fetchJSONWithToken(`http://localhost:3000/api/students/${s.id}/logs/current_week`);
-            s.current_week_minutes = data.current_week_minutes;
+            const {data} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${s.id}/logs/current_week`);
+            s.current_week_minutes = data?.current_week_minutes;
         }
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             message: 'success', 
-            students: rowCount && rowCount > 0 ? rows : []
-        }), { status: 200 });
+            data: rowCount && rowCount > 0 ? rows as EnrolleeWithCurrentWeekPractice[]: []
+        }, { status: 200 });
     } catch (error) {
         console.error(error);
-        return new Response(JSON.stringify({ message: 'failure on server' }), { status: 500 });
+        return NextResponse.json({ message: 'failure on server' }, { status: 500 });
     }
 }
