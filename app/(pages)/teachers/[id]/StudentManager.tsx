@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 
 function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWeekPractice, setSelected: (u?: EnrolleeWithCurrentWeekPractice)=>void}) {
-    
-    const siteURL = process.env.NEXT_PUBLIC_SITE_URL_BASE;
     const [activeLog, setActiveLog] = useState<logRow[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [time, setTime] = useState(0);
@@ -109,7 +107,7 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
                 <>
                     <div className="flex gap-2 justify-between items-center mb-4">
                         <h3 className="font-bold text-lg grid"><span>{student?.name}</span><span className="text-sm font-light">{student.subject}</span></h3>
-                        <Link href={`${siteURL}/students/${student.id}/qr_code?code=${student.code}&time=${time}`} className="text-lighter underline"><QrCode size={40}/></Link>
+                        <Link href={`/students/${student.id}/qr_code?code=${student.code}&time=${time}`} className="text-lighter underline"><QrCode size={40}/></Link>
                     </div>
                     <p className="font-light">Next Lesson: {nextLessonDay ? nextLessonDay.toDateString() : 'unknown'}</p>
                     <SubHeading className="mb-1 mt-2">Recent Logs</SubHeading>

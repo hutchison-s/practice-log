@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import QRCode from 'qrcode'
 
-const siteURL = process.env.NEXT_PUBLIC_SITE_URL_BASE;
+const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
