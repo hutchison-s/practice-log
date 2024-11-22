@@ -13,7 +13,7 @@ function PortalLink() {
       <FeaturedText>{user.id ? 'Welcome Back!' : 'Get Started!'}</FeaturedText>
       <div className="w-full max-w-[600px] flex gap-4 justify-center">
       {user.id 
-        ? <PrimaryLinkButton href={`/${user?.email ? 'teachers' : 'students'}/${user.id}`} className='w-40'>Portal</PrimaryLinkButton> 
+        ? <PrimaryLinkButton href={`/${user?.email ? 'teachers' : 'students'}/${user.id}${user.code ? '/log' : ''}`} className='w-40'>Portal</PrimaryLinkButton> 
         : <PrimaryLinkButton
               href="/login"
               size="md"
