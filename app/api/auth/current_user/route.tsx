@@ -6,9 +6,9 @@ import { defaultUser } from "@/app/_usercontext/UserContext";
 export async function GET() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
-    if (!token) return new Response(null, {status: 200})
+    if (!token) return new Response(JSON.stringify(defaultUser), {status: 200})
     const tokenUser = jwt.decode(token!.value, {json: true});
-    if (!tokenUser) return new Response(null, {status: 200});
+    if (!tokenUser) return new Response(JSON.stringify(defaultUser), {status: 200});
     let query;
     if (tokenUser.email) {
         query = sql`SELECT * FROM teachers WHERE id = ${tokenUser.userId}`
