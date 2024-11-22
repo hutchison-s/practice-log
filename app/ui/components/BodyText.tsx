@@ -4,7 +4,7 @@ export default function BodyText({
     children: React.ReactNode;
   }>) {
     return (
-        <p className="text-neutral-400 leading-relaxed">
+        <p className="text-txtsecondary leading-relaxed mx-auto w-full max-w-[800px]">
             {children}
         </p>
     )

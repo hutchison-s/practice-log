@@ -5,6 +5,7 @@ import SubHeading from "../../ui/components/SubHeading";
 export default function Page() {
   return (
     <>
+      <div className="md:h-10"></div>
       <PageTitle>About</PageTitle>
       <BodyText>
         At Practice Log, we&apos;re passionate about making music practice

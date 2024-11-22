@@ -4,7 +4,7 @@ export default function FeaturedText({
     children: React.ReactNode;
   }>) {
     return (
-        <p className="text-2xl text-neutral-300 leading-relaxed">
+        <p className="text-2xl text-txtprimary leading-relaxed">
             {children}
         </p>
     )

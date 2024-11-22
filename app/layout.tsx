@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import {Inter} from "next/font/google";
+import {Rubik} from "next/font/google";
 import "./globals.css";
 import PageHeader from "./ui/components/PageHeader";
+import UserProvider from "./_usercontext/UserProvider";
+import Link from "next/link";
 
-const inter = Inter({subsets: ["latin"]});
+const rubik = Rubik({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Practice Log",
@@ -16,13 +18,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} antialiased h-[100vh]`}
-      >
-        <PageHeader />
-        {children}
-      </body>
+    
+      <html lang="en">
+      
+        <body
+          className={`${rubik.className} antialiased h-[100vh] bg-background`}
+        >
+          <UserProvider>
+            <PageHeader />
+          
+            {children}
+          
+            <footer className="flex w-full justify-center px-2 py-3 text-txtsecondary gap-x-4 flex-wrap md:flex-nowrap">
+                <span>Practice Log &copy; 2024</span>
+                <span>Created by <Link href='https://www.stevenhutchison.com' className="text-lighter underline">Steven Hutchison</Link></span>
+            </footer>
+            </UserProvider>
+        </body>
+        
     </html>
+    
   );
 }

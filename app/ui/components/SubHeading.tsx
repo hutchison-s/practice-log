@@ -1,10 +1,11 @@
 export default function SubHeading({
-    children,
+    children, className
   }: Readonly<{
     children: React.ReactNode;
+    className?: string
   }>) {
     return (
-        <h3 className="text-lg font-bold text-blue-400">
+        <h3 className={"text-xl font-bold text-lighter "+className}>
             {children}
         </h3>
     )
