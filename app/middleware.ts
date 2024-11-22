@@ -16,10 +16,10 @@ export async function middleware(request: NextRequest) {
         }
     
         try {
-            const decoded = jwt.verify(token, jwtSecret);
+            jwt.verify(token, jwtSecret);
             return NextResponse.next();
         } catch (error) {
-            return new Response(JSON.stringify({ message: 'Invalid token' }), { status: 401 });
+            return new Response(JSON.stringify({ message: 'Invalid token', error: error }), { status: 401 });
         }
     }
     return NextResponse.next();
