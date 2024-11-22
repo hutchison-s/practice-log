@@ -6,6 +6,7 @@ import { User } from "../types";
 
 export default function UserProvider({children}: {children: React.ReactNode}) {
     const [user, setUser] = useState<User>(defaultUser);
+    
 
     const login = (u: User) => {
         setUser(prev => {
@@ -22,8 +23,14 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
 
     useEffect(()=>{
         const init = async () => {
-            fetch('http://localhost:3000/api/auth/current_user')
-                .then(res => res.json())
+            fetch(`/api/auth/current_user`)
+                .then(res => {
+                    if (!res.ok) {
+                        setUser(defaultUser)
+                        return;
+                    }
+                    return res.json();
+                })
                 .then(u => setUser(u))
                 .catch(err => console.error(err))
         }

@@ -22,7 +22,7 @@ export async function fetchJSONWithToken<T>(url: string): Promise<apiPayload<T>>
             const payload = await response.json();
             resolve(payload as apiPayload<T>)
         } catch (error) {
-            reject({message: 'Error occured', error})
+            reject(error)
         }
     })
 }

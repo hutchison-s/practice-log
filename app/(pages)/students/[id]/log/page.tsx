@@ -10,6 +10,7 @@ import { Enrollee, logRow, WeeklyPractice } from "@/app/types";
 
 
 function PracticeTotal({logs}: {logs: logRow[]}) {
+    
     if (!logs || logs.length == 0) {
         return <h3 className="font-bold text-xl">No practice logged yet...</h3>
     }
@@ -26,7 +27,7 @@ function PracticeTotal({logs}: {logs: logRow[]}) {
 }
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`)
     const {data:logs}: {data?: logRow[]} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=6`);

@@ -2,9 +2,10 @@ import { logRow } from "@/app/types";
 import LogDisplay from "@/app/ui/components/LogDisplay";
 import PageTitle from "@/app/ui/components/PageTitle";
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+
 
 function PracticeTotal({logs}: {logs: logRow[]}) {
+    
     if (!logs || logs.length == 0) {
         return <h3 className="font-bold text-xl">No practice logged yet...</h3>
     }
@@ -21,6 +22,7 @@ function PracticeTotal({logs}: {logs: logRow[]}) {
 }
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
+    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const {data:logs, message}: {data: logRow[], message: string} = await (await fetch(`${apiURL}/students/${id}/logs`, { cache: "no-cache" })).json();
     return (

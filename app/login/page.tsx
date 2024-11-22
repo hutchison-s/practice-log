@@ -14,7 +14,7 @@ export default function Page() {
     const passRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
     const {login} = useUser();
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    // 
     
     const handleChange: FormEventHandler<HTMLFormElement> = (e)=>{
         const changed = e.target as HTMLInputElement
@@ -30,7 +30,7 @@ export default function Page() {
         
         setMessage('Submitting...')
         const fd = new FormData(e.currentTarget);
-        fetch(`${apiURL}/auth/login`, {
+        fetch(`api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

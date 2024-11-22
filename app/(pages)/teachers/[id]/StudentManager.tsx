@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 
 function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWeekPractice, setSelected: (u?: EnrolleeWithCurrentWeekPractice)=>void}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    
     const siteURL = process.env.NEXT_PUBLIC_SITE_URL_BASE;
     const [activeLog, setActiveLog] = useState<logRow[]>([]);
     const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +24,7 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
 
 
     const handleDelete = ()=>{
-        fetch(`${apiURL}/students/${student?.id}`, {method: 'DELETE'})
+        fetch(`/api/students/${student?.id}`, {method: 'DELETE'})
             .then(res => {
                 if (!res.ok) {
                     throw new Error('Delete request failed')
@@ -43,7 +43,7 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
     const handleUpdate = (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        fetch(`${apiURL}/students/${student?.id}`, {
+        fetch(`/api/students/${student?.id}`, {
             method: 'PATCH', 
             headers: {"Content-Type": "application/json"},
             credentials: 'include', 
@@ -70,7 +70,7 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
 
     useEffect(()=>{
         const getLog = async () => {
-            const log = await (await fetch(`${apiURL}/students/${student?.id}/logs?limit=6`)).json();
+            const log = await (await fetch(`/api/students/${student?.id}/logs?limit=6`)).json();
             setActiveLog(() => {
                 return log.data ? [...log.data] : [];
             });
@@ -89,7 +89,7 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
             setNextLessonDay(nextLesson)
         }
         
-    }, [apiURL, student])
+    }, [student])
 
     useEffect(()=>{
         if (isEditing) {

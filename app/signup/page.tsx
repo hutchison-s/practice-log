@@ -13,7 +13,7 @@ export default function Page() {
     const emailRef = useRef<HTMLInputElement>(null);
     const passRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    
     
     const handleChange: FormEventHandler<HTMLFormElement> = (e)=>{
         const changed = e.target as HTMLInputElement
@@ -28,7 +28,7 @@ export default function Page() {
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e)=>{
         setMessage('Submitting...')
         const fd = new FormData(e.currentTarget);
-        fetch(`${apiURL}/auth/signup`, {
+        fetch(`/api/auth/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -5,7 +5,7 @@ import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { apiResponse, EnrolleeWithCurrentWeekPractice, WeeklyPractice } from "@/app/types";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<EnrolleeWithCurrentWeekPractice[]> {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const token = request.cookies.get('token')?.value
     if (!token) return NextResponse.json({message: 'not authorized'}, {status: 401})

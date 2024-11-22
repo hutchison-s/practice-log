@@ -5,9 +5,10 @@ import { NextResponse } from 'next/server';
 import loader from '../../../../_assets/images/loading_qr.png' 
 import { Suspense } from 'react';
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+
 
 async function QR({params, searchParams}: {params: Promise<{id: string}>, searchParams: Promise<{time: string, code: string}>}) {
+    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const {time, code} = await searchParams;
     const {id} = await params;
     if (!time || !code) {

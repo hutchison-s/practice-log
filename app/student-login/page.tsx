@@ -10,11 +10,11 @@ function Page(props: {searchParams: Promise<{code: string, time: string}>}) {
     const {time, code} = searchParams;
     const router = useRouter();
     const {login} = useUser();
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    
 
     useEffect(()=>{
         const go = async () => {
-        fetch(`${apiURL}/auth/qr`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({time, code})})
+        fetch(`/api/auth/qr`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({time, code})})
             .then(async res => {
                 if (res.ok) {
                     const data = await res.json();
@@ -28,7 +28,7 @@ function Page(props: {searchParams: Promise<{code: string, time: string}>}) {
             })
         }
         go();
-    }, [apiURL, code, login, router, time])
+    }, [code, login, router, time])
 
 
   return (

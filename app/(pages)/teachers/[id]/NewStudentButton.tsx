@@ -7,7 +7,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react"
 
 
 function NewStudentButton({teacher_id}: {teacher_id: string}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
+    
     const [isOpen, setIsOpen] = useState(false);
     const [name, setName] = useState('');
     const [subject, setSubject] = useState('');
@@ -18,7 +18,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const router = useRouter();
 
     const handleEnroll = () => {
-        fetch(`${apiURL}/students`, {
+        fetch(`/api/students`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from "react";
 
 
 async function handleStart(id: string): Promise<string | undefined> {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
-    const url = `${apiURL}/students/${id}/logs`
+    
+    const url = `/api/students/${id}/logs`
     let session;
     await fetch(url, {method: 'POST'})
         .then(res => res.json())
@@ -20,8 +20,8 @@ async function handleStart(id: string): Promise<string | undefined> {
 }
 
 function handleStop(id: string, journal: string) {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL_BASE;
-    const url = `${apiURL}/students/${id}/logs`
+    
+    const url = `/api/students/${id}/logs`
     fetch(url, {method: 'PATCH', headers: {"Content-type": "application/json"}, body: JSON.stringify({log_id: window.localStorage.getItem(id+"_current_log"), journal: journal})})
         .then(res => res.json())
         .then(() => {
