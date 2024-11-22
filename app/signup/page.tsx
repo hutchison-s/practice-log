@@ -92,15 +92,15 @@ export default function Page() {
                 className="py-4 px-2 grid gap-8 w-full">
                 <label className="relative w-full group">
                     <span className="absolute -top-3 left-[2px] bg-background px-2 rounded-t group-focus-within:-top-5 group-focus-within:bg-secondary transition-all">Name: </span>
-                    <input type="text" name='name' ref={nameRef} className='w-full p-2 border-2 border-red-500 rounded bg-black/50 focus:outline-none focus:bg-secondary'/>
+                    <input type="text" name='name' ref={nameRef} className='w-full p-2 border-2 border-red-500 rounded bg-transparent focus:outline-none focus:bg-secondary'/>
                 </label>
                 <label className="relative w-full group">
                     <span className="absolute -top-3 left-[2px] bg-background px-2 rounded-t group-focus-within:-top-5 group-focus-within:bg-secondary transition-all">Email: </span>
-                    <input type="email" name='email' ref={emailRef} className='w-full p-2 border-2 border-red-500 rounded bg-black/50 focus:outline-none focus:bg-secondary'/>
+                    <input type="email" name='email' ref={emailRef} className='w-full p-2 border-2 border-red-500 rounded bg-transparent focus:outline-none focus:bg-secondary'/>
                 </label>
                 <label className="relative w-full group">
                     <span className="absolute -top-3 left-[2px] bg-background px-2 rounded-t group-focus-within:-top-5 group-focus-within:bg-secondary transition-all">Password: </span>
-                    <input type="password" name='password' ref={passRef} className='w-full p-2 border-2 border-red-500 rounded bg-black/50 focus:outline-none focus:bg-secondary'/>
+                    <input type="password" name='password' ref={passRef} className='w-full p-2 border-2 border-red-500 rounded bg-transparent focus:outline-none focus:bg-secondary'/>
                 </label>
                 <p className="text-red-500 text-center"><small>{message}</small></p>
                 <div className="flex justify-center">

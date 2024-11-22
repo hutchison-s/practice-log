@@ -137,22 +137,22 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
                             className="grid gap-2">
                             <label htmlFor="name" className="font-bold">Name</label>
                             <input 
-                                className="p-2 bg-black/50 text-txtprimary border-2 border-lighter rounded" 
+                                className="p-2 bg-black/25 text-txtprimary border-2 border-lighter rounded" 
                                 type="text" name="name" value={name} 
                                 onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(e.target.value)}}/>
                             <label htmlFor="subject" className="font-bold">Subject</label>
                             <input 
-                                className="p-2 bg-black/50 text-txtprimary border-2 border-lighter rounded" 
+                                className="p-2 bg-black/25 text-txtprimary border-2 border-lighter rounded" 
                                 type="text" name="subject" value={subject} 
                                 onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(e.target.value)}}/>
                             <label htmlFor="weeklyGoal" className="font-bold">Practice Goal</label>
                             <input 
-                                className="p-2 bg-black/50 text-txtprimary border-2 border-lighter rounded" 
+                                className="p-2 bg-black/25 text-txtprimary border-2 border-lighter rounded" 
                                 type="number" name="weeklyGoal" value={weeklyGoal} 
                                 onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}}/>
                             <label htmlFor="dow" className="font-bold">Lesson Day</label>
                             <select 
-                                className="p-2 bg-black/50 text-txtprimary border-2 border-lighter rounded" 
+                                className="p-2 bg-black/25 text-txtprimary border-2 border-lighter rounded" 
                                 name="dow" value={dow} onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
                                 <option value={0}>Sunday</option>
                                 <option value={1}>Monday</option>
