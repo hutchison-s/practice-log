@@ -13,8 +13,8 @@ async function handleStart(id: string): Promise<string | undefined> {
     await fetch(url, {method: 'POST'})
         .then(res => res.json())
         .then(response => {
-            window.localStorage.setItem(id+"_current_log", response.log_id);
-            session = response.log_id;
+            window.localStorage.setItem(id+"_current_log", response.data.log_id);
+            session = response.data.log_id;
         })
     return session;
 }
