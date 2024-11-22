@@ -27,7 +27,7 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
                 .then(res => {
                     if (!res.ok) {
                         setUser(defaultUser)
-                        return;
+                        throw new Error('No user logged in')
                     }
                     return res.json();
                 })
