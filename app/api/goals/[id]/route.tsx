@@ -6,8 +6,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function PATCH(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
-): Promise<apiResponse<Goal>> {
-    
+): apiResponse<Goal> {
+
     // Extract and verify token
     const token = request.cookies.get('token')?.value;
     if (!token) {
