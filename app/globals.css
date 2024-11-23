@@ -32,6 +32,12 @@ input:-internal-autofill-selected {
   background-color: initial;
 }
 
+.abs-Circle {
+  height: 100%;
+  width: unset;
+  aspect-ratio: 1;
+}
+
 .button-container {
   position: relative;
   padding: 0.1rem;
