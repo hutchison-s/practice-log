@@ -4,12 +4,12 @@ import Link from "next/link";
 import LogInOutButton from "./LogInOutButton";
 
 const mobileNavStyle =
-  "grid place-items-center bg-secondary/75 backdrop-blur text-xl rounded hover:bg-lighter/75 z-50";
+  "grid place-items-center bg-secondary/75 backdrop-blur border-[1px] border-secondary/50 text-xl rounded hover:bg-lighter/75 z-50";
 
 export default function MobileNav({ close }: { close: () => void }) {
     const {user} = useUser();
   return (
-    <nav className="z-50 fixed top-12 left-0 w-full h-[calc(100vh-65px)] grid grid-cols-2 grid-rows-3 gap-2 p-2 md:hidden">
+    <nav className="z-50 fixed top-12 left-0 w-full h-[calc(100vh-65px)] grid grid-cols-2 grid-rows-3 gap-2 p-2 bg-background/50 md:hidden">
         <Link href={"/"} className={mobileNavStyle} onClick={close}>
             <span>Home</span>
         </Link>
