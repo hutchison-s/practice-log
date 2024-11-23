@@ -69,3 +69,34 @@ export async function PATCH(
         return NextResponse.json({ message: 'Failed to update goal' }, { status: 500 });
     }
 }
+
+
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+): apiResponse<Goal> {
+
+    // Extract and verify token
+    const token = request.cookies.get('token')?.value;
+    if (!token) {
+        console.error('No token present in the request');
+        return NextResponse.json({ message: 'Access denied' }, { status: 401 });
+    }
+
+    const user = jwt.decode(token, { json: true });
+    if (!user) {
+        console.error('Invalid token: unable to decode');
+        return NextResponse.json({ message: 'Access denied' }, { status: 401 });
+    }
+
+    try {
+        // Extract ID and request body
+        const id = (await params).id;
+        if (!id) throw new Error('No "id" parameter provided');
+        await sql`DELETE FROM goals WHERE id = ${id} RETURNING *`;
+        return NextResponse.json({message: 'success'}, {status: 200});
+    } catch (error) {
+        console.error('Error processing PATCH request:', error);
+        return NextResponse.json({ message: 'Failed to delete goal' }, { status: 500 });
+    }
+}

@@ -24,14 +24,13 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
     useEffect(()=>{
         const init = async () => {
             fetch(`/api/auth/current_user`)
-                .then(res => {
+                .then(async res => {
                     if (!res.ok) {
                         setUser(defaultUser)
                         throw new Error('No user logged in')
                     }
-                    return res.json();
+                    setUser(await res.json())
                 })
-                .then(u => setUser(u))
                 .catch(err => console.error(err))
         }
         init();
