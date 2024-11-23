@@ -1,17 +1,9 @@
 'use client'
 
 import { utcToTimeZone } from "@/app/_functions/dates";
+import { logRow } from "@/app/types";
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
-
-type logRow = {
-    log_id: number,
-    student_id: number,
-    name: string,
-    start: string,
-    seconds: number,
-    journal: string
-  }
 
 function LogDisplay({log}: {log: logRow}) {
     const [isOpen, setIsOpen] = useState(false);

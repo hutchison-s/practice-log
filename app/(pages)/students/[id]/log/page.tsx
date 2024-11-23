@@ -5,7 +5,8 @@ import Link from "next/link";
 import LogDisplay from "@/app/ui/components/LogDisplay";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import PieChart from "@/app/ui/components/PieChart";
-import { Enrollee, logRow, WeeklyPractice } from "@/app/types";
+import { Enrollee, Goal, logRow, WeeklyPractice } from "@/app/types";
+import GoalDisplay from "@/app/ui/components/GoalDisplay";
 
 
 
@@ -31,6 +32,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
     const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`)
     const {data:logs}: {data?: logRow[]} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=6`);
+    const {data:goals}: {data?: Goal[]} = await fetchJSONWithToken<Goal[]>(`${apiURL}/goals?student_id=${id}`);
     const {data:thisWeek}: {data?: WeeklyPractice} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${id}/logs/current_week`);
     if (!student || !logs || !thisWeek) throw new Error("Could not locate student records.")
     return (
@@ -48,6 +50,10 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
             <p>{thisWeek.current_week_minutes} of {thisWeek.weekly_goal} minutes</p> 
             <SubHeading>Start practicing</SubHeading>
             <PracticeButton id={id} />
+            <SubHeading>Active Goals</SubHeading>
+            <div className="grid gap-2 w-full p-2">
+                {goals?.filter(g => !g.is_complete).map(g => <GoalDisplay goal={g} key={g.id}/>)}
+            </div>
             <SubHeading>Previous Logs</SubHeading>
             <PracticeTotal logs={logs} />
             <div className="grid gap-2">

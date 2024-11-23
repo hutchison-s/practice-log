@@ -1,5 +1,5 @@
 'use client'
-import { EnrolleeWithCurrentWeekPractice, logRow } from "@/app/types";
+import { EnrolleeWithCurrentWeekPractice, Goal, logRow } from "@/app/types";
 import { PrimaryButton, } from "@/app/ui/components/Buttons";
 import PracticeLogList from "@/app/ui/components/PracticeLogList";
 import SubHeading from "@/app/ui/components/SubHeading";
@@ -7,9 +7,12 @@ import { Pencil, PlusCircle, QrCode, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
+import NewGoalButton from "./NewGoalButton";
+import GoalDisplay from "@/app/ui/components/GoalDisplay";
 
 function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWeekPractice, setSelected: (u?: EnrolleeWithCurrentWeekPractice)=>void}) {
     const [activeLog, setActiveLog] = useState<logRow[]>([]);
+    const [activeGoals, setActiveGoals] = useState<Goal[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [time, setTime] = useState(0);
     const [name, setName] = useState(student?.name || '');
@@ -73,11 +76,18 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
                 return log.data ? [...log.data] : [];
             });
         }
+        const getGoals = async () => {
+            const {data: goals} = await (await fetch(`/api/goals?student_id=${student?.id}`)).json();
+            setActiveGoals(()=>{
+                return goals ?? [];
+            })
+        }
         if (student) {
             const d = new Date(student.created_at);
             const time = d.getTime();
             setTime(time);
             getLog();
+            getGoals();
             const nextLesson = new Date();
             if (student)
             while (nextLesson.getDay() != parseInt(student.day_of_week)) {
@@ -113,7 +123,8 @@ function StudentManager({student, setSelected}: {student?: EnrolleeWithCurrentWe
                     <SubHeading className="mb-1 mt-2">Recent Logs</SubHeading>
                     <PracticeLogList logs={activeLog} />
                     <SubHeading className="mb-1 mt-2">Goals</SubHeading>
-                    <PrimaryButton onClick={undefined} className="flex justify-between mx-auto px-4 min-w-48">Add Goal<PlusCircle /></PrimaryButton>
+                    {activeGoals.length > 0 && activeGoals.map(g => <GoalDisplay goal={g} key={g.id} />)}
+                    <NewGoalButton student_id={student.id} />
                     <SubHeading className="mb-1 mt-2">Resources</SubHeading>
                     <PrimaryButton onClick={undefined} className="flex justify-between mx-auto px-4 min-w-48">Add Resource<PlusCircle /></PrimaryButton>
 

@@ -35,6 +35,17 @@ export type WeeklyPractice = {
     current_week_minutes: string
 }
 
+export type Goal = {
+    id: string,
+student_id: string,
+created_at: string,
+completed_at: string,
+is_complete: boolean,
+goal_content?: string,
+goal_title: string
+
+}
+
 export type apiPayload<T> = {
     message: string,
     data?: T

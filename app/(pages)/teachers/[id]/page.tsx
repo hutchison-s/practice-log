@@ -12,6 +12,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const {data: teacher} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`);
     const {data: students} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`);
+
     if (!teacher) throw new Error("Could not locate teacher records.")
     return (
         <>
