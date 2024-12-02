@@ -8,8 +8,10 @@ import { Resource } from "@/app/types";
 function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreate: (r: Resource)=>void}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLink, setIsLink] = useState(false);
+    const [fileName, setFileName] = useState('audio, video, image, and pdf supported');
     const modalRef = useRef<HTMLDialogElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
+    const fileRef = useRef<HTMLInputElement>(null)
 
     useEffect(()=>{
         if (isSubmitting) {
@@ -127,10 +129,19 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
                     
                     {isLink
                         ? <input type="text" name="content" id="content"  className="w-full bg-black/25 rounded border-txtsecondary border-[1px] p-2"/>
-                        : <input type="file" accept="image/*, video/*, application/pdf, audio/*" name="content" id="content" className="w-full"/>}
+                        : <>
+                            <input type="file" accept="image/*, video/*, application/pdf, audio/*" name="content" id="content" className="w-full" ref={fileRef} onChange={(e)=>{setFileName(e.currentTarget.files![0].name)}} hidden/>
+                            <PrimaryButton size="lg" type="button" className="block mx-auto" onClick={()=>{fileRef.current?.click()}}>Choose File</PrimaryButton>
+                            <p className="w-full text-center"><small>{fileName}</small></p>
+                          </>
+                    }
                 </div>
                 <PrimaryButton size="md" type="submit" onClick={undefined}>Submit</PrimaryButton>
-                <SecondaryButton size="md" type="reset" onClick={()=>setIsSubmitting(false)}>Cancel</SecondaryButton>
+                <SecondaryButton size="md" type="reset" onClick={()=>{
+                    setIsSubmitting(false);
+                    setFileName('audio, video, image, and pdf supported');
+                    formRef.current?.reset();
+                }}>Cancel</SecondaryButton>
             </form>
         </dialog>   
     </>

@@ -19,7 +19,7 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
       if (state) {
         return {
           ...state,
-          goals: [...state.goals, action.payload.goal],
+          goals: [action.payload.goal, ...state.goals],
         };
       }
       return state;
@@ -51,7 +51,7 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
       if (state) {
         return {
           ...state,
-          resources: [...state.resources, action.payload.resource],
+          resources: [action.payload.resource, ...state.resources],
         };
       }
       return state;

@@ -20,7 +20,7 @@ export async function getDetails(id: string, created_at: string, day_of_week: st
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL || ''
     const {data: logs} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=3`);
     const {data: goals} = await fetchJSONWithToken<Goal[]>(`${apiURL}/goals?student_id=${id}`);
-    const {data: resources}: {data: Resource[]} = await (await fetch(`${apiURL}/students/${id}/resources`)).json();
+    const {data: resources}: {data: Resource[]} = await (await fetch(`${apiURL}/students/${id}/resources?limit=3`)).json();
     const time = getLessonTime(created_at);
     const nextLessonDay = getNextLesson(day_of_week);
     return {logs, goals, resources, time, nextLessonDay}

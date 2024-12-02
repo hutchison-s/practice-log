@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
 
     // Return a response with the token set as a cookie
-    return new Response(JSON.stringify({ message: 'success', user: user }), {
+    return new Response(JSON.stringify({ message: 'success', data: user }), {
         status: 200,
         headers: {
             'Set-Cookie': `token=${token}; ${cookieOptions.join('; ')}`,

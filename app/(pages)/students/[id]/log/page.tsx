@@ -31,17 +31,12 @@ function PracticeTotal({logs}: {logs: logRow[]}) {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
-    const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
-    console.log('retrieved:', student)
-    const {data:logs}: {data?: logRow[]} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=6`);
-    console.log('retrieved:', logs)
-    const {data:resources}: {data?: Resource[]} = await fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources`);
-    console.log('retrieved:', resources)
-    const {data:goals}: {data?: Goal[]} = await fetchJSONWithToken<Goal[]>(`${apiURL}/goals?student_id=${id}`);
-    console.log('retrieved:', goals)
-    const {data:thisWeek}: {data?: WeeklyPractice} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${id}/logs/current_week`);
-    console.log('retrieved:', thisWeek)
+    const {data} = await fetchJSONWithToken<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}>(`${apiURL}/students/${id}/details`);
+    if (!data) throw new Error("Server error")
+    const {student, logs, resources, goals, thisWeek} = data;
+
     if (!student) throw new Error("Could not locate student records.")
+
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
