@@ -2,15 +2,23 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 
-const {AWS_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME} = process.env;
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+const AWS_REGION = process.env.AWS_REGION;
+const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
-// if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_KEY || !AWS_BUCKET_NAME) throw new Error('Missing env')
+// console.log('AWS_ACCESS_KEY', AWS_ACCESS_KEY)
+// console.log('AWS_SECRET_KEY', AWS_SECRET_KEY)
+// console.log('AWS_REGION', AWS_REGION)
+// console.log('AWS_BUCKET_NAME', AWS_BUCKET_NAME)
+
+if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_KEY || !AWS_BUCKET_NAME) throw new Error('Missing env')
 
 const client = new S3Client({
-    region: AWS_REGION!,
+    region: AWS_REGION,
     credentials: {
-        accessKeyId: AWS_ACCESS_KEY!,
-        secretAccessKey: AWS_SECRET_KEY!
+        accessKeyId: AWS_ACCESS_KEY,
+        secretAccessKey: AWS_SECRET_KEY
     }
 });
 
