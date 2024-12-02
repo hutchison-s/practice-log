@@ -25,13 +25,15 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
         const init = async () => {
             fetch(`/api/auth/current_user`)
                 .then(async res => {
-                    if (!res.ok) {
-                        setUser(defaultUser)
-                        throw new Error('No user logged in')
+                    if (res.ok) {
+                        const u = await res.json()
+                        setUser(u.data)  
                     }
-                    setUser(await res.json())
                 })
-                .catch(err => console.error(err))
+                .catch(err => {
+                    console.error('No user logged in.', err)
+                    setUser(defaultUser)
+                })
         }
         init();
     }, [])

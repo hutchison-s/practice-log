@@ -2,13 +2,10 @@
 
 import { Goal } from '@/app/types'
 import { CheckCircle, Circle, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
-function GoalCheck({goal}: {goal: Goal}) {
-    const [checked, setChecked] = useState(goal.is_complete);
+function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
     const [isChanging, setIsChanging] = useState(false);
-    const router = useRouter();
 
     async function toggleCheck() {
         setIsChanging(true);
@@ -26,10 +23,12 @@ function GoalCheck({goal}: {goal: Goal}) {
 
             )
         }).then(res => {
-            if (res.ok) {
-                setChecked(!checked);
-                router.refresh();
+            if (!res.ok) {
+                throw new Error('Bad response from server')
             }
+            return res.json();
+        }).then(json => {
+            onUpdate(json.data)
         }).catch(err => {
             console.error(err);
         }).finally(()=>{
@@ -40,7 +39,7 @@ function GoalCheck({goal}: {goal: Goal}) {
   return (
     isChanging 
         ? <Loader2 className='animate-spin'/>
-        : checked
+        : goal?.is_complete
                 ? <CheckCircle onClick={toggleCheck}/>
                 : <Circle onClick={toggleCheck}/>
           

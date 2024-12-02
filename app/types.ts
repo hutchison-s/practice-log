@@ -14,10 +14,20 @@ export interface Enrollee extends User {
     log?: logRow[],
     day_of_week: string,
     weekly_goal: string,
+    teacher_id: string
 }
 
 export interface EnrolleeWithCurrentWeekPractice extends Enrollee {
     current_week_minutes: string
+}
+
+export type StudentDetails = {
+    student: EnrolleeWithCurrentWeekPractice,
+    logs: logRow[], 
+    goals: Goal[], 
+    resources: Resource[], 
+    time: number, 
+    nextLessonDay: string
 }
 
 export type logRow = {
@@ -37,13 +47,24 @@ export type WeeklyPractice = {
 
 export type Goal = {
     id: string,
-student_id: string,
-created_at: string,
-completed_at: string,
-is_complete: boolean,
-goal_content?: string,
-goal_title: string
+    student_id: string,
+    created_at: string,
+    completed_at: string,
+    is_complete: boolean,
+    goal_content?: string,
+    goal_title: string
 
+}
+export type ResourceType = 'audio' | 'video' | 'image' | 'link' | 'pdf';
+
+export type Resource = {
+    id: string,
+    student_id: string,
+    title: string,
+    key: string,
+    url: string,
+    type: string,
+    created_at: string
 }
 
 export type apiPayload<T> = {

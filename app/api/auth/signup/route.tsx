@@ -2,7 +2,10 @@ import { sql } from "@vercel/postgres";
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
-    const { name, email, password } = await request.json();
+    const fd = await request.formData();
+    const name = fd.get('name') as string;
+    const email = fd.get('email') as string;
+    const password = fd.get('password') as string;
     const saltRounds = parseInt(process.env.BCRYPT_SALT || '10', 10);
 
     // Check if the user already exists
@@ -17,7 +20,7 @@ export async function POST(request: Request) {
     const newUser = newUserResponse.rows[0];
 
 
-    return Response.json({ message: 'success', user: {id: newUser.id, name, email} }, { status: 201 });
+    return Response.json({ message: 'success', data: {id: newUser.id, name, email} }, { status: 201 });
 }
 
 

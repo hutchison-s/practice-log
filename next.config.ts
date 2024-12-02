@@ -12,7 +12,12 @@ const nextConfig: NextConfig = {
         hostname: 'practice-log.vercel.app',
         protocol: 'https',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: "*.s3.us-east-2.amazonaws.com",
+        pathname: '/**'
+      },
     ],
   },
 };

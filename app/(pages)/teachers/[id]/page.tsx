@@ -1,5 +1,5 @@
 import PageTitle from "@/app/ui/components/PageTitle";
-import NewStudentButton from "./NewStudentButton";
+import NewStudentButton from "../../../ui/components/NewStudentButton";
 import StudentBrowser from "./StudentBrowser";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { EnrolleeWithCurrentWeekPractice, User } from "@/app/types";

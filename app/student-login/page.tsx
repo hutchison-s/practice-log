@@ -2,6 +2,7 @@
 import React, { use, useEffect } from 'react'
 import { useUser } from '../_usercontext/useUser';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 
 
@@ -17,8 +18,11 @@ function Page(props: {searchParams: Promise<{code: string, time: string}>}) {
         fetch(`/api/auth/qr`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({time, code})})
             .then(async res => {
                 if (res.ok) {
+                    console.log('response received', res.statusText)
                     const data = await res.json();
+                    console.log('qr response:', data)
                     login(data.user);
+                    console.log('redirecting')
                     router.push(`/students/${data.user.id}/log`);
                 }
             })
@@ -32,7 +36,12 @@ function Page(props: {searchParams: Promise<{code: string, time: string}>}) {
 
 
   return (
-    <div>Attempting login</div>
+    <>
+        <div>Attempting login</div>
+        <div className="w-full min-h-80">
+            <Loader2 size={120} className='spinner' />
+        </div>
+    </>
   )
 }
 

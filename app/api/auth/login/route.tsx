@@ -5,7 +5,9 @@ import jwt from 'jsonwebtoken';
 const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
 export async function POST(request: Request) {
-    const { email, password } = await request.json();
+    const fd = await request.formData();
+    const email = fd.get('email') as string;
+    const password = fd.get('password') as string;
 
     // Check if the user exists
     const existingUsers = await sql`SELECT id, name, password FROM teachers WHERE email = ${email}`;
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
     if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
 
     // Return a response with the token set as a cookie
-    return new Response(JSON.stringify({ message: 'success', user: { id: user.id, name: user.name, email } }), {
+    return new Response(JSON.stringify({ message: 'success', data: { id: user.id, name: user.name, email } }), {
         status: 200,
         headers: {
             'Set-Cookie': `token=${token}; ${cookieOptions.join('; ')}`,

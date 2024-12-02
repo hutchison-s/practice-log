@@ -5,8 +5,9 @@ import Link from "next/link";
 import LogDisplay from "@/app/ui/components/LogDisplay";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import PieChart from "@/app/ui/components/PieChart";
-import { Enrollee, Goal, logRow, WeeklyPractice } from "@/app/types";
-import GoalDisplay from "@/app/ui/components/GoalDisplay";
+import { Enrollee, Goal, logRow, Resource, WeeklyPractice } from "@/app/types";
+import StudentGoalDisplay from "@/app/ui/components/StudentGoalDisplay";
+import StudentResourceDisplay from "@/app/ui/components/StudentResourceDisplay";
 
 
 
@@ -30,32 +31,47 @@ function PracticeTotal({logs}: {logs: logRow[]}) {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
-    const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`)
+    const {data:student}: {data?: Enrollee} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
+    console.log('retrieved:', student)
     const {data:logs}: {data?: logRow[]} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=6`);
+    console.log('retrieved:', logs)
+    const {data:resources}: {data?: Resource[]} = await fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources`);
+    console.log('retrieved:', resources)
     const {data:goals}: {data?: Goal[]} = await fetchJSONWithToken<Goal[]>(`${apiURL}/goals?student_id=${id}`);
+    console.log('retrieved:', goals)
     const {data:thisWeek}: {data?: WeeklyPractice} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${id}/logs/current_week`);
-    if (!student || !logs || !thisWeek) throw new Error("Could not locate student records.")
+    console.log('retrieved:', thisWeek)
+    if (!student) throw new Error("Could not locate student records.")
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
-            <p>{student.name}</p>
+            <p className="mb-8">{student.name}</p>
             <SubHeading>Weekly Goal</SubHeading>
             <div className="flex w-full justify-items-center text-center">
                 <div className="mx-auto">
-                    <PieChart percent={Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)} size={50}/>
+                    {thisWeek 
+                        ? <PieChart percent={Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)} size={50}/>
+                        : <PieChart percent={0} size={50} />
+                    }
                 </div>
             </div>
             
-            <p>{Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)}%</p>
-            <p>{thisWeek.current_week_minutes} of {thisWeek.weekly_goal} minutes</p> 
-            <SubHeading>Start practicing</SubHeading>
+            {thisWeek 
+                ? <p>{Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)}%</p>
+                : <p>0%</p>
+            }
+            <p>{thisWeek ? thisWeek.current_week_minutes : 0} of {student.weekly_goal} minutes</p>
             <PracticeButton id={id} />
-            <SubHeading>Active Goals</SubHeading>
-            <div className="grid gap-2 w-full p-2">
-                {goals?.filter(g => !g.is_complete).map(g => <GoalDisplay goal={g} key={g.id}/>)}
+            <SubHeading className="mt-8">Active Goals</SubHeading>
+            <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}
+            </div>
+            <SubHeading>Resources</SubHeading>
+            <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                {resources?.map(r => <StudentResourceDisplay key={r.id} r={r}/>)}
             </div>
             <SubHeading>Previous Logs</SubHeading>
-            <PracticeTotal logs={logs} />
+            <PracticeTotal logs={logs || []} />
             <div className="grid gap-2">
                 {logs && logs.map((log, idx) => {
                     return idx < 5 ?<LogDisplay log={log} key={log.log_id}/> : null
