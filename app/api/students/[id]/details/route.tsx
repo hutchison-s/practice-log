@@ -1,4 +1,4 @@
-import { apiResponse, logRow, Enrollee } from "@/app/types";
+import { apiResponse, Enrollee, Goal, logRow, Resource, WeeklyPractice} from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken'
@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
-  ): apiResponse<any> {
+  ): apiResponse<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}> {
     const token = request.cookies.get('token')?.value;
     if (!token) {
         console.error('-----------no token present in request-----------------------')
@@ -92,11 +92,11 @@ export async function GET(
             `;
         const thisWeek = weeks[0];
         return NextResponse.json({message: 'success', data: {
-            student,
-            logs: logs || [],
-            resources: resources || [],
-            goals: goals || [],
-            thisWeek
+            student: student as Enrollee,
+            logs: logs as logRow[] || [],
+            resources: resources as Resource[] || [],
+            goals: goals as Goal[] || [],
+            thisWeek: thisWeek as WeeklyPractice
         }}, {status: 200})
 
     } catch (err) {
