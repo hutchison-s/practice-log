@@ -4,13 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 const {AWS_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME} = process.env;
 
-if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_KEY || !AWS_BUCKET_NAME) throw new Error('Missing env')
+// if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_KEY || !AWS_BUCKET_NAME) throw new Error('Missing env')
 
 const client = new S3Client({
-    region: AWS_REGION,
+    region: AWS_REGION!,
     credentials: {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY
+        accessKeyId: AWS_ACCESS_KEY!,
+        secretAccessKey: AWS_SECRET_KEY!
     }
 });
 
