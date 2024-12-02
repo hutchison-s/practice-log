@@ -11,12 +11,6 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
   const [state, dispatch] = useReducer(reducer, undefined);
 
   useEffect(() => {
-    if (students.length > 0) {
-      dispatch({ type: "SET_SELECTED_STUDENT", payload: students[0] });
-    }
-  }, [students]);
-
-  useEffect(() => {
     const init = async (student?: EnrolleeWithCurrentWeekPractice) => {
         if (!student) return;
       const data = await getDetails(student.id, student.created_at, student.day_of_week);
@@ -39,13 +33,13 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
       console.log("New student details fetched");
     };
 
-    if (state) {
+    if (state?.student) {
       init(state.student);
     } else {
       dispatch({ type: "CLEAR_DETAILS" });
       console.log("No student selected");
     }
-  }, [state, state?.student]);
+  }, [state?.student]);
 
   return (
     <div className="w-full max-w-[1000px] grid grid-cols-1 lg:grid-cols-2">
