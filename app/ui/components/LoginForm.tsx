@@ -36,7 +36,7 @@ function LoginForm() {
         })
         .catch(err => {
             console.log(err);
-            setStatusMsg('Error occurred: '+err)
+            setStatusMsg('Invalid credentials')
         })
 
     }

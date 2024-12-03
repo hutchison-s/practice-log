@@ -56,7 +56,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 : <p>0%</p>
             }
             <p>{thisWeek ? thisWeek.current_week_minutes : 0} of {student.weekly_goal} minutes</p>
-            <PracticeButton id={id} />
+            <PracticeButton />
             <SubHeading className="mt-8">Active Goals</SubHeading>
             <div className="grid gap-2 w-full p-2 max-w-[600px]">
                 {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}

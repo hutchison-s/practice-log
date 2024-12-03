@@ -60,11 +60,11 @@ export async function GET(
   export async function POST(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
-  ): apiResponse<{log_id: string}> {
+  ): apiResponse<{log_id: string, start_time: string}> {
     const id = (await params).id;
-    const insertResponse = await sql`INSERT INTO logs (student_id) VALUES (${id}) RETURNING id`;
-    const newId = insertResponse.rows[0].id;
-    return NextResponse.json({message: 'Success', data: {log_id: newId}});
+    const insertResponse = await sql`INSERT INTO logs (student_id) VALUES (${id}) RETURNING *`;
+    const newLog = insertResponse.rows[0];
+    return NextResponse.json({message: 'Success', data: {log_id: newLog.id, start_time: newLog.start_time}});
   }
 
   export async function PATCH(
@@ -74,6 +74,7 @@ export async function GET(
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const {log_id, journal} = await request.json();
+    console.log('updating log', log_id, journal)
     await sql`UPDATE logs SET total_time = 0, journal = ${journal} WHERE id = ${log_id}`;
     revalidatePath(`${apiURL}/students/${id}/log`);
     return NextResponse.json({message: 'Success', data: {log_id: log_id}});
