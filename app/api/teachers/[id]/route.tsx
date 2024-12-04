@@ -12,9 +12,9 @@ export async function GET(
       const token = request.cookies.get('token')?.value
       if (!token) return NextResponse.json({message: 'not authorized'}, {status: 401})
       const user = jwt.decode(token, {json: true});
-      if (!user || id != user.userId) return NextResponse.json({message: 'not authorized'}, {status: 401})
+      if (!user) return NextResponse.json({message: 'not authorized'}, {status: 401})
       
-      const res = await sql`SELECT * FROM teachers WHERE id = ${id}`;
+      const res = await sql`SELECT id, name, email, created_at FROM teachers WHERE id = ${id}`;
       if (res.rowCount != 1) {
           return NextResponse.json({message: 'no teachers to return'}, {status: 200});
       }
