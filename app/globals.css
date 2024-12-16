@@ -32,6 +32,15 @@ input:-internal-autofill-selected {
   background-color: initial;
 }
 
+.radio-label:has(:checked) {
+  background-color: rgb(var(--primary));
+}
+.radio-label:has(:disabled) {
+  background-color: rgb(var(--background));
+  color: #ffffff33;
+  cursor: not-allowed;
+}
+
 .button-container {
   position: relative;
   padding: 0.1rem;

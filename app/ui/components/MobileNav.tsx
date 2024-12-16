@@ -16,6 +16,9 @@ export default function MobileNav({ close }: { close: () => void }) {
         <Link href={"/about"} className={mobileNavStyle} onClick={close}>
             <span>About</span>
         </Link>
+        <Link href={"/metronome"} className={mobileNavStyle} onClick={close}>
+            <span>Metronome</span>
+        </Link>
         {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}>Portal</Link>}
         {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}>Portal</Link>}
         <LogInOutButton closeMenu={close} isMobile/>
