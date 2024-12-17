@@ -106,35 +106,36 @@ function Page() {
             .value.split(',')[0] === 'compound';
         const subdivisionLength = isCompound ? beat / 3 : beat / 2;
         let index = 0;
-        let startTime = Date.now();
-        let nextPlayTime = startTime;
-    
-        console.log('Start Time:', startTime, 'Interval:', subdivisionLength);
-    
+        let nextTick = performance.now() + subdivisionLength
+        
         function playNextTone() {
-            console.log('Playing tone:', meter[index]);
+            console.log(performance.now())
             if (subType == 1 && (meter[index] === 'high' || meter[index] === 'mid')) {
                 playTone(meter[index]);
             } else if (subType !== 1) {
                 playTone(meter[index]);
             }
             index = (index + 1) % meter.length;
-            startTime = Date.now()
-            nextPlayTime += subdivisionLength; 
         }
-    
-        const interval = setInterval(() => {
-            const now = Date.now();
-            if (now >= nextPlayTime) {
-                playNextTone();
+
+        function loop() {
+            const now = performance.now();
+            if (now >= nextTick) {
+                playNextTone()
+                nextTick += subdivisionLength;
+                if (now > nextTick) {
+                    nextTick = now + subdivisionLength;
+                }
             }
-        }, 5);
+            setPlayer(setTimeout(loop, nextTick - now))
+        }
+        
     
-        setPlayer(interval);
+        setPlayer(setTimeout(loop, subdivisionLength));
     }
     
     function stop() {
-        clearInterval(player!);
+        clearTimeout(player!);
         setPlayer(null);
     }
 
