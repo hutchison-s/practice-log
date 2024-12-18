@@ -4,30 +4,12 @@ import RadioLabel from '@/app/ui/components/RadioLabel';
 import { Music2, Music3, PlayCircle, StopCircle } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react'
 import MetronomeControl from './MetronomeControl';
+import { Pitch, METER_MAP, GAIN_MAP } from './MetronomeMaps';
 
-type Pitch = 'high' | 'mid' | 'low'
-const METER_MAP: Record<string, Pitch[]> = {
-    'simple,duple': ['high', 'low', 'mid', 'low'],
-    'simple,triple': ['high', 'low', 'mid', 'low', 'mid', 'low'],
-    'simple,quadruple': ['high', 'low', 'mid', 'low', 'mid', 'low', 'mid', 'low'],
-    'compound,duple': ['high', 'low', 'low', 'mid', 'low', 'low'],
-    'compound,triple': ['high', 'low', 'low', 'mid', 'low', 'low', 'mid', 'low', 'low'],
-    'compound,quadruple': ['high', 'low', 'low', 'mid', 'low', 'low', 'mid', 'low', 'low', 'mid', 'low', 'low'],
-    'asymetrical,3-2': ['high', 'low', 'low', 'mid', 'low'],
-    'asymetrical,2-3': ['high', 'low', 'mid', 'low', 'low'],
-    'asymetrical,4-3': ['high', 'low', 'mid', 'low', 'mid', 'low', 'low'],
-    'asymetrical,3-4': ['high', 'low', 'low', 'mid', 'low', 'mid', 'low']
-}
-const GAIN_MAP: Record<Pitch, number> = {
-    high: 1,
-    mid: 0.75,
-    low: 0.45
-}
-
-function Page() {
+function MetronomePage() {
     const [tempo, setTempo] = useState(120);
     const [subType, setSubType] = useState(1);
-    const [meter, setMeter] = useState<Pitch[]>(['high', 'low', 'mid', 'low', 'mid', 'low', 'mid', 'low'])
+    const [meter, setMeter] = useState<Pitch[]>(METER_MAP['simple,quadruple'])
     const [isPlaying, setIsPlaying] = useState(false);
     const playRef = useRef(false)
     const [audioContext, setAudioContext] = useState<AudioContext>()
@@ -52,7 +34,9 @@ function Page() {
             tones.current.low = await fetchTone('/audio/low.mp3', context);
         }
         initializeAudio()
-        
+        return ()=>{
+            audioContext?.close();
+        }
     }, []);
 
     useEffect(()=>{
@@ -113,7 +97,6 @@ function Page() {
         let nextTick = audioContext!.currentTime
         
         function playNextTone() {
-            console.log(performance.now())
             if (subType == 1 && (meter[index] === 'high' || meter[index] === 'mid')) {
                 playTone(meter[index]);
             } else if (subType !== 1) {
@@ -202,4 +185,4 @@ function Page() {
   )
 }
 
-export default Page
+export default MetronomePage
