@@ -153,7 +153,7 @@ function Page() {
   return (
     <>
         <PageTitle>Metronome</PageTitle>
-        <div className="flex w-full justify-even flex-wrap md:flex-nowrap">
+        <div className="w-full max-w-[1000px] grid grid-cols-1 md:grid-cols-2">
             
             <section className='flex-1 bg-secondary p-4 grid grid-cols-[60px_1fr_60px] rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
             <div className="flex flex-col justify-evenly gap-2 border-2 border-background rounded">
