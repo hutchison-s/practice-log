@@ -55,6 +55,7 @@ function LoginForm() {
             value={userInfo.email} 
             onChange={handleChange}
             validator={validateEmail}
+            placeholder="e.g., wolfgang@gmail.com"
         />
         <ControlledInput 
             label='Password' 
@@ -62,6 +63,7 @@ function LoginForm() {
             value={userInfo.password} 
             onChange={handleChange}
             validator={validatePassword}
+            placeholder="e.g., Super$ecret251"
         />
         <p className="text-red-500 text-center"><small>{statusMsg}</small></p>
         <div className="flex justify-center">

@@ -52,6 +52,7 @@ function SignUpForm() {
             value={userInfo.name} 
             onChange={handleChange}
             validator={validateName}
+            placeholder='e.g., Wolfgang Mozart...'
         />
         <ControlledInput 
             label='Email' 
@@ -59,6 +60,7 @@ function SignUpForm() {
             value={userInfo.email} 
             onChange={handleChange}
             validator={validateEmail}
+            placeholder='e.g., wolfgang@gmail.com...'
         />
         <ControlledInput 
             label='Password' 
@@ -66,10 +68,11 @@ function SignUpForm() {
             value={userInfo.password} 
             onChange={handleChange}
             validator={validatePassword}
+            placeholder='e.g., Super$ecret251...'
         />
         <p className="text-red-500 text-center"><small>{statusMsg}</small></p>
         <div className="flex justify-center">
-            <PrimaryButton type="submit" onClick={undefined}>Log In</PrimaryButton>
+            <PrimaryButton type="submit" onClick={undefined}>Create Account</PrimaryButton>
         </div>
     </form>
   )
