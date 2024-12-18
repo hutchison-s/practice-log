@@ -2,8 +2,9 @@
 import { useUser } from "@/app/_usercontext/useUser";
 import Link from "next/link";
 import LogInOutButton from "./LogInOutButton";
-import { Home, Info } from "lucide-react";
+import { Home, Info, LayoutDashboard } from "lucide-react";
 import metronome from '../../_assets/images/metronome.svg'
+import tuner from '../../_assets/images/tuner.svg'
 import Image from "next/image";
 
 const mobileNavStyle =
@@ -24,8 +25,13 @@ export default function MobileNav({ close }: { close: () => void }) {
               <Image src={metronome} width={100} color="white" alt="Metronome" />
             </span>
         </Link>
-        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}>Portal</Link>}
-        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}>Portal</Link>}
+        <Link href={"/tuner"} className={mobileNavStyle} onClick={close}>
+            <span>
+              <Image src={tuner} width={100} color="white" alt="Tuner" />
+            </span>
+        </Link>
+        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={100}/></Link>}
+        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={100}/></Link>}
         <LogInOutButton closeMenu={close} isMobile/>
     </nav>
   );
