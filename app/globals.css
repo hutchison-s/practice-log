@@ -39,6 +39,7 @@ input:-internal-autofill-selected {
   background-color: rgb(var(--background));
   color: #ffffff33;
   cursor: not-allowed;
+  display: none;
 }
 
 .button-container {

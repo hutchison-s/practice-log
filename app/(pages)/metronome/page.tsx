@@ -11,6 +11,7 @@ function MetronomePage() {
     const [subType, setSubType] = useState(1);
     const [meter, setMeter] = useState<Pitch[]>(METER_MAP['simple,quadruple'])
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isCompound, setIsCompound] = useState(false);
     const playRef = useRef(false)
     const [audioContext, setAudioContext] = useState<AudioContext>()
     const tones = useRef<Record<Pitch, AudioBuffer | null>>({
@@ -59,7 +60,7 @@ function MetronomePage() {
     function handleMeterChange() {
         const target: HTMLInputElement | null = document.querySelector('input[type="radio"][name="meter"]:checked');
         if (!target) return;
-        
+        setIsCompound(target.value.split(',')[0] === 'compound');
         setMeter(METER_MAP[target.value]);
     }
 
@@ -90,8 +91,6 @@ function MetronomePage() {
 
     function play() {
         const beat = 60000 / tempo;
-        const isCompound = (document.querySelector('input[type="radio"][name="meter"]:checked') as HTMLInputElement)
-            .value.split(',')[0] === 'compound';
         const subdivisionLength = isCompound ? beat / 3 : beat / 2;
         let index = 0;
         let nextTick = audioContext!.currentTime
@@ -136,21 +135,24 @@ function MetronomePage() {
   return (
     <>
         <PageTitle>Metronome</PageTitle>
-        <div className="w-full max-w-[1000px] grid grid-cols-1 md:grid-cols-2">
+        <div className="w-full max-w-[1000px] mt-8 grid grid-cols-1 md:grid-cols-2">
             
             <section className='flex-1 bg-secondary p-4 grid grid-cols-[60px_1fr_60px] rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
             <div className="flex flex-col justify-evenly gap-2 border-2 border-background rounded">
-                        <label className='size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
+                        <label className='relative size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
                             <Music3 />
+                            <span className='absolute rounded-full size-2 bg-white top-1/2 left-7 translate-y-[2px] -translate-x-1'></span>
+                            {isCompound && <span className='absolute rounded-full size-1 bg-white top-1/2 right-2 translate-y-[4px] -translate-x-1'></span>}
                             <input onChange={handleSubdivisionChange} hidden type="radio" name="subdivision" value="1" id="beat" defaultChecked disabled={meter.length == 5 || meter.length == 7}/>
                         </label>
-                        <label className='size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
+                        <label className='relative size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
                             <Music2 />
+                            <span className='absolute rounded-full size-2 bg-white top-1/2 left-4 translate-y-[2px] translate-x-1'></span>
                             <input onChange={handleSubdivisionChange} hidden type="radio" name="subdivision" value="2" id="eighths" />
                         </label>
                     </div>
                 <div className='grid size-full place-items-center'>
-                    <h3 className='w-full text-3xl font-bold text-center'>Tempo: {tempo}bpm</h3>
+                    <h3 className='w-full text-3xl font-bold grid gap-1 md:grid-cols-2'><span className='text-center md:text-right'>Tempo:</span> <span className='text-center md:text-left'>{tempo}bpm</span></h3>
                     
                     
                     <button className='rounded-full text-lighter' onClick={handleTogglePlay}>
