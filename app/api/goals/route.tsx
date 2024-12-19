@@ -2,6 +2,7 @@ import { apiResponse, Goal } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: NextRequest): apiResponse<Goal[]> {
     const searchParams = request.nextUrl.searchParams;
@@ -78,6 +79,8 @@ export async function POST(request: NextRequest): apiResponse<Goal> {
             VALUES
                 (${student_id}, ${title}, ${content})
             RETURNING *`
+        revalidatePath(`/students/${student_id}`);
+        revalidatePath(`/teachers/${user.userId}`);
         return NextResponse.json({data: rows[0], message: 'success'}, {status: 200});
     } catch (error) {
         console.error(error);

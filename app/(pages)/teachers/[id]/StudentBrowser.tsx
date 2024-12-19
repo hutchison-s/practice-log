@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import StudentList from "./StudentList";
 import StudentManager from "./StudentManager";
 import { EnrolleeWithCurrentWeekPractice } from "@/app/types";
 import { getDetails } from "./actions";
 import { reducer } from "@/app/_activeStudentReducer/activeStudentReducer";
+import Elipsis from "@/app/ui/components/Elipsis";
 
 function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractice[] }) {
   const [state, dispatch] = useReducer(reducer, undefined);
@@ -28,6 +29,7 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
           time,
           nextLessonDay,
           student,
+          isLoading: false
         },
       });
       console.log("New student details fetched");
@@ -45,13 +47,20 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
     <div className="w-full max-w-[1000px] grid grid-cols-1 lg:grid-cols-2">
       <StudentList
         students={students}
-        setSelected={(student) => dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+        disabled={state?.isLoading}
+        setSelected={(student) => {
+          dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+        }
         selected={state?.student}
       />
-      <StudentManager
+      {state?.isLoading
+        ? <div className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none text-txtsecondary grid place-items-center text-2xl">
+          <p>Gathering Info<Elipsis /></p>
+          </div>
+        : <StudentManager
         details={state}
         dispatch={dispatch}
-      />
+      />}
     </div>
   );
 }

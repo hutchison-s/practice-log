@@ -27,7 +27,8 @@ export type StudentDetails = {
     goals: Goal[], 
     resources: Resource[], 
     time: number, 
-    nextLessonDay: string
+    nextLessonDay: string,
+    isLoading: boolean
 }
 
 export type logRow = {

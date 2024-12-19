@@ -77,6 +77,7 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
             console.log('Setting selected to '+action.payload.name)
             return {
                 ...state,
+                isLoading: true,
                 student: action.payload,
               };
           } else {
@@ -86,7 +87,8 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
                 goals: [],
                 student: action.payload,
                 time: 0,
-                nextLessonDay: ''
+                nextLessonDay: '',
+                isLoading: false
               }
           }            
         } else {

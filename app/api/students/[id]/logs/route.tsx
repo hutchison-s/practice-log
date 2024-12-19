@@ -71,11 +71,13 @@ export async function GET(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<{log_id: string}> {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const {log_id, journal} = await request.json();
     console.log('updating log', log_id, journal)
     await sql`UPDATE logs SET total_time = 0, journal = ${journal} WHERE id = ${log_id}`;
-    revalidatePath(`${apiURL}/students/${id}/log`);
+    const {rows: teachers} = await sql`SELECT teacher_id FROM students WHERE id = ${id}`
+    const teacher_id = teachers[0].teacher_id;
+    revalidatePath(`/students/${id}`);
+    revalidatePath(`/teachers/${teacher_id}`);
     return NextResponse.json({message: 'Success', data: {log_id: log_id}});
   }
