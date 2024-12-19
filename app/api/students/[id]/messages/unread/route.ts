@@ -1,4 +1,4 @@
-import { apiResponse, Message } from "@/app/types";
+import { apiResponse } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
