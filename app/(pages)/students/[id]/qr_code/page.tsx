@@ -1,11 +1,9 @@
-import { sql } from '@vercel/postgres';
-import { Download } from 'lucide-react';
-import Image from 'next/image';
+import { fetchJSONWithToken } from '@/app/AuthHandler';
+import { Enrollee } from '@/app/types';
 import { NextResponse } from 'next/server';
-import loader from '../../../../_assets/images/loading_qr.png' 
-import { Suspense } from 'react';
-
-
+import PrintableQRCode from './PrintableQRCode';
+import PageTitle from '@/app/ui/components/PageTitle';
+import BodyText from '@/app/ui/components/BodyText';
 
 async function QR({params, searchParams}: {params: Promise<{id: string}>, searchParams: Promise<{time: string, code: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -14,19 +12,20 @@ async function QR({params, searchParams}: {params: Promise<{id: string}>, search
     if (!time || !code) {
         return new NextResponse("Missing parameters", { status: 400 });
     }
-    const {rows: names} = await sql`SELECT name FROM students WHERE id = ${id}`;
-    const student_name = names[0].name;
+    const {data: student} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
+    const student_name = student!.name;
+    const course_name = student!.subject;
     const qrLink = `${apiURL}/students/${id}/qr_code?code=${code}&time=${time}`
     
 
     return (
         <>
-            <Suspense fallback={<Image src={loader} alt='qr code loading...' width={300} height={300}/>}>
-                <Image src={qrLink} width={300} height={300} alt='qr code cannot be displayed'/>
-            </Suspense>
-
-            <p>{student_name}</p>
-            <a href={qrLink} download={`${student_name}-qr-code.png`}><Download/></a>
+            <PageTitle>QR Code</PageTitle>
+            <div className="w-full max-w-[600px] text-center">
+                <BodyText className='my-4'>Print this code and give it to your students. They should keep it with their method books, in their instrument case, or wherever they will see it every time they practice.</BodyText>
+                <BodyText className='mb-4'>This code <strong>IS</strong> their login. Students do not log in the same way teachers do.</BodyText>
+            </div>
+            <PrintableQRCode name={student_name} course={course_name} imageURL={qrLink} width={300} />
         </>
     )
 }
