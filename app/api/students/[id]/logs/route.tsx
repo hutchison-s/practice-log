@@ -2,6 +2,7 @@ import { apiResponse, logRow } from "@/app/types";
 import { QueryResult, sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from 'jsonwebtoken'
 
 export const revalidate = 60;
  
@@ -9,6 +10,15 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<logRow[]> {
+    const token = request.cookies.get('token')?.value;
+        if (!token) {
+            console.error('-----------no token present in request-----------------------')
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
+        const user = jwt.decode(token, {json: true});
+        if (!user) {
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
     const id = (await params).id;
     const limit = request.nextUrl.searchParams.get('limit')
     let query: Promise<QueryResult>;
@@ -58,9 +68,18 @@ export async function GET(
   }
 
   export async function POST(
-    request: Request,
+    request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<{log_id: string, start_time: string}> {
+    const token = request.cookies.get('token')?.value;
+        if (!token) {
+            console.error('-----------no token present in request-----------------------')
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
+        const user = jwt.decode(token, {json: true});
+        if (!user) {
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
     const id = (await params).id;
     const insertResponse = await sql`INSERT INTO logs (student_id) VALUES (${id}) RETURNING *`;
     const newLog = insertResponse.rows[0];
@@ -68,9 +87,18 @@ export async function GET(
   }
 
   export async function PATCH(
-    request: Request,
+    request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<{log_id: string}> {
+    const token = request.cookies.get('token')?.value;
+        if (!token) {
+            console.error('-----------no token present in request-----------------------')
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
+        const user = jwt.decode(token, {json: true});
+        if (!user) {
+            return NextResponse.json({message: 'access denied'}, {status: 401})
+        }
     const id = (await params).id;
     const {log_id, journal} = await request.json();
     console.log('updating log', log_id, journal)
