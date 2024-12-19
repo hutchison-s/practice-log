@@ -9,25 +9,28 @@ import { Enrollee, Goal, logRow, Resource, User, WeeklyPractice } from "@/app/ty
 import StudentGoalDisplay from "@/app/ui/components/StudentGoalDisplay";
 import StudentResourceDisplay from "@/app/ui/components/StudentResourceDisplay";
 import { TotalPractice } from "@/app/ui/components/TotalPractice";
-import { Mail } from "lucide-react";
-
-
-
+import { MessageCircle, MessageCircleWarning } from "lucide-react";
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
     const {data} = await fetchJSONWithToken<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}>(`${apiURL}/students/${id}/details`);
-    if (!data) throw new Error("Server error")
+    if (!data) throw new Error("Server error");
+    console.log(data)
     const {student, logs, resources, goals, thisWeek} = data;
     if (!student) throw new Error("Could not locate student records.")
     const teacherResponse = await fetchJSONWithToken<User>(`${apiURL}/teachers/${student.teacher_id}`);
+    const {data: newMessages} = await fetchJSONWithToken<number>(`${apiURL}/students/${student.id}/messages/unread`);
+    const hasNewMessage = newMessages != 0;
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
             <p>{student.name}</p>
-            <p className="text-txtsecondary mb-8"><span className="text-lighter">{student.subject}</span> lessons with <span className="relative text-lighter">{teacherResponse.data?.name} <Link href={`mailto:${teacherResponse.data?.email}`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2"><Mail/></Link></span></p>
+            <div className="text-txtsecondary mb-8 text-center">
+                <p className="text-txtprimary">{student.subject}</p>
+                <p><span>with </span><span className="relative text-lighter">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
+            </div>
             <div className="grid gap-4 justify-center md:grid-cols-2 w-full">
                 <section className="flex flex-col gap-4 items-center border-2 border-secondary rounded-lg p-4 h-fit md:sticky md:top-20">
                     <SubHeading>Weekly Goal</SubHeading>

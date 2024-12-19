@@ -7,6 +7,7 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}> {
+    console.log('fetching details')
     const token = request.cookies.get('token')?.value;
     if (!token) {
         console.error('-----------no token present in request-----------------------')

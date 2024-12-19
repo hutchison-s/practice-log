@@ -1,7 +1,7 @@
 'use client'
 
 import { Goal, Resource, StudentDetails } from "@/app/types";
-import { QrCode } from "lucide-react";
+import { MessageCircle, MessageCircleWarning, QrCode } from "lucide-react";
 import Link from "next/link";
 import ResourcesManager from "./ResourcesManager";
 import GoalsManager from "./GoalsManager";
@@ -11,10 +11,23 @@ import LogManager from "./LogManager";
 import NewResourceButton from "@/app/ui/components/NewResourceButton";
 import {ActionType} from '../../../_activeStudentReducer/activeStudentReducer'
 import DeleteStudentButton from "@/app/ui/components/DeleteStudentButton";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Elipsis from "@/app/ui/components/Elipsis";
 
 function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch: (action: ActionType)=>void}) {
+    const [hasNewMessage, setHasNewMessage] = useState<boolean>(false)
+    useEffect(()=>{
+        if (!details) return;
+        const checkForMessages = async () => {
+            const res = await fetch(`/api/students/${details?.student.id}/messages/unread`);
+            if (res.ok) {
+                const {data} = await res.json();
+                setHasNewMessage(data != 0)
+            }
+        }
+
+        checkForMessages()
+    }, [details])
     if (!details) {
         return (
             <>
@@ -30,7 +43,12 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
             <section className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
                         <div className="flex gap-2 justify-between items-center mb-4">
                             <h3 className="font-bold text-lg grid"><span>{details.student.name}</span><span className="text-sm font-light">{details.student.subject}</span></h3>
-                            <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>
+                            <div className="flex gap-2">
+                                <Link href={`/students/${details.student.id}/messages`}>
+                                   {hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle size={40} color="rgb(var(--lighter))"/>}
+                                </Link>
+                                <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>
+                            </div>
                         </div>
                         <p className="font-light">Next Lesson: {details.nextLessonDay}</p>
 

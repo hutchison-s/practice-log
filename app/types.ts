@@ -67,6 +67,15 @@ export type Resource = {
     created_at: string
 }
 
+export type Message = {
+    id: string,
+    student_id: string,
+    created_at: string,
+    content: string,
+    is_read: boolean,
+    sent_by: string
+}
+
 export type apiPayload<T> = {
     message: string,
     data?: T
