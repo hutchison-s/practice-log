@@ -13,7 +13,7 @@ const mobileNavStyle =
 export default function MobileNav({ close }: { close: () => void }) {
     const {user} = useUser();
   return (
-    <nav className="z-50 fixed top-12 left-0 w-full h-[calc(100vh-65px)] grid grid-cols-2 grid-rows-3 gap-2 p-2 bg-background/50 md:hidden">
+    <nav className="z-50 fixed top-14 left-0 w-full h-[calc(100vh-65px)] grid grid-cols-2 grid-rows-3 gap-2 p-2 bg-background/50 md:hidden">
         <Link href={"/"} className={mobileNavStyle} onClick={close}>
             <span><Home size={100}/></span>
         </Link>
