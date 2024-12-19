@@ -44,7 +44,7 @@ function MessageWindow({messages}: {messages: Message[]}) {
   return (
     <>
         <section className="w-full max-w-[600px] h-[60vh] py-4 px-2 rounded border-2 border-secondary overflow-auto md:px-8" ref={chatRef}>
-            <div className='grid gap-4'>
+            <div className='grid gap-4 w-full'>
                 {messages.map(m => <ChatMessage key={m.id} message={m} isSender={m.sent_by == user.id}/>)}
             </div>
         </section>
