@@ -29,7 +29,6 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
                     m.is_read = FALSE
                     AND
                     m.sent_by != ${user.userId}`;
-            console.log("Messages retrieved:", rows)
             return NextResponse.json({data: rows[0].new_messages, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);

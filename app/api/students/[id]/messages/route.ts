@@ -28,7 +28,6 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
                     (s.teacher_id = ${user.userId} OR m.student_id = ${user.userId})
                 ORDER BY
                     m.created_at ASC`;
-            console.log("Messages retrieved:", rows)
             return NextResponse.json({data: rows, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);

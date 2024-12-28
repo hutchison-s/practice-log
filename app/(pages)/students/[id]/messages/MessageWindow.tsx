@@ -21,7 +21,7 @@ function MessageWindow({messages}: {messages: Message[]}) {
         }
     }, [messages.length])
 
-    const handleInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const handleInput: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
         const val = e.target.value;
         if (val.length >120) return;
         setContent(e.target.value);
@@ -49,7 +49,7 @@ function MessageWindow({messages}: {messages: Message[]}) {
             </div>
         </section>
         <div className='w-full max-w-[400px] flex gap-2 align-center justify-center my-2 relative overflow-hidden rounded-full group'>
-            <input type="text" name="content" id="content" placeholder='New message...' autoComplete='off' className='flex-1 block bg-background border-2 border-lighter rounded-full px-4 py-2' onInput={handleInput} value={content}/>
+            <textarea name="content" id="content" placeholder='New message...' autoComplete='off' className='flex-1 block bg-background border-2 border-lighter rounded-full px-4 py-2 pr-14' rows={2} onInput={handleInput} value={content}/>
             <button onClick={handleSend} className='min-w-12 bg-lighter absolute top-0 right-0 h-full w-fit p-2 pr-4 cursor-pointer group-focus-within:bg-primary group-active:bg-primary' >
                 {isSending ? <Elipsis /> : <Send />}
             </button>
