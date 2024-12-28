@@ -87,3 +87,9 @@ input:-internal-autofill-selected {
   animation-iteration-count: infinite, infinite;
   animation-direction: normal, alternate;
 }
+
+@media print {
+  .qr-code {
+    page-break-inside: avoid;
+  }
+}

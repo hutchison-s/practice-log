@@ -73,15 +73,15 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                                 }
                             </div>
                         </div>
-                        <p className="font-light">Next Lesson: {details.nextLessonDay}</p>
+                        <p className="font-light text-txtsecondary">Next Lesson: {details.nextLessonDay}</p>
 
-                        <SubHeading className="mb-1 mt-2">Recent Logs</SubHeading>
+                        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Recent Logs</SubHeading>
                         {isLoaded && details.logs.length == 0 && <BodyText>No logs yet</BodyText>}
                         {isLoaded
                             ? <LogManager logs={details.logs} />
                             : <Elipsis />
                         }
-                        <SubHeading className="mb-1 mt-2">Goals</SubHeading>
+                        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Goals</SubHeading>
                         <GoalsManager 
                             goals={details.goals} 
                             onUpdate={(g: Goal)=>{dispatch({type: 'UPDATE_GOAL', payload: {goal: g}})}} 
@@ -95,7 +95,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                                 />
                             : <Elipsis/>
                         }
-                        <SubHeading className="mb-1 mt-2">Resources</SubHeading>
+                        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Resources</SubHeading>
                         <ResourcesManager 
                             resources={details.resources} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_RESOURCE', payload: {resourceId: id}})}}
@@ -109,7 +109,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                             : <Elipsis />
                         }
 
-                        <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-[1px] border-t-txtsecondary pt-4">
+                        <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-2 border-t-background/50 pt-4">
                             <EditStudentButton student={details.student} />
                             <DeleteStudentButton student={details.student} onDelete={handleDeleteStudent}/>
                         </div>

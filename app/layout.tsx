@@ -24,7 +24,7 @@ export default function RootLayout({
       <html lang="en">
       
         <body
-          className={`${rubik.className} antialiased h-[100vh] bg-background`}
+          className={`${rubik.className} antialiased h-[100vh] bg-background print:bg-transparent`}
         >
           <UserProvider>
             <SessionProvider>
