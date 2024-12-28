@@ -42,7 +42,9 @@ function randomInteger(length = 20) {
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const file = searchParams.get('file');
-    if (!file) {
+    const size = searchParams.get('size');
+    console.log(size)
+    if (!file || !size) {
         return Response.json(
             {message: "File query parameter is required"},
             {status: 400}
@@ -53,7 +55,8 @@ export async function GET(request: NextRequest) {
 
     const command = new PutObjectCommand({
         Bucket: AWS_BUCKET_NAME,
-        Key: fileName
+        Key: fileName,
+        ContentLength: parseFloat(size)
     });
 
     const url = await getSignedUrl(client, command, {expiresIn: 60});
