@@ -40,18 +40,24 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
     }
   }, [state?.student]);
 
-  const handleClick = (e: MouseEvent)=>{
-    if (!state?.student) return;
-    const target = e.target as HTMLElement;
+  const handleDeselect = (target: HTMLElement)=>{
     if (target.tagName == 'MAIN' || target.id == 'studentList') {
       dispatch({type: "CLEAR_DETAILS"})
     }
   }
+  const handleClick = (e: MouseEvent) => {
+    handleDeselect(e.target as HTMLElement)
+  }
+  const handleTouch = (e: TouchEvent) => {
+    handleDeselect(e.touches[0].target as HTMLElement)
+  }
   useEffect(()=>{
     window.addEventListener('click', handleClick)
+    window.addEventListener('touchstart', handleTouch)
 
     return ()=>{
       window.removeEventListener('click', handleClick)
+      window.removeEventListener('touchstart', handleTouch)
     }
   }, [])
 

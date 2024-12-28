@@ -27,8 +27,8 @@ export default function LogInOutButton({isMobile, closeMenu}: {isMobile?: boolea
     return (
         isMobile
         ? user.id != ''
-            ?   <div onClick={handleLogout} role="button" className={mobileNavStyle}><LogOut size={100}/></div>
-            :   <div onClick={handleLogin} role="button" className={mobileNavStyle}><LogIn size={100}/></div>
+            ?   <div onClick={handleLogout} role="button" className={mobileNavStyle}><LogOut size={80}/></div>
+            :   <div onClick={handleLogin} role="button" className={mobileNavStyle}><LogIn size={80}/></div>
         : user.id != ''
             ?   <div onClick={handleLogout} role="button" className="p-2 rounded cursor-pointer my-auto hover:bg-secondary transition-colors"><LogOut size={18}/></div>
             :   <div onClick={handleLogin} role="button" className="p-2 rounded cursor-pointer my-auto hover:bg-secondary transition-colors"><LogIn size={18}/></div>

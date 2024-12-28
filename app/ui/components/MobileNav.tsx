@@ -13,26 +13,29 @@ const mobileNavStyle =
 export default function MobileNav({ close }: { close: () => void }) {
     const {user} = useUser();
   return (
-    <nav className="z-50 fixed top-14 left-0 w-full h-[calc(100vh-65px)] grid grid-cols-2 grid-rows-3 gap-2 p-2 bg-background/50 md:hidden">
+    <nav className="z-50 fixed top-14 left-0 w-full h-[calc(100dvh-65px)] grid grid-cols-3 grid-rows-[120px_120px_1fr] gap-2 p-2 bg-background/90 md:hidden">
         <Link href={"/"} className={mobileNavStyle} onClick={close}>
-            <span><Home size={100}/></span>
+            <span><Home size={80}/></span>
         </Link>
+        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/></Link>}
+        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/></Link>}
+        
         <Link href={"/about"} className={mobileNavStyle} onClick={close}>
-            <span><Info size={100}/></span>
+            <span><Info size={80}/></span>
         </Link>
+        {!user.id && !user.code && !user.email && <LogInOutButton closeMenu={close} isMobile/>}
         <Link href={"/metronome"} className={mobileNavStyle} onClick={close}>
             <span>
-              <Image src={metronome} width={100} color="white" alt="Metronome" />
+              <Image src={metronome} width={80} color="white" alt="Metronome" />
             </span>
         </Link>
         <Link href={"/tuner"} className={mobileNavStyle} onClick={close}>
             <span>
-              <Image src={tuner} width={100} color="white" alt="Tuner" />
+              <Image src={tuner} width={80} color="white" alt="Tuner" />
             </span>
         </Link>
-        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={100}/></Link>}
-        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={100}/></Link>}
-        <LogInOutButton closeMenu={close} isMobile/>
+        
+        {user.id != '' && <LogInOutButton closeMenu={close} isMobile/>}
     </nav>
   );
 }
