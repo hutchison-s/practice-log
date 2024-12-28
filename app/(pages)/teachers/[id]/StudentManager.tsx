@@ -76,8 +76,9 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                         <p className="font-light">Next Lesson: {details.nextLessonDay}</p>
 
                         <SubHeading className="mb-1 mt-2">Recent Logs</SubHeading>
+                        {isLoaded && details.logs.length == 0 && <BodyText>No logs yet</BodyText>}
                         {isLoaded
-                            ? details.logs.length == 0 ? <BodyText>No logs yet</BodyText> : <LogManager logs={details.logs} />
+                            ? <LogManager logs={details.logs} />
                             : <Elipsis />
                         }
                         <SubHeading className="mb-1 mt-2">Goals</SubHeading>
@@ -86,8 +87,9 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                             onUpdate={(g: Goal)=>{dispatch({type: 'UPDATE_GOAL', payload: {goal: g}})}} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_GOAL', payload: {goalId: id}})}}
                         />
-                        {isLoaded
-                            ? details.goals.length == 0 ? <BodyText>No goals yet</BodyText> : <NewGoalButton 
+                        {isLoaded && details.goals.length == 0 && <BodyText>No goals yet</BodyText>}
+                        {isLoaded 
+                            ? <NewGoalButton 
                                     student_id={details.student.id} 
                                     onCreate={(g: Goal)=>{dispatch({type: 'CREATE_GOAL', payload: {goal: g}})}}
                                 />
@@ -98,8 +100,9 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                             resources={details.resources} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_RESOURCE', payload: {resourceId: id}})}}
                         />
+                        {isLoaded && details.resources.length == 0 && <BodyText>No resources yet</BodyText>}
                         {isLoaded
-                            ? details.resources.length == 0 ? <BodyText>No resources yet</BodyText> : <NewResourceButton 
+                            ? <NewResourceButton 
                                 student_id={details.student.id} 
                                 onCreate={(r: Resource)=>{dispatch({type: 'CREATE_RESOURCE', payload: {resource: r}})}}
                               />
