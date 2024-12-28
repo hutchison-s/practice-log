@@ -44,7 +44,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.day_of_week;
         `;
         for (const s of rows) {
-            const {data} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${s.id}/logs/current_week`);
+            const {data} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${s.id}/logs/current_week`, 3600);
             s.current_week_minutes = data?.current_week_minutes;
         }
         return NextResponse.json({

@@ -13,9 +13,11 @@ import {ActionType} from '../../../_activeStudentReducer/activeStudentReducer'
 import DeleteStudentButton from "@/app/ui/components/DeleteStudentButton";
 import { Suspense, useEffect, useState } from "react";
 import Elipsis from "@/app/ui/components/Elipsis";
+import { useRouter } from "next/navigation";
 
 function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch: (action: ActionType)=>void}) {
-    const [hasNewMessage, setHasNewMessage] = useState<boolean>(false)
+    const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
+    const router = useRouter();
     useEffect(()=>{
         if (!details) return;
         const checkForMessages = async () => {
@@ -25,7 +27,6 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                 setHasNewMessage(data != 0)
             }
         }
-
         checkForMessages()
     }, [details])
     if (!details) {
@@ -36,6 +37,11 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                 </section>
             </>
         )
+    }
+
+    function handleDeleteStudent() {
+        dispatch({type: 'SET_SELECTED_STUDENT', payload: undefined}); 
+        router.refresh()
     }
 
     return (
@@ -78,7 +84,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
 
                         <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-[1px] border-t-txtsecondary pt-4">
                             <EditStudentButton student={details.student} />
-                            <DeleteStudentButton student={details.student} onDelete={()=>{dispatch({type: 'SET_SELECTED_STUDENT', payload: undefined})}}/>
+                            <DeleteStudentButton student={details.student} onDelete={handleDeleteStudent}/>
                         </div>
             </section>
         </>

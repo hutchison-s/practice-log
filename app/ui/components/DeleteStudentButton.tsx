@@ -1,6 +1,5 @@
 import { EnrolleeWithCurrentWeekPractice } from '@/app/types'
 import { Trash } from 'lucide-react'
-import { redirect } from 'next/navigation'
 import React from 'react'
 
 function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrentWeekPractice, onDelete: ()=>void}) {
@@ -14,7 +13,6 @@ function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrent
                 return res.json()})
             .then(() => {
                 onDelete()
-                redirect('/teachers/'+student?.teacher_id)
             })
             .catch(err => {
                 console.error(err);

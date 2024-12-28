@@ -2,6 +2,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken'
 import { apiResponse, Enrollee } from "@/app/types";
+import { revalidatePath } from "next/cache";
 
 export async function GET(
     request: NextRequest,
@@ -60,6 +61,7 @@ export  async function DELETE(
         const id = (await params).id;
         if (!id) throw new Error('No id parameter present');
         await sql`DELETE FROM students WHERE id = ${id} AND teacher_id = ${user.userId}`;
+        revalidatePath(`/teachers/${user.userId}`)
         return NextResponse.json({message: 'success'}, {status: 200})
     } catch (err) {
         console.error(err);
