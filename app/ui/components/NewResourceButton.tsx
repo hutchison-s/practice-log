@@ -98,7 +98,7 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
     }
 
     function handleNewFile(title: string, content: File) {
-        if (content.size > (1024 * 12)) {
+        if (content.size > (1024 * 1024 * 12)) {
             setHasError('File is too large');
             return;
         };
