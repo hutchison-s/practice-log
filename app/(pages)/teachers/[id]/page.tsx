@@ -4,14 +4,13 @@ import StudentBrowser from "./StudentBrowser";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { EnrolleeWithCurrentWeekPractice, User } from "@/app/types";
 import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
-import { redirect } from "next/navigation";
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-        const {data: teacher, message: teacherMessage} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`, 3600);
-        const {data: students, message: studentsMessage} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`, 3600);
+        const {data: teacher} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`, 3600);
+        const {data: students} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`, 3600);
         if (!teacher) throw new Error("No teacher found")
             return (
                 <>

@@ -19,7 +19,7 @@ export default function Error({
     return (
       <>
         <PageTitle>Login Required</PageTitle>
-        <BodyText className='text-center'>Your account credentials don't allow you to view this content. If you are not logged in, please do so and try again. If you are logged in, ensure you are logged in with the correct account.</BodyText>
+        <BodyText className='text-center'>Your account credentials don&apos;t allow you to view this content. If you are not logged in, please do so and try again. If you are logged in, ensure you are logged in with the correct account.</BodyText>
         <PrimaryLinkButton href='/login'>Login</PrimaryLinkButton>
       </>
     )
@@ -27,7 +27,7 @@ export default function Error({
     return (
       <>
         <PageTitle>Page Not Found</PageTitle>
-        <BodyText className='text-center'>We couldn't find the page you're looking for.</BodyText>
+        <BodyText className='text-center'>We couldn&apos;t find the page you&apos;re looking for.</BodyText>
         <PrimaryLinkButton href='/'>Return to Home Page</PrimaryLinkButton>
       </>
     )
