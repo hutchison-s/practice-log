@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const time = searchParams.get('time');
     const code = searchParams.get('code');
+    const w = searchParams.get('width');
     if (!time || !code) {
         return new NextResponse("Missing parameters", { status: 400 });
     }
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest) {
     try {
         // Generate the QR code as a data URL (base64 encoded PNG)
     const qrCodeImage = await QRCode.toDataURL(qrLink, {
-        width: 300, // Customize QR code dimensions
+        width: parseInt(w as string) || 150, // Customize QR code dimensions
         margin: 2,  // Customize margin
       });
   

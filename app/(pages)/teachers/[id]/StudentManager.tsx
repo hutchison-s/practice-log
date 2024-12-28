@@ -52,7 +52,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                                 <Link href={`/students/${details.student.id}/messages`}>
                                    {hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle size={40} color="rgb(var(--lighter))"/>}
                                 </Link>
-                                <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>
+                                {details.time != 0 && <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>}
                             </div>
                         </div>
                         <p className="font-light">Next Lesson: {details.nextLessonDay}</p>

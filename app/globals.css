@@ -22,6 +22,16 @@
   }
 }
 
+@media print {
+  /* All your print styles go here */
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

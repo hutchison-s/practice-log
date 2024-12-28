@@ -15,14 +15,14 @@ async function QR({params, searchParams}: {params: Promise<{id: string}>, search
     const {data: student} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
     const student_name = student!.name;
     const course_name = student!.subject;
-    const qrLink = `${apiURL}/students/${id}/qr_code?code=${code}&time=${time}`
+    const qrLink = `${apiURL}/students/${id}/qr_code?code=${code}&time=${time}&width=300`
     
 
     return (
         <>
             <PageTitle>QR Code</PageTitle>
             <div className="w-full max-w-[600px] text-center">
-                <BodyText className='my-4'>Print this code and give it to your students. They should keep it with their method books, in their instrument case, or wherever they will see it every time they practice.</BodyText>
+                <BodyText className='my-4'>Print this code and give it to your student. They should keep it with their method books, in their instrument case, or wherever they will see it every time they practice.</BodyText>
                 <BodyText className='mb-4'>This code <strong>IS</strong> their login. Students do not log in the same way teachers do.</BodyText>
             </div>
             <PrintableQRCode name={student_name} course={course_name} imageURL={qrLink} width={300} />

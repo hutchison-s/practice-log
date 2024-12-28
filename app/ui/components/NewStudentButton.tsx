@@ -15,6 +15,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const [weeklyGoal, setWeeklyGoal] = useState(60);
     const [hasError, setHasError] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
+    const modalRef = useRef<HTMLDialogElement>(null);
     const router = useRouter();
 
     const handleEnroll = () => {
@@ -56,13 +57,19 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
             }, 2000)
         }
     }, [hasError])
+
+    useEffect(()=>{
+        if (isOpen) {
+            modalRef.current?.showModal()
+        } else {
+            modalRef.current?.close()
+        }
+    }, [isOpen])
   return (
     <>
-        {isOpen
-            ? <SecondaryButton onClick={()=>setIsOpen(!isOpen)}>Cancel</SecondaryButton>
-            : <PrimaryButton onClick={()=>setIsOpen(!isOpen)}>Create New Student</PrimaryButton>
-        }
-        {isOpen &&
+        <PrimaryButton onClick={()=>setIsOpen(!isOpen)}>Create New Student</PrimaryButton>
+
+        <dialog ref={modalRef} className="fixed mx-auto p-4 rounded-xl bg-secondary text-txtprimary border-4 border-lighter backdrop-blur md:min-w-[500px]">
             <form 
                 onSubmit={(e)=>{
                     e.preventDefault();
@@ -105,16 +112,20 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     <option value="5">Friday</option>
                     <option value="6">Saturday</option>
                 </select>
+                <div className="w-full grid place-items-center grid-cols-[3fr_1fr]">
+                    <PrimaryButton
+                    onClick={handleEnroll}
+                    disabled={name.length <= 3 || subject.length <= 3}
+                    className="px-20 md:px-40"
+                                >
+                    Enroll
+                                </PrimaryButton>
+                                <SecondaryButton onClick={()=>setIsOpen(!isOpen)} className="justify-self-end">Cancel</SecondaryButton>
+                </div>
+            
             </form>
-        }
-        {isOpen &&
-            <PrimaryButton 
-                onClick={handleEnroll}
-                disabled={name.length <= 3 || subject.length <= 3}
-            >
-                Enroll
-            </PrimaryButton>
-        }
+            </dialog>
+
     </>
   )
 }

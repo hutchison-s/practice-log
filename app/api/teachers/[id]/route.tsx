@@ -2,6 +2,7 @@ import { apiResponse, User } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
+import { revalidatePath } from "next/cache";
 
 export async function GET(
     request: NextRequest,
@@ -18,6 +19,7 @@ export async function GET(
       if (res.rowCount != 1) {
           return NextResponse.json({message: 'no teachers to return'}, {status: 200});
       }
+      revalidatePath('/teachers')
       return NextResponse.json({message: 'success', data: res.rows[0] as User});
     } catch (error) {
       console.error('Error retrieving teacher', error)

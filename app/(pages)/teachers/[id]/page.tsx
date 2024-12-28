@@ -3,9 +3,7 @@ import NewStudentButton from "../../../ui/components/NewStudentButton";
 import StudentBrowser from "./StudentBrowser";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { EnrolleeWithCurrentWeekPractice, User } from "@/app/types";
-
-
-
+import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
@@ -19,7 +17,10 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
             <PageTitle>Teacher Portal</PageTitle>
             <p>{teacher.name}</p>
             <p className="text-txtsecondary"><em>{teacher.email}</em></p>
-            <NewStudentButton teacher_id={id}/>
+            <div className="flex justify-evenly w-full">
+                <NewStudentButton teacher_id={id}/>
+                <SecondaryLinkButton href={`/teachers/${id}/qr-codes`} className="text-center my-1">View All QR Codes</SecondaryLinkButton>
+            </div>
             <StudentBrowser students={students || []} />
         </>
     )

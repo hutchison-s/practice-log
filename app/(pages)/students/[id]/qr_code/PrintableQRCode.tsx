@@ -3,7 +3,7 @@ import { PrimaryButton } from '@/app/ui/components/Buttons';
 import { Download } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react'
 
-function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, course: string, imageURL: string, width: number}) {
+function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, course: string, imageURL: string, width?: number}) {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
@@ -17,6 +17,7 @@ function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, c
         if (!ctx || !canvasRef.current) return;
         const img = new Image();
         img.width = width;
+        img.height = width;
         img.src = imageURL;
         img.onload = ()=>{
             const canvas = canvasRef.current as HTMLCanvasElement;
@@ -25,7 +26,7 @@ function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, c
             ctx.fillStyle = 'white'
             ctx.fillRect(0,0,canvas.width, canvas.height);
             ctx.drawImage(img, 10, 10) // 10px border
-            ctx!.font = '18px Arial';
+            ctx!.font = `${Math.round(0.08 * width)}px Arial`;
             ctx!.fillStyle = 'black';
             ctx!.lineWidth = 3;
             ctx!.textAlign = 'center';
@@ -48,9 +49,9 @@ function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, c
 
     return (
         <div>
-            <canvas ref={canvasRef} className='rounded overflow-hidden my-4'></canvas>
-            <div className='w-full grid place-items-center'>
-                <PrimaryButton onClick={download} size='md' className='mx-auto flex gap-4'>Download <Download /></PrimaryButton>
+            <canvas ref={canvasRef} className='rounded overflow-hidden my-4 print:my-0'></canvas>
+            <div className='w-full flex justify-evenly no-print'>
+                <PrimaryButton onClick={download} size='md' className='flex gap-4'>Download <Download /></PrimaryButton>
             </div>
         </div>
     );
