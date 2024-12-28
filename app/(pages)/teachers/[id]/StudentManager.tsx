@@ -1,7 +1,7 @@
 'use client'
 
 import { Goal, Resource, StudentDetails } from "@/app/types";
-import { MessageCircle, MessageCircleWarning, QrCode } from "lucide-react";
+import { Loader, MessageCircle, MessageCircleWarning, QrCode } from "lucide-react";
 import Link from "next/link";
 import ResourcesManager from "./ResourcesManager";
 import GoalsManager from "./GoalsManager";
@@ -13,9 +13,13 @@ import {ActionType} from '../../../_activeStudentReducer/activeStudentReducer'
 import DeleteStudentButton from "@/app/ui/components/DeleteStudentButton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import SubHeading from "@/app/ui/components/SubHeading";
+import Elipsis from "@/app/ui/components/Elipsis";
+import BodyText from "@/app/ui/components/BodyText";
 
 function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch: (action: ActionType)=>void}) {
     const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
+    const [isLoaded, setIsLoaded] = useState(false)
     const router = useRouter();
     useEffect(()=>{
         if (!details) return;
@@ -27,7 +31,18 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
             }
         }
         checkForMessages()
+        
     }, [details])
+
+    useEffect(()=>{
+        if (details && details.time && details?.time != 0) {
+            setIsLoaded(true)
+        } else {
+            setIsLoaded(false)
+        }
+    }, [details?.time])
+
+
     if (!details) {
         return (
             <>
@@ -52,33 +67,44 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                                 <Link href={`/students/${details.student.id}/messages`}>
                                    {hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle size={40} color="rgb(var(--lighter))"/>}
                                 </Link>
-                                {details.time != 0 && <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>}
+                                {details.time != 0 
+                                    ? <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>
+                                    : <Loader size={40} color="rgb(var(--lighter))" className="spinner"/>
+                                }
                             </div>
                         </div>
                         <p className="font-light">Next Lesson: {details.nextLessonDay}</p>
 
-
-                            <LogManager logs={details.logs} />
-
+                        <SubHeading className="mb-1 mt-2">Recent Logs</SubHeading>
+                        {isLoaded
+                            ? details.logs.length == 0 ? <BodyText>No logs yet</BodyText> : <LogManager logs={details.logs} />
+                            : <Elipsis />
+                        }
+                        <SubHeading className="mb-1 mt-2">Goals</SubHeading>
                         <GoalsManager 
                             goals={details.goals} 
                             onUpdate={(g: Goal)=>{dispatch({type: 'UPDATE_GOAL', payload: {goal: g}})}} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_GOAL', payload: {goalId: id}})}}
                         />
-                        {details.goals && <NewGoalButton 
-                            student_id={details.student.id} 
-                            onCreate={(g: Goal)=>{dispatch({type: 'CREATE_GOAL', payload: {goal: g}})}}
-                        />}
-
+                        {isLoaded
+                            ? details.goals.length == 0 ? <BodyText>No goals yet</BodyText> : <NewGoalButton 
+                                    student_id={details.student.id} 
+                                    onCreate={(g: Goal)=>{dispatch({type: 'CREATE_GOAL', payload: {goal: g}})}}
+                                />
+                            : <Elipsis/>
+                        }
+                        <SubHeading className="mb-1 mt-2">Resources</SubHeading>
                         <ResourcesManager 
                             resources={details.resources} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_RESOURCE', payload: {resourceId: id}})}}
                         />
-
-                        {<NewResourceButton 
-                            student_id={details.student.id} 
-                            onCreate={(r: Resource)=>{dispatch({type: 'CREATE_RESOURCE', payload: {resource: r}})}}
-                        />}
+                        {isLoaded
+                            ? details.resources.length == 0 ? <BodyText>No resources yet</BodyText> : <NewResourceButton 
+                                student_id={details.student.id} 
+                                onCreate={(r: Resource)=>{dispatch({type: 'CREATE_RESOURCE', payload: {resource: r}})}}
+                              />
+                            : <Elipsis />
+                        }
 
                         <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-[1px] border-t-txtsecondary pt-4">
                             <EditStudentButton student={details.student} />

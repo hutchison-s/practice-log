@@ -8,9 +8,10 @@ type InputControls = {
     input_type: HTMLInputTypeAttribute,
     label: string,
     placeholder?: string
+    required?: boolean
 }
 
-export function ControlledInput({value, onChange, validator, input_type, label, placeholder}: InputControls) {
+export function ControlledInput({value, onChange, validator, input_type, label, placeholder, required}: InputControls) {
     const [isValid, setIsValid] = useState(true)
 
     useEffect(()=>{
@@ -31,6 +32,7 @@ export function ControlledInput({value, onChange, validator, input_type, label, 
             type={input_type}
             name={label.toLowerCase()} 
             placeholder={placeholder}
+            required={required}
             className='w-full p-2 border-2 rounded bg-transparent focus:outline-none focus:bg-secondary'
             style={{borderColor: isValid ? 'rgb(var(--secondary))' : 'orangered'}}/>
     </label>)
