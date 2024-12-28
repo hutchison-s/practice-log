@@ -11,8 +11,7 @@ import LogManager from "./LogManager";
 import NewResourceButton from "@/app/ui/components/NewResourceButton";
 import {ActionType} from '../../../_activeStudentReducer/activeStudentReducer'
 import DeleteStudentButton from "@/app/ui/components/DeleteStudentButton";
-import { Suspense, useEffect, useState } from "react";
-import Elipsis from "@/app/ui/components/Elipsis";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch: (action: ActionType)=>void}) {
@@ -58,25 +57,24 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                         </div>
                         <p className="font-light">Next Lesson: {details.nextLessonDay}</p>
 
-                        <Suspense fallback={<p>Loading Logs <Elipsis /></p>}>
+
                             <LogManager logs={details.logs} />
-                        </Suspense>
-                        <Suspense fallback={<p>Loading Goals <Elipsis /></p>}>
+
                         <GoalsManager 
                             goals={details.goals} 
                             onUpdate={(g: Goal)=>{dispatch({type: 'UPDATE_GOAL', payload: {goal: g}})}} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_GOAL', payload: {goalId: id}})}}
-                        /></Suspense>
+                        />
                         {details.goals && <NewGoalButton 
                             student_id={details.student.id} 
                             onCreate={(g: Goal)=>{dispatch({type: 'CREATE_GOAL', payload: {goal: g}})}}
                         />}
-                        <Suspense fallback={<p>Loading Resources <Elipsis /></p>}>
+
                         <ResourcesManager 
                             resources={details.resources} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_RESOURCE', payload: {resourceId: id}})}}
                         />
-                        </Suspense>
+
                         {<NewResourceButton 
                             student_id={details.student.id} 
                             onCreate={(r: Resource)=>{dispatch({type: 'CREATE_RESOURCE', payload: {resource: r}})}}

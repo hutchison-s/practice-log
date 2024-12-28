@@ -14,34 +14,46 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
   useEffect(() => {
     const init = async (student?: EnrolleeWithCurrentWeekPractice) => {
         if (!student) return;
-      const data = await getDetails(student.id, student.created_at, student.day_of_week);
-      if (!data) {
-        dispatch({ type: "CLEAR_DETAILS" });
-        return;
-      }
-      const { logs, goals, resources, time, nextLessonDay } = data;
-      dispatch({
-        type: "SET_DETAILS",
-        payload: {
-          logs: logs || [],
-          goals: goals || [],
-          resources: resources || [],
-          time,
-          nextLessonDay,
-          student,
-          isLoading: false
-        },
-      });
-      console.log("New student details fetched");
+        const data = await getDetails(student.id, student.created_at, student.day_of_week);
+        if (!data) {
+          dispatch({ type: "CLEAR_DETAILS" });
+          return;
+        }
+        const { logs, goals, resources, time, nextLessonDay } = data;
+        dispatch({
+          type: "SET_DETAILS",
+          payload: {
+            logs: logs || [],
+            goals: goals || [],
+            resources: resources || [],
+            time,
+            nextLessonDay,
+            student,
+            isLoading: false
+          },
+        });
     };
-
     if (state?.student) {
       init(state.student);
     } else {
       dispatch({ type: "CLEAR_DETAILS" });
-      console.log("No student selected");
     }
   }, [state?.student]);
+
+  const handleClick = (e: MouseEvent)=>{
+    if (!state?.student) return;
+    const target = e.target as HTMLElement;
+    if (target.tagName == 'MAIN' || target.id == 'studentList') {
+      dispatch({type: "CLEAR_DETAILS"})
+    }
+  }
+  useEffect(()=>{
+    window.addEventListener('click', handleClick)
+
+    return ()=>{
+      window.removeEventListener('click', handleClick)
+    }
+  }, [])
 
   return (
     <div className="w-full max-w-[1000px] grid grid-cols-1 lg:grid-cols-2">
@@ -49,7 +61,9 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
         students={students}
         disabled={state?.isLoading}
         setSelected={(student) => {
-          dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+          if (student !== state?.student) {
+            dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+          }
         }
         selected={state?.student}
       />
