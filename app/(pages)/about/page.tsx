@@ -29,7 +29,7 @@ export default function Page() {
     <strong >Engage with Students Anytime:</strong> Answer student questions and provide guidance between lessons with our built-in messaging platform.
   </IconListItem>
 
-  <IconListItem icon={<MessageCircle size={40}/>}>
+  <IconListItem icon={<UserRoundCheck size={40}/>}>
     <strong >Streamlined Access:</strong> Securely log in with your email to get started effortlessly.
   </IconListItem>
   
