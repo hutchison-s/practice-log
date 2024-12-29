@@ -55,7 +55,7 @@ export default function Page() {
     We&apos;re more than just a web app—we&apos;re a community dedicated to fostering musical growth. By bridging the gap between lessons and practice, we empower students and teachers to work together toward meaningful progress.
   </BodyText>
   <BodyText className="text-xl">
-    Whether you're teaching private lessons or managing a studio, Practice Log gives you the tools to create lasting connections and inspire success.
+    Whether you&apos;re teaching private lessons or managing a studio, Practice Log gives you the tools to create lasting connections and inspire success.
   </BodyText>
   
   <h3 className="text-2xl text-txtprimary font-bold text-center mt-8">Ready to make practice purposeful? </h3>
