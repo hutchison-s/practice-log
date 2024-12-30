@@ -14,9 +14,9 @@ export function PrimaryButton({
     disabled?: boolean
 }) {
     const styles = {
-        lg: "relative bg-primary text-txtprimary text-lg px-8 py-4 rounded shadow-md border-swirl disabled:brightness-50 ",
-        md: "relative bg-primary text-txtprimary text-md px-4 py-2 rounded shadow-md border-swirl disabled:brightness-50 ",
-        sm: "relative bg-primary text-txtprimary text-sm px-2 py-2 rounded-sm shadow-md border-swirl disabled:brightness-50 "
+        lg: "relative bg-gradient-to-br from-cyan-500 to-teal-600 text-txtprimary text-lg px-8 py-4 rounded shadow-md border-swirl disabled:brightness-50 ",
+        md: "relative bg-gradient-to-br from-cyan-500 to-teal-600 text-txtprimary text-md px-4 py-2 rounded shadow-md border-swirl disabled:brightness-50 ",
+        sm: "relative bg-gradient-to-br from-cyan-500 to-teal-600 text-txtprimary text-sm px-2 py-2 rounded-sm shadow-md border-swirl disabled:brightness-50 "
     }
     return (
         <div className="button-container relative">
@@ -43,9 +43,9 @@ export function PrimaryLinkButton({
     className?: string
 }) {
     const styles = {
-        lg: "grid place-items-center bg-transparent border-2 border-primary text-txtprimary text-lg px-8 py-4 rounded hover:bg-secondary shadow-md ",
-        md: "grid place-items-center bg-transparent border-2 border-primary text-md px-4 py-2 rounded hover:bg-secondary shadow-md ",
-        sm: "grid place-items-center bg-transparent border-2 border-primary text-sm px-2 py-2 rounded-sm hover:bg-secondary shadow-md "
+        lg: "font-inter font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-2xl text-shadow-sm drop-shadow px-20 py-4 rounded-full border-0 border-white hover:border-2 ",
+        md: "font-inter font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-lg text-shadow-sm drop-shadow px-16 py-2 rounded-full border-0 border-white hover:border-2 ",
+        sm: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-md text-shadow-sm drop-shadow px-6 py-2 rounded-full border-0 border-white hover:border-2 "
     }
     return (
         <Link
@@ -71,9 +71,9 @@ export function SecondaryButton({
     disabled?: boolean
 }) {
     const styles = {
-        lg: "bg-secondary text-txtprimary text-lg px-8 py-4 rounded shadow-md ",
-        md: "bg-secondary text-txtprimary text-md px-4 py-2 rounded shadow-md ",
-        sm: "bg-secondary text-txtprimary text-sm px-2 py-2 rounded-sm shadow-md "
+        lg: "bg-[#ffffff33] text-txtprimary text-lg text-shadow-sm drop-shadow px-12 py-4 rounded-3xl ",
+        md: "bg-[#ffffff33] text-txtprimary text-md text-shadow-sm drop-shadow px-8 py-2 rounded-2xl ",
+        sm: "bg-[#ffffff33] text-txtprimary text-sm text-shadow-sm drop-shadow px-4 py-2 rounded-xl "
     }
     return (
         <button
@@ -89,9 +89,9 @@ export function SecondaryButton({
 
 export function SecondaryLinkButton({children, href, size = 'md', className}: {children: React.ReactNode, href: string, size?: 'lg' | 'md' | 'sm', className?: string}) {
     const styles = {
-        lg: "grid place-items-center bg-secondary text-txtprimary text-lg px-8 py-4 rounded shadow-md ",
-        md: "grid place-items-center bg-secondary text-txtprimary text-md px-4 py-2 rounded shadow-md ",
-        sm: "grid place-items-center bg-secondary text-txtprimary text-sm px-2 py-2 rounded-sm shadow-md "
+        lg: "grid place-items-center font-inter bg-[#ffffff11] backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-full shadow-md hover:bg-white/10",
+        md: "grid place-items-center font-inter bg-[#ffffff11] backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-full shadow-md hover:bg-white/10",
+        sm: "grid place-items-center font-inter bg-[#ffffff11] backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-full shadow-md hover:bg-white/10"
     }
     return (
         <Link

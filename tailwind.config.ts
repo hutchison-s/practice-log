@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        golos: ['var(--golos-font)'],
+        inter: ['var(--inter-font)'],
+      },
       colors: {
         background: "rgb(var(--background))",
         foreground: "var(--foreground)",

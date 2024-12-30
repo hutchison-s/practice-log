@@ -5,7 +5,7 @@ export default function SubHeading({
     className?: string
   }>) {
     return (
-        <h3 className={"text-xl font-bold text-lighter "+className}>
+        <h3 className={"text-2xl font-bold font-golos my-2 text-txtprimary text-shadow "+className}>
             {children}
         </h3>
     )

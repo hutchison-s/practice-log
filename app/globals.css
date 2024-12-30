@@ -14,16 +14,7 @@
   }
 }
 
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 23 23 23;
-    --foreground: #ffffff;
-  }
-}
-
 @media print {
-  /* All your print styles go here */
   header,
   footer,
   nav,
@@ -35,7 +26,36 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+.text-shadow-xl {
+  text-shadow: 0 0 25px #00000088;
+}
+.text-shadow {
+  text-shadow: 0 0 15px #00000055;
+}
+.text-shadow-sm {
+  text-shadow: 0 0 10px #00000033;
+}
+
+.glass {
+  position: relative;
+  background-image: linear-gradient(135deg, #ffffff10, #ffffff05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 8px 8px 20px #00000055;
+  border: 1px solid #ffffff33;
+}
+.glass::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 100%;
+  height: 100%;
+  filter: blur(12px);
+  background: #ffffff0d;
 }
 
 input:-internal-autofill-selected {
@@ -71,6 +91,25 @@ input:-internal-autofill-selected {
   z-index: -1;
   animation: spin 3s infinite linear;
 }
+
+.fade-up {
+  animation: fadeInAnimation 1s both 1;
+}
+.zoom-in {
+  animation: zoomInAnimation 1s both cubic-bezier(.61,.53,.38,1.21) 1;
+}
+.late {
+  animation-delay: 0.5s;
+}
+
+.spinner {
+  animation-name: spin, color-pulse;
+  animation-duration: 3s, 1s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+}
+
 @keyframes spin {
   to {rotate: 360deg;}
 }
@@ -80,12 +119,29 @@ input:-internal-autofill-selected {
   to {color: rgb(var(--primary));}
 }
 
-.spinner {
-  animation-name: spin, color-pulse;
-  animation-duration: 3s, 1s;
-  animation-timing-function: linear, ease-in-out;
-  animation-iteration-count: infinite, infinite;
-  animation-direction: normal, alternate;
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+      translate: 0 50%;
+  }
+
+  100% {
+      opacity: 1;
+      translate: none;
+  }
+}
+
+@keyframes zoomInAnimation {
+  0% {
+    scale: 0%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    scale: 100%;
+  }
 }
 
 @media print {

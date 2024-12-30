@@ -1,33 +1,29 @@
 'use client'
 
 import {useUser} from '../../_usercontext/useUser'
-import { PrimaryLinkButton } from "./Buttons";
-import FeaturedText from './FeaturedText';
-import HoverLink from './HoverLink';
+import { PrimaryLinkButton, SecondaryLinkButton } from "./Buttons";
 
 
 function PortalLink() {
     const {user} = useUser();
   return (
-    <section className="my-6 text-center grid gap-4">
-      <FeaturedText>{user.id ? 'Welcome Back!' : 'Get Started!'}</FeaturedText>
-      <div className="w-full max-w-[600px] flex gap-4 justify-center">
+    <section className="text-center grid gap-4">
+      <div className="w-full max-w-[600px] grid gap-4 justify-center">
       {user.id 
         ? <PrimaryLinkButton href={`/${user?.email ? 'teachers' : 'students'}/${user.id}${user.code ? '/log' : ''}`} className='w-40'>Portal</PrimaryLinkButton> 
         : <PrimaryLinkButton
               href="/login"
               size="md"
-              className="w-40"
             >
-              Login
+              Get Started!
             </PrimaryLinkButton>
         }
-        <HoverLink
+        <SecondaryLinkButton
         href="/about"
-        className="w-40 border-2 rounded border-secondary"
+        size='md'
       >
         Learn More
-      </HoverLink>
+      </SecondaryLinkButton>
       </div>
     </section>
   )
