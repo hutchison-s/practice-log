@@ -46,10 +46,10 @@ function MetronomeControl({setTempo}: {setTempo: (t: number)=>void}) {
           setIsMoving(true)
       }
   return (
-    <div className='h-[300px] w-8 relative bg-background rounded'>
+    <div className='h-[300px] w-8 relative bg-background/75 rounded'>
         <div
             ref={sliderRef} 
-            className='absolute w-10 h-16 bottom-0 -left-1 bg-primary border-2 border-txtprimary outline outline-2 outline-primary rounded cursor-ns-resize'
+            className='absolute w-10 h-16 bottom-0 -left-1 bg-gradient-to-br from-indigo-800 to-indigo-950 backdrop-blur border-2 border-white/25 rounded cursor-ns-resize'
             style={{bottom: '100px'}}
             onPointerDown={()=>setIsMoving(true)}
             onPointerMove={(e)=>handleMove(e)}

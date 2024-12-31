@@ -48,8 +48,8 @@ function PrintableQRCode({name, course, imageURL, width = 150}: {name: string, c
         };
 
     return (
-        <div className='qr-code'>
-            <canvas ref={canvasRef} className='rounded overflow-hidden my-4 print:my-0'></canvas>
+        <div className='qr-code mx-auto'>
+            <canvas ref={canvasRef} className='rounded overflow-hidden mx-auto my-4 print:my-0'></canvas>
             <div className='w-full flex justify-evenly no-print'>
                 <PrimaryButton onClick={download} size='md' className='flex gap-4'>Download <Download /></PrimaryButton>
             </div>

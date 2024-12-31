@@ -7,8 +7,8 @@ import React, { useEffect } from 'react'
 function ChatMessage({message, isSender}: {message: Message, isSender?: boolean}) {
     const {user} = useUser();
     const wrapperStyles = `w-full flex`
-    const contentStyles = `chatMessage bg-${isSender ? 'secondary' : 'lighter'} grid min-w-32 max-w-[80%] rounded-lg py-2 px-4 text-${isSender ? 'txtprimary' : 'background'}`;
-    const timestampStyles = `text-[0.5rem] text-${isSender ? 'txtsecondary' : 'secondary'}`
+    const contentStyles = `chatMessage ${isSender ? 'sender' : 'receiver'} glass grid min-w-32 max-w-[80%] rounded-lg py-2 px-4 `;
+    const timestampStyles = `text-[0.5rem] text-zinc-400`
 
     useEffect(()=>{
         if (message.is_read || user.id == message.sent_by) return;

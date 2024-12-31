@@ -8,12 +8,12 @@ import tuner from '../../_assets/images/tuner.svg'
 import Image from "next/image";
 
 const mobileNavStyle =
-  "grid place-items-center bg-secondary/75 backdrop-blur border-[1px] border-secondary/50 text-xl rounded hover:bg-lighter/75 z-50";
+  "grid place-items-center glass border-[1px] border-secondary/50 text-xl rounded hover:bg-gradient-to-br hover:from-cyan-500 hover:to-teal-800 z-50";
 
 export default function MobileNav({ close }: { close: () => void }) {
     const {user} = useUser();
   return (
-    <nav className="z-50 fixed top-14 left-0 w-full h-[calc(100dvh-65px)] grid grid-cols-3 grid-rows-[120px_120px_1fr] gap-2 p-2 bg-background/90 md:hidden">
+    <nav className="z-10 fixed top-0 left-0 w-full h-full grid grid-cols-3 grid-rows-[120px_120px_1fr] gap-2 p-2 pt-[70px] bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950/75 via-background/75 to-background/75 backdrop-blur md:hidden">
         <Link href={"/"} className={mobileNavStyle} onClick={close}>
             <span><Home size={80}/></span>
         </Link>

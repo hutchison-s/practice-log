@@ -8,7 +8,7 @@ export default function NavBar() {
 
     return (
         <>
-            <nav className="hidden px-2 text-sm md:gap-4 md:px-4 md:flex">
+            <nav className="hidden px-2 text-sm md:gap-4 md:px-4 md:flex xl:text-lg xl:gap-6">
                     <HoverLink href={"/"} className="md:min-w-16">
                         <span>Home</span>
                     </HoverLink>

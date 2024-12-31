@@ -43,14 +43,14 @@ function MessageWindow({messages}: {messages: Message[]}) {
     } 
   return (
     <>
-        <section className="w-full max-w-[600px] h-[60vh] py-4 px-2 rounded border-2 border-secondary overflow-auto md:px-8" ref={chatRef}>
+        <section className="w-full max-w-[600px] h-[60vh] py-4 px-2 rounded border-2 border-white/25 overflow-auto md:px-8" ref={chatRef}>
             <div className='grid gap-4 w-full'>
                 {messages.map(m => <ChatMessage key={m.id} message={m} isSender={m.sent_by == user.id}/>)}
             </div>
         </section>
         <div className='w-full max-w-[400px] flex gap-2 align-center justify-center my-2 relative overflow-hidden rounded-full group'>
-            <textarea name="content" id="content" placeholder='New message...' autoComplete='off' className='flex-1 block bg-background border-2 border-lighter rounded-full px-4 py-2 pr-14' rows={2} onInput={handleInput} value={content}/>
-            <button onClick={handleSend} className='min-w-12 bg-lighter absolute top-0 right-0 h-full w-fit p-2 pr-4 cursor-pointer group-focus-within:bg-primary group-active:bg-primary' >
+            <textarea name="content" id="content" placeholder='New message...' autoComplete='off' className='flex-1 block bg-background/75 border-2 border-teal-500 rounded-full px-4 py-2 pr-14 focus:border-teal-500 focus:outline-none' rows={2} onInput={handleInput} value={content}/>
+            <button onClick={handleSend} className='min-w-12 bg-gradient-to-br from-cyan-500 to-teal-800 absolute top-0 right-0 h-full w-fit p-2 pr-4 cursor-pointer group-focus-within:bg-teal-500 group-active:bg-teal-500' >
                 {isSending ? <Elipsis /> : <Send />}
             </button>
         </div>

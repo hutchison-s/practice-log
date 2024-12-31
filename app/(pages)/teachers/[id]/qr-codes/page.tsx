@@ -1,6 +1,7 @@
 import PrintableQRCode from '@/app/(pages)/students/[id]/qr_code/PrintableQRCode';
 import { fetchJSONWithToken } from '@/app/AuthHandler';
 import { EnrolleeWithCurrentWeekPractice } from '@/app/types';
+import PageTitle from '@/app/ui/components/PageTitle';
 import PrintButton from '@/app/ui/components/PrintButton';
 
 import React from 'react'
@@ -13,13 +14,16 @@ async function Page({params}: {params: Promise<{id: string}>}) {
     const students = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`);
   return (
     <>
-    <div className="w-full flex justify-end print:hidden">
+    <div className="no-print">
+        <PageTitle>Student QR Codes</PageTitle>
+    </div>
+    <div className="w-full flex justify-center print:hidden">
         <PrintButton/>
     </div>
         <section className='w-full flex flex-wrap justify-center print:justify-start'>
             {students.data?.map(s => 
                 <div 
-                    className='border-2 border-dashed border-black p-2 -mx-[1px] -my-[1px]' 
+                    className='border-2 border-dashed border-white/25 print:border-black p-2 -mx-[1px] -my-[1px]' 
                     key={s.id}><PrintableQRCode course={s.subject} 
                     imageURL={`${apiURL}/students/${s.id}/qr_code?code=${s.code}&time=${new Date(s.created_at).getTime()}&width=200`} 
                     name={s.name} 

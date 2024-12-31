@@ -23,12 +23,12 @@ function StudentResourceDisplay({r}: {r: Resource}) {
 
   return (
     
-        r && <div className="flex justify-between align-items-center border-[1px] border-txtsecondary rounded p-2 w-full">
+        r && <Link href={r.url} target="_blank" className="flex justify-between align-items-center bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur rounded p-2 w-full">
             <div className="flex gap-2 align-items-center">
                 <ResourceIcon t={r.type} />
-                <Link href={r.url} target="blank">{r.title}</Link>
+                <p>{r.title}</p>
             </div>
-        </div>
+        </Link>
   )
 }
 

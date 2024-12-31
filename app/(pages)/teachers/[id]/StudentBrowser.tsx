@@ -62,7 +62,7 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
   }, [])
 
   return (
-    <div className="w-full max-w-[1000px] grid grid-cols-1 lg:grid-cols-2">
+    <div className="w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-2">
       <StudentList
         students={students}
         disabled={state?.isLoading}
@@ -74,7 +74,7 @@ function StudentBrowser({ students }: { students: EnrolleeWithCurrentWeekPractic
         selected={state?.student}
       />
       {state?.isLoading
-        ? <div className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none text-txtsecondary grid place-items-center text-2xl">
+        ? <div className="w-full max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none text-zinc-400 font-inter font-light grid place-items-center text-2xl">
           <p>Gathering Info<Elipsis /></p>
           </div>
         : <StudentManager

@@ -9,9 +9,9 @@ function EnroleePreview({student, isSelected}: {student: EnrolleeWithCurrentWeek
 
   return (
     <>
-          <div className={`w-full items-center grid grid-cols-5 gap-2 px-4 p-2 rounded-lg cursor-pointer ${isSelected ? 'bg-primary' : 'bg-secondary'} hover:brightness-110`}>
+          <div className={`w-full items-center grid grid-cols-5 gap-2 px-4 p-2 rounded-lg cursor-pointer ${isSelected ? 'bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur' : 'glass'} hover:brightness-110`}>
               <p className="col-span-2 truncate">{student.name}</p>
-              <p className="col-span-2 truncate font-light text-sm">{student.subject}</p>
+              <p className="col-span-2 truncate font-light text-sm text-zinc-400">{student.subject}</p>
               <div className="flex items-center justify-items-end align-center gap-2">
                 <PieChart percent={percent} size={20}/>
                 <span className="text-sm font-light">

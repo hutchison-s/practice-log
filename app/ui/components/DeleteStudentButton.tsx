@@ -21,7 +21,7 @@ function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrent
   return (
     <button 
         onClick={handleDelete}
-        className="grid place-items-center bg-primary p-2 rounded-full w-fit hover:brightness-110">
+        className="grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-600 p-2 rounded-full w-fit outline outline-0 outline-white transition-all hover:scale-105 hover:outline-2">
         <Trash size={20} />
     </button>
   )

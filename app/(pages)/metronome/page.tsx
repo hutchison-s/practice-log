@@ -135,10 +135,10 @@ function MetronomePage() {
   return (
     <>
         <PageTitle>Metronome</PageTitle>
-        <div className="w-full max-w-[1000px] mt-8 grid grid-cols-1 md:grid-cols-2">
+        <div className="w-full max-w-[1000px] mt-8 grid grid-cols-1 lg:grid-cols-2">
             
-            <section className='flex-1 bg-secondary p-4 grid grid-cols-[60px_1fr_60px] rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-            <div className="flex flex-col justify-evenly gap-2 border-2 border-background rounded">
+            <section className='flex-1 glass p-4 grid grid-cols-[60px_1fr_60px] rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
+            <div className="flex flex-col justify-evenly gap-2 border-2 border-white/25 rounded">
                         <label className='relative size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
                             <Music3 />
                             <span className='absolute rounded-full size-2 bg-white top-1/2 left-7 translate-y-[2px] -translate-x-1'></span>
@@ -152,19 +152,20 @@ function MetronomePage() {
                         </label>
                     </div>
                 <div className='grid size-full place-items-center'>
-                    <h3 className='w-full text-3xl font-bold grid gap-1 md:grid-cols-2'><span className='text-center md:text-right'>Tempo:</span> <span className='text-center md:text-left'>{tempo}bpm</span></h3>
+                    <h3 className='w-full text-3xl font-bold grid gap-1 lg:grid-cols-2 lg:items-center'>
+                        <span className='font-golos text-center lg:text-right'>Tempo:</span> <span className='font-inter font-light text-2xl text-center lg:text-left lg:text-3xl'>{tempo}bpm</span></h3>
                     
                     
-                    <button className='rounded-full text-lighter' onClick={handleTogglePlay}>
+                    <button className='rounded-full text-teal-500' onClick={handleTogglePlay}>
                         {isPlaying
-                            ? <StopCircle size={120} className='drop-shadow' />
-                            : <PlayCircle size={120} className='drop-shadow'/>}
+                            ? <StopCircle size={120} className='drop-shadow-xl' />
+                            : <PlayCircle size={120} className='drop-shadow-xl' />}
                     </button>
                 </div>
                 <MetronomeControl setTempo={setTempo} />
                 
             </section>
-            <section className='flex-1 border-2 border-secondary grid gap-2 p-2 pt-6 rounded-b-xl md:rounded-r-xl md:rounded-bl-none md:p-4 md:pt-4'>
+            <section className='flex-1 border-2 border-white/10 grid gap-2 p-2 pt-6 rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none lg:p-4 lg:pt-4'>
                 <div className="flex w-full justify-evenly gap-2">
                     <RadioLabel label='2/4' name='meter' value='simple,duple' onChange={handleMeterChange} />
                     <RadioLabel label='3/4' name='meter' value='simple,triple' onChange={handleMeterChange} />

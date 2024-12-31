@@ -6,7 +6,7 @@ export default function BodyText({
     className?: string
   }>) {
     return (
-        <p className={"text-txtsecondary leading-relaxed mx-auto w-full max-w-[800px] "+className}>
+        <p className={"text-zinc-400 mx-auto w-full max-w-[800px] text-lg font-inter "+className}>
             {children}
         </p>
     )

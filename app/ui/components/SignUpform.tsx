@@ -45,13 +45,14 @@ function SignUpForm() {
     })}
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[500px]">
+    <form onSubmit={handleSubmit} className="w-full max-w-[600px]">
         <ControlledInput 
             label='Name' 
             input_type='text' 
             value={userInfo.name} 
             onChange={handleChange}
             validator={validateName}
+            required
             placeholder='e.g., Wolfgang Mozart...'
         />
         <ControlledInput 
@@ -60,6 +61,7 @@ function SignUpForm() {
             value={userInfo.email} 
             onChange={handleChange}
             validator={validateEmail}
+            required
             placeholder='e.g., wolfgang@gmail.com...'
         />
         <ControlledInput 
@@ -68,6 +70,7 @@ function SignUpForm() {
             value={userInfo.password} 
             onChange={handleChange}
             validator={validatePassword}
+            required
             placeholder='e.g., Super$ecret251...'
         />
         <p className="text-red-500 text-center"><small>{statusMsg}</small></p>

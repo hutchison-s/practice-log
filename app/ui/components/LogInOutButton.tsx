@@ -5,7 +5,7 @@ import { LogIn, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const mobileNavStyle =
-  "grid place-items-center bg-secondary/75 backdrop-blur text-xl rounded hover:bg-lighter/75 z-50";
+  "grid place-items-center glass text-xl rounded hover:bg-gradient-to-br hover:from-cyan-500 hover:to-teal-800 z-50 active:bg-indigo-950/50";
 
 export default function LogInOutButton({isMobile, closeMenu}: {isMobile?: boolean, closeMenu?: ()=>void}) {
     const {user, logout} = useUser();
@@ -30,7 +30,7 @@ export default function LogInOutButton({isMobile, closeMenu}: {isMobile?: boolea
             ?   <div onClick={handleLogout} role="button" className={mobileNavStyle}><LogOut size={80}/></div>
             :   <div onClick={handleLogin} role="button" className={mobileNavStyle}><LogIn size={80}/></div>
         : user.id != ''
-            ?   <div onClick={handleLogout} role="button" className="p-2 rounded cursor-pointer my-auto hover:bg-secondary transition-colors"><LogOut size={18}/></div>
-            :   <div onClick={handleLogin} role="button" className="p-2 rounded cursor-pointer my-auto hover:bg-secondary transition-colors"><LogIn size={18}/></div>
+            ?   <div onClick={handleLogout} role="button" className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogOut size={18} /></div>
+            :   <div onClick={handleLogin} role="button" className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogIn size={18} /></div>
     )
 }

@@ -20,7 +20,7 @@ async function QR({params, searchParams}: {params: Promise<{id: string}>, search
 
     return (
         <>
-            <PageTitle>QR Code</PageTitle>
+            <PageTitle>QR-Code Student Login</PageTitle>
             <div className="w-full max-w-[600px] text-center">
                 <BodyText className='my-4'>Print this code and give it to your student. They should keep it with their method books, in their instrument case, or wherever they will see it every time they practice.</BodyText>
                 <BodyText className='mb-4'>This code <strong>IS</strong> their login. Students do not log in the same way teachers do.</BodyText>
