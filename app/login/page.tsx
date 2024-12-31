@@ -8,8 +8,8 @@ export default function Page() {
 
     return (
         <>
-            <main className="w-full min-h-full flex flex-col justify-center items-center gap-4 px-8 pt-[85px] pb-8 md:px-20">
-            <PageTitle>Log In</PageTitle>
+            <main className="w-full min-h-full flex flex-col justify-center items-center gap-4 pb-8 md:px-20">
+            <PageTitle>Sign In</PageTitle>
             <LoginForm />
             <div className="text-center leading-6">
                 <p>Don&apos;t have an account yet?</p>

@@ -19,7 +19,8 @@ export default {
         lighter: "rgb(var(--lighter))",
         secondary: "rgb(var(--secondary))",
         txtprimary: "var(--primary-text)",
-        txtsecondary: "var(--secondary-text)"
+        txtsecondary: "var(--secondary-text)",
+        myteal: "var(--myteal)",
       },
 
     },

@@ -13,6 +13,7 @@ type InputControls = {
 
 export function ControlledInput({value, onChange, validator, input_type, label, placeholder, required}: InputControls) {
     const [isValid, setIsValid] = useState(true)
+    const [val, setVal] = useState('')
 
     useEffect(()=>{
         setIsValid(validator(value))
@@ -20,20 +21,21 @@ export function ControlledInput({value, onChange, validator, input_type, label, 
     
     return (<label className="relative my-8 block w-full rounded group">
         <span 
-            className="absolute -top-3 left-[2px] bg-background px-2 rounded-t group-focus-within:-top-5 group-focus-within:bg-secondary transition-all"
+            className="absolute -top-3 left-[2px] bg-background px-2 rounded-t group-focus-within:-top-5 group-focus-within:bg-background transition-all"
         >
             {label}: 
         </span>
         <input
             onChange={(e)=>{
                 setIsValid(validator(e.currentTarget.value));
+                setVal(e.target.value)
                 onChange(e)
             }} 
             type={input_type}
             name={label.toLowerCase()} 
             placeholder={placeholder}
             required={required}
-            className='w-full p-2 border-2 rounded bg-transparent focus:outline-none focus:bg-secondary'
-            style={{borderColor: isValid ? 'rgb(var(--secondary))' : 'orangered'}}/>
+            className='w-full p-2 border-2 rounded bg-transparent focus:outline-none focus:bg-background'
+            style={{borderColor: isValid && val != '' ? 'rgb(var(--background))' : '#0891b2'}}/>
     </label>)
 }

@@ -92,16 +92,16 @@ function TunerPage() {
         <PageTitle>Tuner</PageTitle>
         
         {isListening && notes && <p>{notes.cents} cents {notes.cents > 0 ? 'sharp' : 'flat'}</p>}
-        <div className='flex w-full relative' ref={parent}>
+        {isListening && notes && <div className='flex w-full glass rounded' ref={parent}>
             {notes && isListening &&
                 <>
-                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-secondary grid place-items-center font-fold text-2xl py-12 md:text-2xl "><PitchName note={notes.below.note} /></div>
-                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-secondary grid place-items-center font-fold text-3xl py-12 md:text-5xl " style={{backgroundColor: Math.abs(notes.cents) <= 9 ? 'rgb(var(--primary))' : 'initial'}}><PitchName note={notes.target.note} /></div>
-                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-secondary grid place-items-center font-fold text-2xl py-12 md:text-2xl "><PitchName note={notes.above.note} /></div>
+                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-background/75 grid place-items-center font-fold text-2xl py-12 md:text-2xl "><PitchName note={notes.below.note} /></div>
+                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-transparent grid place-items-center font-fold text-3xl py-12 md:text-5xl " style={{backgroundImage: Math.abs(notes.cents) <= 9 ? 'linear-gradient(-45deg, #115e59, #0891b2)' : 'initial'}}><PitchName note={notes.target.note} /></div>
+                    <div className="flex-1 h-full min-h-48 p-2 rounded bg-background/75 grid place-items-center font-fold text-2xl py-12 md:text-2xl "><PitchName note={notes.above.note} /></div>
                     {frequency && <div ref={marker} style={{transform: `translateX(${leftOffset}px) translateY(-50%)`}} className='text-2xl p-2 absolute transition-transform top-1/2 left-0 text-red-400 font-bold w-10 bg-lighter rounded-sm h-full'></div>}
 
                 </>}
-        </div>
+        </div>}
         <div className='pt-8 w-full grid place-items-center'>
         {isListening
             ? <PrimaryButton onClick={stop} size='lg'>Stop Tuning</PrimaryButton>

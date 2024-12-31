@@ -2,14 +2,14 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
-import { Plus } from "lucide-react";
+import { Plus, Upload } from "lucide-react";
 import { Resource } from "@/app/types";
 
 function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreate: (r: Resource)=>void}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [hasError, setHasError] = useState('');
     const [isLink, setIsLink] = useState(false);
-    const [fileName, setFileName] = useState('audio, video, image, and pdf supported');
+    const [fileName, setFileName] = useState('audio, video, image, or pdf (max 12 MB)');
     const modalRef = useRef<HTMLDialogElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
     const fileRef = useRef<HTMLInputElement>(null)
@@ -144,38 +144,40 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
 
   return (
     <>
-        <PrimaryButton onClick={()=>{setIsSubmitting(true)}} className="flex justify-between mx-auto px-4 min-w-48">Add Resource<Plus /></PrimaryButton>
-        <dialog ref={modalRef} className="size-full bg-transparent fixed max-w-[400px] max-h-[600px]">
+        <SecondaryButton onClick={()=>{setIsSubmitting(true)}} size="sm" 
+                className="flex justify-between items-center mx-auto px-4 my-4 min-w-48">Add Resource<Plus /></SecondaryButton>
+        <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
             <form 
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="size-full grid gap-4 items-center justify-items-center bg-secondary border-2 border-txtprimary shadow-lg rounded-lg p-8 text-txtprimary"
+                className="grid gap-4"
             >
                 {hasError && <p className="text-red-400">{hasError}</p>}
+                <p className="text-center font-inter font-light text-zinc-400">Create a new resource</p>
                 <div className="grid gap-2 w-full">
-                    <label htmlFor="title" className="w-full font-bold text-center">Resource Title</label>
-                    <input required type="text" name="title" id="title" maxLength={120} className="w-full bg-black/25 rounded border-txtsecondary border-[1px] p-2"/>
+                    <label htmlFor="title" className="w-full font-bold text-center text-white font-golos">Resource Title</label>
+                    <input required type="text" name="title" id="title" maxLength={120} placeholder="Your resource title..." className="w-full bg-background/50 rounded border-white/25 border-[1px] p-2 text-inter text-zinc-400"/>
                 </div>
                 <div className="grid gap-2 w-full">
-                    <div className="flex justify-evenly w-full rounded border-2 border-txtsecondary">
-                        <button onClick={()=>{setIsLink(false)}} className='flex-1' style={{background: isLink ? 'rgb(var(--secondary))' : 'rgb(var(--primary))'}}>File</button>
-                        <button onClick={()=>{setIsLink(true)}} className='flex-1' style={{background: isLink ? 'rgb(var(--primary))' : 'rgb(var(--secondary))'}}>Link</button>
+                    <div className="flex justify-evenly w-full rounded border-[1px] border-white/25">
+                        <button role='button' onClick={(e)=>{e.preventDefault(); setIsLink(false)}} className='flex-1' style={{backgroundImage: isLink ? 'linear-gradient(-45deg, #171717, #171717)' : 'linear-gradient(-45deg, #1e1b4b, #3730a3)'}}>File</button>
+                        <button role='button' onClick={(e)=>{e.preventDefault(); setIsLink(true)}} className='flex-1' style={{backgroundImage: isLink ? 'linear-gradient(-45deg, #1e1b4b, #3730a3)' : 'linear-gradient(-45deg, #171717, #171717)'}}>Link</button>
                     </div>
                     <label htmlFor="content" className="w-full font-bold text-center">{isLink ? "Paste Link Below" : "Choose File"}</label>
                     
                     {isLink
-                        ? <input type="text" name="content" id="content" className="w-full bg-black/25 rounded border-txtsecondary border-[1px] p-2"/>
+                        ? <input type="text" name="content" id="content" placeholder="https://www.example.com..." className="w-full bg-background/50 rounded border-white/25 border-[1px] p-2 text-inter text-zinc-400"/>
                         : <>
                             <input type="file" accept="image/*, video/*, application/pdf, audio/*" name="content" id="content" className="w-full" ref={fileRef} onChange={(e)=>{setFileName(e.currentTarget.files![0].name)}} hidden/>
-                            <PrimaryButton size="lg" type="button" className="block mx-auto" onClick={()=>{fileRef.current?.click()}}>Choose File</PrimaryButton>
+                            <button type="button" className="mx-auto bg-gradient-to-br from-indigo-800 to-indigo-950 py-2 px-8 rounded border-[1px] border-white/25 drop-shadow" onClick={()=>{fileRef.current?.click()}}><Upload /></button>
                             <p className="w-full text-center"><small>{fileName}</small></p>
                           </>
                     }
                 </div>
-                <PrimaryButton size="md" type="submit" onClick={undefined}>Submit</PrimaryButton>
-                <SecondaryButton size="md" type="reset" onClick={()=>{
+                <PrimaryButton size="md" type="submit" className='mx-auto' onClick={undefined}>Submit</PrimaryButton>
+                <SecondaryButton size="sm" type="reset" className='mx-auto' onClick={()=>{
                     setIsSubmitting(false);
-                    setFileName('audio, video, image, and pdf supported');
+                    setFileName('audio, video, image, or pdf (max 12 MB)');
                     formRef.current?.reset();
                 }}>Cancel</SecondaryButton>
             </form>

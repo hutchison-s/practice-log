@@ -10,6 +10,7 @@ import StudentGoalDisplay from "@/app/ui/components/StudentGoalDisplay";
 import StudentResourceDisplay from "@/app/ui/components/StudentResourceDisplay";
 import { TotalPractice } from "@/app/ui/components/TotalPractice";
 import { MessageCircle, MessageCircleWarning } from "lucide-react";
+import GlassDiv from "@/app/ui/components/GlassDiv";
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
@@ -26,13 +27,13 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
-            <p>{student.name}</p>
+            <h3 className="font-golos font-bold text-xl -mb-4">{student.name}</h3>
             <div className="text-txtsecondary mb-8 text-center">
-                <p className="text-txtprimary">{student.subject}</p>
-                <p><span>with </span><span className="relative text-lighter">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
+                <p className="text-zinc-400">{student.subject}</p>
+                <p className="text-zinc-400"><span>with </span><span className="relative text-teal-500">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
             </div>
-            <div className="grid gap-4 justify-center md:grid-cols-2 w-full">
-                <section className="flex flex-col gap-4 items-center border-2 border-secondary rounded-lg p-4 h-fit md:sticky md:top-20">
+            <div className="grid gap-4 justify-center lg:grid-cols-2 w-full">
+                <section className="flex flex-col gap-4 items-center border-2 glass rounded-lg p-4 h-fit lg:sticky lg:top-20">
                     <SubHeading>Weekly Goal</SubHeading>
                     <div className="flex w-full justify-items-center text-center">
                         <div className="mx-auto">
@@ -51,18 +52,27 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     <PracticeButton />
                 </section>
                 <section className="flex flex-col gap-4 items-center">
-                    <SubHeading className="mt-8 md:mt-0">Active Goals</SubHeading>
-                    <div className="grid gap-2 w-full p-2 max-w-[600px]">
-                        {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}
-                        {goals.length == 0 && <p className="text-txtsecondary text-center">No active goals</p>}
-                    </div>
-                    <SubHeading className="mt-8">Resources</SubHeading>
-                    <div className="grid gap-2 w-full p-2 max-w-[600px]">
-                        {resources?.map(r => <StudentResourceDisplay key={r.id} r={r}/>)}
-                        {resources.length == 0 && <p className="text-txtsecondary text-center">No resources</p>}
-                    </div>
-                    <SubHeading className="mt-8">Previous Logs</SubHeading>
-                    <TotalPractice logs={logs || []} />
+                <TotalPractice logs={logs || []} />
+                    <GlassDiv>
+                        <SubHeading className="text-center">Active Goals</SubHeading>
+                        <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                            {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}
+                            {goals.length == 0 && <p className="text-zinc-400 text-center">No active goals</p>}
+                        </div>
+                    </GlassDiv>
+                    <GlassDiv>
+                        <SubHeading className="text-center">Resources</SubHeading>
+                        <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                            {resources?.map(r => <StudentResourceDisplay key={r.id} r={r}/>)}
+                            {resources.length == 0 && <p className="text-txtsecondary text-center">No resources</p>}
+                        </div>
+                    </GlassDiv>
+                    
+                </section>
+            </div>
+            
+            <SubHeading className="mt-8">Previous Logs</SubHeading>
+                    
                     <div className="grid gap-2">
                         {logs && logs.map((log, idx) => {
                             return idx < 5 ?<LogDisplay log={log} key={log.log_id}/> : null
@@ -70,10 +80,6 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                         {logs && logs.length > 5 && <Link href={`/students/${id}/log/history`} className="text-lighter underline text-right text-sm">...view full list</Link>}
                         {logs.length == 0 && <p className="text-txtsecondary text-center">No logs yet</p>}
                     </div>
-                </section>
-            </div>
-            
-            
 
         </>
     )

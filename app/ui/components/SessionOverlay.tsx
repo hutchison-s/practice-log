@@ -37,8 +37,8 @@ function SessionOverlay() {
 
   return (
     session && <>
-        <div className="fixed bottom-0 left-0 w-full p-4 bg-primary text-background flex flex-wrap justify-center gap-4 align-center md:flex-nowrap">
-            <h2 className="text-txtprimary text-xl my-auto">Session in progress: {timeFormatFromSeconds(elapsed)}</h2>
+        <div className="fixed bottom-0 left-0 w-full p-2 bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary flex flex-wrap justify-center gap-2 align-center lg:flex-nowrap">
+            <h2 className="text-white text-lg my-auto text-shadow-xl">Session in progress: {timeFormatFromSeconds(elapsed)}</h2>
             <PracticeButton />
         </div>
     </>

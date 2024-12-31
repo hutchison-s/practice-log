@@ -21,7 +21,7 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
     }
   return (
     <div 
-        className='relative w-full grid grid-cols-[2rem_1fr_2rem] items-center px-4 py-2 border-[1px] border-slate-600 border-l-4 border-l-txtprimary rounded shadow-sm'
+        className='relative w-full grid grid-cols-[2rem_1fr_2rem] items-center px-4 py-2 bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur rounded shadow-sm'
         style={{opacity: goal.is_complete ? '0.5' : '1'}}
     > 
         <div className="grid place-items-center justify-start">
@@ -29,11 +29,11 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
         </div>
         <div>
             <h4>{goal.goal_title}</h4>
-            {!goal.is_complete && <p className='text-txtsecondary font-light'>{goal.goal_content}</p>}
+            {!goal.is_complete && <p className='text-zinc-400 font-light'>{goal.goal_content}</p>}
         </div>
         {user.id != goal.student_id && 
         <div className='grid place-items-center'>
-            <Trash onClick={handleDelete}/>
+            <Trash onClick={handleDelete} className='brightness-90 cursor-pointer transition-all hover:scale-105 hover:brightness-105'/>
         </div>}
     </div>
   )

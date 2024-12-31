@@ -40,8 +40,8 @@ function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
     isChanging 
         ? <Loader2 className='animate-spin'/>
         : goal?.is_complete
-                ? <CheckCircle onClick={toggleCheck}/>
-                : <Circle onClick={toggleCheck}/>
+                ? <CheckCircle onClick={toggleCheck} className='text-teal-500 cursor-pointer rounded-full transition-all hover:bg-white/10' />
+                : <Circle onClick={toggleCheck} className='text-white/50 cursor-pointer rounded-full transition-all hover:bg-white/10' />
           
     )
 }

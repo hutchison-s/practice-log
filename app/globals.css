@@ -11,6 +11,7 @@
     --secondary:  30 41 59;
     --primary-text: #d4d4d4;
     --secondary-text: #94a3b8;
+    --myteal: 20 184 166;
   }
 }
 
@@ -26,7 +27,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
 
 .text-shadow-xl {
@@ -44,18 +45,25 @@ body {
   background-image: linear-gradient(135deg, #ffffff10, #ffffff05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 8px 8px 20px #00000055;
+  box-shadow: 4px 6px 20px #00000044;
   border: 1px solid #ffffff33;
 }
-.glass::before {
+.glass::before,
+dialog::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -6px;
   left: -10px;
   width: 100%;
   height: 100%;
-  filter: blur(12px);
-  background: #ffffff0d;
+  filter: blur(20px);
+  background: #ffffff0b;
+  z-index: -1;
+}
+
+dialog::backdrop {
+  background-color: #171717aa;
+  backdrop-filter: blur(8px);
 }
 
 input:-internal-autofill-selected {
@@ -63,13 +71,26 @@ input:-internal-autofill-selected {
 }
 
 .radio-label:has(:checked) {
-  background-color: rgb(var(--primary));
+  background-image: linear-gradient(-45deg, #1e1b4b, #3730a3);
+  color: white;
 }
 .radio-label:has(:disabled) {
   background-color: rgb(var(--background));
   color: #ffffff33;
   cursor: not-allowed;
   display: none;
+}
+
+.chatMessage.receiver::after {
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(4px);
+  background-color:#0d948855;
+  z-index: -2;
 }
 
 .button-container {
@@ -115,8 +136,8 @@ input:-internal-autofill-selected {
 }
 
 @keyframes color-pulse {
-  from {color: rgb(var(--lighter));}
-  to {color: rgb(var(--primary));}
+  from {color: #0d9488;}
+  to {color: #06b6d4;}
 }
 
 @keyframes fadeInAnimation {

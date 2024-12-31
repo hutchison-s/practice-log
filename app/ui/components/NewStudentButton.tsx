@@ -69,7 +69,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     <>
         <PrimaryButton onClick={()=>setIsOpen(!isOpen)}>Create New Student</PrimaryButton>
 
-        <dialog ref={modalRef} className="fixed mx-auto p-4 rounded-xl bg-secondary text-txtprimary border-4 border-lighter backdrop-blur md:min-w-[500px]">
+        <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
             <form 
                 onSubmit={(e)=>{
                     e.preventDefault();
@@ -77,32 +77,33 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                         handleEnroll()
                     }
                 }}
-                className="grid w-full max-w-[500px]"
+                className="grid gap-4 p-4 w-full"
             >
-                <label htmlFor="name">Student Name</label> 
+                <p className="text-center text-zince-400 font-inter font-light">Add a new student</p>
+                <label htmlFor="name" className="font-bold font-golos text-white">Student Name 
                 <input
                     id='name' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(e.target.value)}} 
-                    className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
-                />
-                <label htmlFor="subject" className="mt-4">Subject or Instrument</label>
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                /></label>
+                <label htmlFor="subject" className="font-bold font-golos text-white">Subject or Instrument
                 <input
                     id='subject' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(e.target.value)}} 
-                    className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
-                />
-                <label htmlFor="weeklyGoal" className="mt-4">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span></label>
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                /></label>
+                <label htmlFor="weeklyGoal" className="font-bold font-golos text-white">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span>
                 <input
                     id='weeklyGoal' 
                     type="number" 
                     defaultValue={60}
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}} 
-                    className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary'
-                />
-                <label htmlFor="dow" className="mt-4">Lesson Day</label>
-                <select name="dow" id="dow" className='w-full p-2 border-2 border-lighter rounded bg-black/50 focus:outline-none focus:bg-secondary' 
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                /></label>
+                <label htmlFor="dow" className="font-bold font-golos text-white">Lesson Day
+                <select name="dow" id="dow" className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400' 
                     onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
                     <option value="0">Sunday</option>
                     <option value="1">Monday</option>
@@ -111,16 +112,16 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     <option value="4">Thursday</option>
                     <option value="5">Friday</option>
                     <option value="6">Saturday</option>
-                </select>
-                <div className="w-full grid place-items-center grid-cols-[3fr_1fr]">
+                </select></label>
+                <div className="w-full grid place-items-center gap-2 mt-4">
                     <PrimaryButton
                     onClick={handleEnroll}
                     disabled={name.length <= 3 || subject.length <= 3}
-                    className="px-20 md:px-40"
+                    size="md"
                                 >
                     Enroll
                                 </PrimaryButton>
-                                <SecondaryButton onClick={()=>setIsOpen(!isOpen)} className="justify-self-end">Cancel</SecondaryButton>
+                                <SecondaryButton size='sm' onClick={()=>setIsOpen(!isOpen)} className="py-0 mx-auto">Cancel</SecondaryButton>
                 </div>
             
             </form>

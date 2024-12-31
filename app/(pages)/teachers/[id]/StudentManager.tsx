@@ -46,8 +46,8 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
     if (!details) {
         return (
             <>
-                <section className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none grid place-items-center h-full">
-                    <span className="text-txtsecondary">Select a student to view details</span>
+                <section className="w-full max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none grid place-items-center h-full">
+                    <span className="text-zinc-400">Select a student to view details</span>
                 </section>
             </>
         )
@@ -60,23 +60,23 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
 
     return (
         <>
-            <section className="w-full max-w-[600px] bg-secondary rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
+            <section className="w-full max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
                         <div className="flex gap-2 justify-between items-center mb-4">
-                            <h3 className="font-bold text-lg grid"><span>{details.student.name}</span><span className="text-sm font-light">{details.student.subject}</span></h3>
+                            <h3 className="font-golos font-bold text-lg grid md:text-2xl"><span>{details.student.name}</span><span className="text-sm font-inter font-light md:text-xl">{details.student.subject}</span></h3>
                             <div className="flex gap-2">
-                                <Link href={`/students/${details.student.id}/messages`}>
-                                   {hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle size={40} color="rgb(var(--lighter))"/>}
+                                <Link href={`/students/${details.student.id}/messages`} className="text-teal-500">
+                                   {hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle size={40} className="transition-all hover:text-teal-300 hover:scale-105"/>}
                                 </Link>
                                 {details.time != 0 
-                                    ? <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-lighter underline"><QrCode size={40}/></Link>
-                                    : <Loader size={40} color="rgb(var(--lighter))" className="spinner"/>
+                                    ? <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-teal-500"><QrCode size={40} className="transition-all hover:text-teal-300 hover:scale-105"/></Link>
+                                    : <Loader size={40} className="spinner"/>
                                 }
                             </div>
                         </div>
-                        <p className="font-light text-txtsecondary">Next Lesson: {details.nextLessonDay}</p>
+                        <p className="font-light text-zinc-400">Next Lesson: {details.nextLessonDay}</p>
 
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Recent Logs</SubHeading>
-                        {isLoaded && details.logs.length == 0 && <BodyText>No logs yet</BodyText>}
+                        {isLoaded && details.logs.length == 0 && <BodyText className="font-light">No logs yet</BodyText>}
                         {isLoaded
                             ? <LogManager logs={details.logs} />
                             : <Elipsis />
@@ -87,7 +87,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                             onUpdate={(g: Goal)=>{dispatch({type: 'UPDATE_GOAL', payload: {goal: g}})}} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_GOAL', payload: {goalId: id}})}}
                         />
-                        {isLoaded && details.goals.length == 0 && <BodyText>No goals yet</BodyText>}
+                        {isLoaded && details.goals.length == 0 && <BodyText className="font-light">No goals yet</BodyText>}
                         {isLoaded 
                             ? <NewGoalButton 
                                     student_id={details.student.id} 
@@ -100,7 +100,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                             resources={details.resources} 
                             onDelete={(id: string)=>{dispatch({type: 'DELETE_RESOURCE', payload: {resourceId: id}})}}
                         />
-                        {isLoaded && details.resources.length == 0 && <BodyText>No resources yet</BodyText>}
+                        {isLoaded && details.resources.length == 0 && <BodyText className="font-light">No resources yet</BodyText>}
                         {isLoaded
                             ? <NewResourceButton 
                                 student_id={details.student.id} 

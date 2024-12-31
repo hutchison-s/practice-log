@@ -10,7 +10,7 @@ function PortalLink() {
     <section className="text-center grid gap-4">
       <div className="w-full max-w-[600px] grid gap-4 justify-center">
       {user.id 
-        ? <PrimaryLinkButton href={`/${user?.email ? 'teachers' : 'students'}/${user.id}${user.code ? '/log' : ''}`} className='w-40'>Portal</PrimaryLinkButton> 
+        ? <PrimaryLinkButton href={`/${user?.email ? 'teachers' : 'students'}/${user.id}${user.code ? '/log' : ''}`} >Go to Portal</PrimaryLinkButton> 
         : <PrimaryLinkButton
               href="/login"
               size="md"

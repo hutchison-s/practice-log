@@ -53,29 +53,30 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
 
     return (
         <>
-        <div className="button-container relative">
-            <button
+
+            <SecondaryButton
                 onClick={async ()=>{
                     setIsSubmitting(!isSubmitting)
-                }} 
-                className="relative bg-primary text-txtprimary text-md px-4 py-2 rounded shadow-md border-swirl disabled:brightness-50 flex justify-between mx-auto px-4 min-w-48">
+                }}
+                size="sm" 
+                className="flex justify-between items-center mx-auto px-4 my-4 min-w-48">
                     <span>Add Goal</span> <Plus />
-            </button>
-        </div>
+            </SecondaryButton>
         
-        <dialog ref={modalRef} className="size-full bg-transparent fixed max-w-[400px] max-h-[600px]">
+        <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
             <form
                 ref={formRef} 
                 onSubmit={handleSubmit}
-                className="size-full grid gap-4 items-center justify-items-center bg-secondary border-2 border-txtprimary shadow-lg rounded-lg p-8 text-txtprimary"
+                className="grid gap-4"
             >
-                <label htmlFor="title" className="w-full font-bold text-center">Goal Title</label>
-                <input type="text" name="title" id="title" maxLength={120} className="size-full bg-black/25 rounded border-txtsecondary border-[1px] resize-none p-2"/>
-                <label htmlFor="content" className="w-full font-bold text-center">Goal Content</label>
+                <p className="text-center font-inter font-light text-zinc-400">Create a new goal</p>
+                <label htmlFor="title" className="w-full font-bold text-center font-golos text-white -mb-2">Goal Title</label>
+                <input type="text" name="title" id="title" maxLength={120} className="size-full bg-background/50 rounded border-white/25 border-[1px] resize-none p-2"/>
+                <label htmlFor="content" className="w-full font-bold text-center font-golos text-white -mb-2">Goal Content</label>
                 
-                <textarea name="content" id="content" className="size-full min-h-[300px] bg-black/25 rounded border-txtsecondary border-[1px] resize-none p-3"></textarea>
-                <PrimaryButton size="md" type="submit" onClick={undefined}>Submit</PrimaryButton>
-                <SecondaryButton size="md" type="reset" onClick={()=>setIsSubmitting(false)}>Cancel</SecondaryButton>
+                <textarea name="content" id="content" className="size-full min-h-[300px] bg-background/50 rounded border-white/25 border-[1px] resize-none p-3"></textarea>
+                <PrimaryButton size="md" type="submit" className="mx-auto" onClick={undefined}>Submit</PrimaryButton>
+                <SecondaryButton size="sm" type="reset" className="py-0 mx-auto" onClick={()=>setIsSubmitting(false)}>Cancel</SecondaryButton>
             </form>
         </dialog>
         </>

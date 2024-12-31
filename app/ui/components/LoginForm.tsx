@@ -79,7 +79,7 @@ function LoginForm() {
         />
         <p className="text-red-500 text-center"><small>{statusMsg}</small></p>
         <div className="flex justify-center">
-            <PrimaryButton type="submit" onClick={undefined}>Log In</PrimaryButton>
+            <PrimaryButton type="submit" onClick={undefined}>Sign In</PrimaryButton>
         </div>
     </form>
   )

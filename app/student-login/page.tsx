@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import PageTitle from '../ui/components/PageTitle';
-import Elipsis from '../ui/components/Elipsis';
 import { Loader } from 'lucide-react';
 import { useUser } from '../_usercontext/useUser';
 import { useEffect, useState } from 'react';
@@ -60,7 +59,6 @@ function Page() {
       <main className="mt-[60px] w-full min-h-full flex flex-col justify-start items-center gap-4 px-3 pt-8 pb-12 md:px-40 md:py-12">
         <PageTitle>
           Verifying QR Code
-          <Elipsis />
         </PageTitle>
         <div className="w-full min-h-80 mx-auto mt-8 grid place-items-center">
           <Loader size={120} className="spinner" />

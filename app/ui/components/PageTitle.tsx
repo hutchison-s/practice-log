@@ -1,17 +1,20 @@
 export default function PageTitle({
     children,
   }: Readonly<{
-    children: React.ReactNode;
+    children: string;
   }>) {
+    
+    const words = children.split(' ')
+    const isMultiline = words.length > 1;
     return (
-        <div className="relative px-3 py-2 bg-secondary max-w-[75vw] md:px-8">
-            {/* title text  */}
-            <h1 className="z-20 text-3xl text-center px-4 font-bold md:text-5xl" style={{textShadow: "2px 2px var(--dark-slate)"}}>{children}</h1>
-            {/* left circle */}
-            <div className="z-10 absolute top-0 left-0 -translate-x-1/2 size-[52px] md:size-[64px] aspect-square bg-lighter rounded-full border-8 border-secondary"></div>
-            {/* right circle */}
-            <div className="z-10 absolute top-0 right-0 translate-x-1/2 size-[52px] md:size-[64px] bg-secondary rounded-full outline outline-1 -outline-offset-8 outline-lighter"></div>
-            
-        </div>
+            children && isMultiline && !/sign/gi.test(children)
+              ? <h2 className="grid gap-0 w-full text-center text-shadow-xl mb-6 mt-2">
+                  <span className="font-golos font-bold text-[2.75rem] text-white md:text-[6rem] uppercase -mb-4 md:-mb-8">{words[0]}</span>
+                  <span className="font-inter font-light text-teal-600 text-[2.25rem] md:text-[5rem]">{words.slice(1).join(' ')}</span>
+                </h2>
+              :
+            <h2 className="my-6 leading-none w-full text-[2.75rem] text-center font-inter font-black md:text-[6rem] text-shadow-xl uppercase">
+              {children}
+            </h2>
     )
   }

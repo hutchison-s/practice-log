@@ -6,7 +6,7 @@ export default function FeaturedText({
     className?: string
   }>) {
     return (
-        <p className={"mx-auto font-inter font-light max-w-[800px] text-[1.2rem] text-txtsecondary leading-relaxed text-shadow fade-up md:text-[2rem] "+className}>
+        <p className={"mx-auto font-inter font-extralight max-w-[800px] text-[1.2rem] text-zinc-400 leading-relaxed text-shadow fade-up lg:text-[2rem] "+className}>
             {children}
         </p>
     )

@@ -15,9 +15,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
             return (
                 <>
                     <PageTitle>Teacher Portal</PageTitle>
-                    <p>{teacher.name}</p>
-                    <p className="text-txtsecondary"><em>{teacher.email}</em></p>
-                    <div className="flex justify-evenly w-full">
+                    <p className="-mb-4">{teacher.name}</p>
+                    <p className="text-zinc-400 mb-8"><em>{teacher.email}</em></p>
+                    <div className="flex justify-evenly w-full flex-wrap gap-2">
                         <NewStudentButton teacher_id={id}/>
                         <SecondaryLinkButton href={`/teachers/${id}/qr-codes`} className="text-center my-1">View All QR Codes</SecondaryLinkButton>
                     </div>
