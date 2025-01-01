@@ -3,7 +3,6 @@
 import { EnrolleeWithCurrentWeekPractice } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
 import { Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWeekPractice, onUpdate: ()=>void}) {
@@ -13,7 +12,6 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
     const [weeklyGoal, setWeeklyGoal] = useState(student?.weekly_goal || 0);
     const [isEditing, setIsEditing] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null);
-    const router = useRouter();
 
     useEffect(()=>{
         if (isEditing) {

@@ -1,6 +1,7 @@
 import { sql } from "@vercel/postgres";
 import * as jose from 'jose';
 const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) throw new Error("Missing environment variable")
 
 export async function POST(request: Request) {
     const body = await request.json();
