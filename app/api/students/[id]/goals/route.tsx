@@ -1,36 +1,57 @@
+import { userIs } from "@/app/api/helpers";
 import { apiResponse, Goal } from "@/app/types";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken'
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal[]> {
-    const token = request.cookies.get('token')?.value;
-    if (!token) {
-        console.error('-----------no token present in request-----------------------')
-        return NextResponse.json({message: 'access denied'}, {status: 401})
-    }
-    const user = jwt.decode(token, {json: true});
-    if (!user) return NextResponse.json({message: 'access denied'}, {status: 401})
+    
     try {
-        const id = (await params).id;
-        if (!id) throw new Error('No id parameter present');
+        const {id} = await params;
+        const req_id = request.headers.get('x-user-id')
+        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+            return NextResponse.json({message: 'Access denied'}, {status: 403})
+        }
             const {rows}: {rows: Goal[]} = await sql`
                 SELECT 
-                    g.* 
+                    * 
                 FROM 
-                    goals AS g
-                INNER JOIN 
-                    students AS s ON s.id = g.student_id
+                    goals
                 WHERE 
-                    g.student_id = ${id} 
-                    AND 
-                    (s.teacher_id = ${user.userId} OR g.student_id = ${user.userId})
+                    student_id = ${id} 
                 ORDER BY
-                    g.is_complete ASC, g.created_at DESC`;
+                    is_complete ASC, created_at DESC`;
             return NextResponse.json({data: rows, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);
             return NextResponse.json({message: 'could not fetch goals'}, {status: 500})
         }
     
+}
+
+export async function POST(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal> {
+    const {title, content} = await request.json();
+    if (!title || !content) {
+        return NextResponse.json({message: 'invalid request format'}, {status: 400})
+    }
+    
+    try {
+        const {id} = await params;
+        const req_id = request.headers.get('x-user-id')
+        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+            return NextResponse.json({message: 'Access denied'}, {status: 403})
+        }
+        const {rows}: {rows: Goal[]} = await sql`
+            INSERT INTO goals 
+                (student_id, goal_title, goal_content, created_by)
+            VALUES
+                (${id}, ${title}, ${content}, ${req_id})
+            RETURNING *`
+        revalidatePath(`/students/${id}`);
+        revalidatePath(`/teachers/${req_id}`);
+        return NextResponse.json({data: rows[0], message: 'success'}, {status: 201});
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({message: 'could not create goal'}, {status: 500})
+    }
 }

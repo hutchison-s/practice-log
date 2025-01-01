@@ -21,10 +21,10 @@ function ResourceIcon({t}: {t: string}) {
     }
 }
 
-async function handleDelete(id: string, onDelete: (id: string)=>void) {
-    await fetch(`/api/resources/${id}`, {method: 'DELETE'})
+async function handleDelete(student_id: string, resource_id: string, onDelete: (id: string)=>void) {
+    await fetch(`/api/students/${student_id}/resources/${resource_id}`, {method: 'DELETE'})
     console.log('deleted')
-    onDelete(id);
+    onDelete(resource_id);
 }
 
 
@@ -40,7 +40,7 @@ function ResourceDisplay({r, onDelete}: {r: Resource, onDelete: (id: string)=>vo
             </div>
             <button onClick={()=>{
                 setIsDeleting(true)
-                handleDelete(r.id, onDelete)
+                handleDelete(r.student_id, r.id, onDelete)
                 }}>
                 <Trash />
             </button>

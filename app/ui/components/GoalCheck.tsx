@@ -9,7 +9,7 @@ function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
 
     async function toggleCheck() {
         setIsChanging(true);
-        fetch(`/api/goals/${goal.id}`, {
+        fetch(`/api/students/${goal.student_id}/goals/${goal.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'

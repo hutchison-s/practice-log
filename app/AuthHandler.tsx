@@ -20,10 +20,14 @@ export async function fetchJSONWithToken<T>(url: string, revalidate: null | numb
     return new Promise(async (resolve, reject)=>{
         try {
             const response = await fetchWithToken(url, revalidate);
-            if (!response.ok) reject(response.status);
+            if (!response.ok) {
+                console.log(response.statusText)
+                reject(response.status);
+            }
             const payload = await response.json();
             resolve(payload as apiPayload<T>)
         } catch (error) {
+            console.log("Fetch with JSON Error", error)
             reject(error)
         }
     })

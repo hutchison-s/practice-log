@@ -23,7 +23,7 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        fetch('/api/goals', {
+        fetch(`/api/students/${student_id}/goals`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

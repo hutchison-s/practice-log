@@ -19,6 +19,8 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const router = useRouter();
 
     const handleEnroll = () => {
+        console.log('ernolling new student')
+        console.trace()
         fetch(`/api/students`, {
             method: 'POST',
             headers: {
@@ -40,6 +42,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
             setName('');
             setIsOpen(false);
             router.refresh();
+            
         }).catch(error => {
             console.error(error);
             setHasError(true);
@@ -115,7 +118,8 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                 </select></label>
                 <div className="w-full grid place-items-center gap-2 mt-4">
                     <PrimaryButton
-                    onClick={handleEnroll}
+                    type="submit"
+                    onClick={undefined}
                     disabled={name.length <= 3 || subject.length <= 3}
                     size="md"
                                 >

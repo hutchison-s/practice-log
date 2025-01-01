@@ -1,23 +1,18 @@
+import { userIs } from "@/app/api/helpers";
 import { apiResponse, Enrollee, Goal, logRow, Resource, WeeklyPractice} from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken'
 
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ): apiResponse<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}> {
-    console.log('fetching details')
-    const token = request.cookies.get('token')?.value;
-    if (!token) {
-        console.error('-----------no token present in request-----------------------')
-        return NextResponse.json({message: 'access denied'}, {status: 401})
-    }
-    const user = jwt.decode(token, {json: true});
-    if (!user) return NextResponse.json({message: 'access denied'}, {status: 401})
     try {
-        const id = (await params).id;
-        if (!id) throw new Error('No id parameter present');
+        const {id} = await params;
+        const req_id = request.headers.get('x-user-id');
+        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+            return NextResponse.json({message: 'Access denied'}, {status: 403})
+        }
 
         const {rows:students} = await sql`
             SELECT 
@@ -25,7 +20,7 @@ export async function GET(
             FROM 
                 students 
             WHERE 
-                id = ${id} AND (id = ${user.userId} OR teacher_id = ${user.userId})`;
+                id = ${id}`;
         const student = students[0]
         const {rows:logs} = await sql`
             SELECT 
@@ -65,7 +60,7 @@ export async function GET(
             WHERE 
                 g.student_id = ${id} 
                 AND 
-                (s.teacher_id = ${user.userId} OR g.student_id = ${user.userId})
+                (s.teacher_id = ${req_id} OR g.student_id = ${req_id})
             ORDER BY
                 g.is_complete ASC, g.created_at DESC`;
         const weekStart = new Date();
@@ -86,7 +81,7 @@ export async function GET(
             LEFT JOIN 
                 logs AS log ON log.student_id = s.id
             WHERE 
-                s.id = ${id} AND (s.id = ${user.userId} OR s.teacher_id = ${user.userId})
+                s.id = ${id}
             GROUP BY
                 s.id,
                 s.weekly_goal;

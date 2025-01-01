@@ -15,9 +15,9 @@ export default function Home() {
         <HomeLinks />
         <section className="w-full grid gap-12 my-12 lg:grid-cols-2">
           <GlassDiv>
-            <SubHeading className="text-center">Why Practice Log?</SubHeading>
+            <SubHeading className="text-center">Why Practice HQ?</SubHeading>
             <BodyText className="my-4">
-              Practice Hub is built for music teachers who want to inspire their students while staying organized. By bridging the gap between lessons and practice, we make it easier to share resources, set goals, and track progress—all in one intuitive platform.
+              Practice HQ is built for music teachers who want to inspire their students while staying organized. By bridging the gap between lessons and practice, we make it easier to share resources, set goals, and track progress—all in one intuitive platform.
             </BodyText>
             <div className="flex flex-col gap-4 mt-4">
               <div className="flex items-start gap-2">

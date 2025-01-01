@@ -6,7 +6,7 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
-function EditStudentButton({student}: {student?: EnrolleeWithCurrentWeekPractice}) {
+function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWeekPractice, onUpdate: ()=>void}) {
     const [name, setName] = useState(student?.name || '');
     const [subject, setSubject] = useState(student?.subject || '');
     const [dow, setDow] = useState(student?.day_of_week || 0);
@@ -48,7 +48,7 @@ function EditStudentButton({student}: {student?: EnrolleeWithCurrentWeekPractice
                 return res.json()})
             .then(() => {
                 setIsEditing(false);
-                router.refresh();
+                onUpdate();
             })
             .catch(err => {
                 console.error(err);

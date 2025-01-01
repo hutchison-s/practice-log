@@ -58,6 +58,11 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
         router.refresh()
     }
 
+    function handleUpdateStudent() {
+        dispatch({type: 'SET_SELECTED_STUDENT', payload: undefined})
+        router.refresh();
+    }
+
     return (
         <>
             <section className="w-full max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
@@ -110,7 +115,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                         }
 
                         <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-2 border-t-background/50 pt-4">
-                            <EditStudentButton student={details.student} />
+                            <EditStudentButton student={details.student} onUpdate={handleUpdateStudent}/>
                             <DeleteStudentButton student={details.student} onDelete={handleDeleteStudent}/>
                         </div>
             </section>

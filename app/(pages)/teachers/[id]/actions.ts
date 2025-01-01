@@ -19,7 +19,7 @@ function getLessonTime(timestamp: string): number {
 export async function getDetails(id: string, created_at: string, day_of_week: string) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL || ''
     const logPromise = fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs?limit=3`, 60);
-    const goalPromise = fetchJSONWithToken<Goal[]>(`${apiURL}/goals?student_id=${id}`, 60);
+    const goalPromise = fetchJSONWithToken<Goal[]>(`${apiURL}/students/${id}/goals`, 60);
     const resourcePromise = fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources?limit=3`, 60);
     const [logs, goals, resources] = await Promise.all([logPromise, goalPromise, resourcePromise])
     const time = getLessonTime(created_at);

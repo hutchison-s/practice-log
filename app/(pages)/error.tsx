@@ -2,6 +2,7 @@
 import BodyText from '@/app/ui/components/BodyText'
 import { PrimaryButton, PrimaryLinkButton } from '@/app/ui/components/Buttons'
 import PageTitle from '@/app/ui/components/PageTitle'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function Error({
@@ -11,11 +12,15 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const router = useRouter()
   useEffect(() => {
     // Log the error to an error reporting service
     console.error("Error boundary:", error)
   }, [error])
-  if (error.message == 'Unauthorized' || error.message == '401') {
+  if (error.message == '401') {
+    return router.push('/login');
+  }
+  if (error.message == 'Unauthorized' || error.message == '403') {
     return (
       <>
         <PageTitle>Login Required</PageTitle>

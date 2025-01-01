@@ -1,18 +1,16 @@
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken';
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { apiResponse, EnrolleeWithCurrentWeekPractice, WeeklyPractice } from "@/app/types";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<EnrolleeWithCurrentWeekPractice[]> {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const id = (await params).id;
-    const token = request.cookies.get('token')?.value
-    if (!token) return NextResponse.json({message: 'not authorized'}, {status: 401})
-    const user = jwt.decode(token, {json: true});
-    if (!user || id != user.userId) return NextResponse.json({message: 'not authorized'}, {status: 401})
+    
     try {
         const id = (await params).id;
+        const req_id = request.headers.get('x-user-id');
+        if (!req_id || id != req_id) return NextResponse.json({message: 'You do not have access to this content. Please login and try again.'}, {status: 403})
+
         if (!id) throw new Error('No id parameter present');
         const { rowCount, rows } = await sql`
         SELECT 

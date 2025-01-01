@@ -1,7 +1,6 @@
 import { sql } from "@vercel/postgres";
-import jwt from 'jsonwebtoken'
-
-const jwtSecret = process.env.JWT_SECRET || 'default_secret';
+import * as jose from 'jose';
+const jwtSecret = process.env.JWT_SECRET;
 
 export async function POST(request: Request) {
     const body = await request.json();
@@ -18,11 +17,14 @@ export async function POST(request: Request) {
     const user = record.rows[0];
 
     // Generate JWT token
-    const token = jwt.sign(
-        { userId: user.id, code: code, name: user.name },
-        jwtSecret,
-        { expiresIn: '1h' } // Set token expiration time
-    );
+    const jwtSecret = process.env.JWT_SECRET;
+    const secret = new TextEncoder().encode(jwtSecret);
+    const token = await new jose.SignJWT(
+        { userId: user.id, code: code, name: user.name })
+        .setProtectedHeader({alg: 'HS256'})
+        .setIssuedAt()
+        .setExpirationTime('1 hour')
+        .sign(secret);
 
     // Set the token in an HTTP-only, secure cookie
     const cookieOptions = [

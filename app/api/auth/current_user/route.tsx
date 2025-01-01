@@ -1,13 +1,13 @@
 import { cookies } from "next/headers";
-import jwt from 'jsonwebtoken';
 import { sql } from "@vercel/postgres";
 import { defaultUser } from "@/app/_usercontext/UserContext";
+import { verifyToken } from "../../helpers";
 
 export async function GET() {
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
     if (!token) return Response.json({message: 'no user', data: defaultUser}, {status: 403});
-    const tokenUser = jwt.decode(token!.value, {json: true});
+    const tokenUser = await verifyToken(token.value)
     if (!tokenUser) return Response.json({message: 'no user', data: defaultUser}, {status: 403});
     let query;
     if (tokenUser.email) {

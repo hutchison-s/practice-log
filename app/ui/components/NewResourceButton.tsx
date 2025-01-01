@@ -37,7 +37,7 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
         student_id: string,
         title: string
     ) {
-        fetch('/api/resources', {
+        fetch(`/api/students/${student_id}/resources`, {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify({
@@ -66,7 +66,7 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
             setHasError('You must provide a valid URL.')
             return;
         }
-        fetch(`/api/resources`, {
+        fetch(`/api/students/${student_id}/resources`, {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify({
@@ -85,7 +85,6 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
             }
         })
         .then(json => {
-            console.log('Created new Resource:', json.data.id, json.data.type, json.data.url);
             onCreate(json.data as Resource)
         })
         .catch(err => {

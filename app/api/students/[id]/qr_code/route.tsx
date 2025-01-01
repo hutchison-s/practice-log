@@ -1,10 +1,17 @@
+import { userIs } from '@/app/api/helpers';
+import { sql } from '@vercel/postgres';
 import { NextRequest, NextResponse } from 'next/server';
 import QRCode from 'qrcode'
 
 const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}) {
     const searchParams = request.nextUrl.searchParams
+    const {id} = await params;
+    const req_id = request.headers.get('x-user-id')
+    if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        return NextResponse.json({message: 'Access denied'}, {status: 403})
+    }
     const time = searchParams.get('time');
     const code = searchParams.get('code');
     const w = searchParams.get('width');

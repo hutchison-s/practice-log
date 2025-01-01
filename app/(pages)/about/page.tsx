@@ -19,7 +19,7 @@ export default function Page() {
     <GlassDiv >
       <SubHeading className="text-center">For Instructors</SubHeading>
       <BodyText className="text-xl my-8">
-      Teaching music is more than just sharing knowledge—it&apos;s about creating a lasting impact on your students&apos; lives. At Practice Log, we understand the challenges of juggling multiple students while staying organized and engaged. That&apos;s why we&apos;ve built tools to simplify your workflow and help you focus on what matters most: inspiring your students.
+      Teaching music is more than just sharing knowledge—it&apos;s about creating a lasting impact on your students&apos; lives. At Practice HQ, we understand the challenges of juggling multiple students while staying organized and engaged. That&apos;s why we&apos;ve built tools to simplify your workflow and help you focus on what matters most: inspiring your students.
       </BodyText>
     
       <IconListItem icon={<Workflow size={40}/>}>
@@ -38,7 +38,7 @@ export default function Page() {
     <GlassDiv>
       <SubHeading className="text-center">For Students</SubHeading>
       <BodyText className="text-xl my-8">
-      Music students need more than just instruction—they need support, structure, and encouragement to thrive. Practice Log gives students a personalized space to take ownership of their practice journey, helping them stay motivated and connected with their teacher every step of the way.
+      Music students need more than just instruction—they need support, structure, and encouragement to thrive. Practice HQ gives students a personalized space to take ownership of their practice journey, helping them stay motivated and connected with their teacher every step of the way.
       </BodyText>
       <IconListItem icon={<Clock size={40}/>}>
         <strong className="text-white text-shadow-sm">Track Practice:</strong> Log practice sessions and reflect on their progress.

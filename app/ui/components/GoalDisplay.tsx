@@ -10,7 +10,7 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
     const {user} = useUser();
 
     async function handleDelete() {
-        fetch(`/api/goals/${goal.id}`, {method: 'DELETE', credentials: 'include'})
+        fetch(`/api/students/${goal.student_id}/goals/${goal.id}`, {method: 'DELETE', credentials: 'include'})
         .then(res => {
             if (res.ok) {
                 onDelete(goal.id);
