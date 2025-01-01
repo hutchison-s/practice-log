@@ -18,8 +18,8 @@ export default function MobileNav({ close }: { close: () => void }) {
             <span><Home size={80}/></span>
             <span className="font-light text-sm font-inter text-zinc-400">Home</span>
         </Link>
-        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/></Link>}
-        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/></Link>}
+        {user.id != '' && user.email && <Link href={`/teachers/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/><span className="font-light text-sm font-inter text-zinc-400">Portal</span></Link>}
+        {user.id != '' && user.code && <Link href={`/students/${user.id}/log`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80}/><span className="font-light text-sm font-inter text-zinc-400">Portal</span></Link>}
         
         <Link href={"/about"} className={mobileNavStyle} onClick={close}>
             <span>
