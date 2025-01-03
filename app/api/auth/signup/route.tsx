@@ -1,3 +1,4 @@
+import sendWelcomeEmail from "@/app/signup/actions";
 import { sql } from "@vercel/postgres";
 import bcrypt from 'bcryptjs';
 
@@ -18,6 +19,7 @@ export async function POST(request: Request) {
     const hashedPass = await bcrypt.hash(password, saltRounds);
     const newUserResponse = await sql`INSERT INTO teachers (name, email, password) VALUES (${name}, ${email}, ${hashedPass}) RETURNING *`;
     const newUser = newUserResponse.rows[0];
+    await sendWelcomeEmail({email, name})
 
 
     return Response.json({ message: 'success', data: {id: newUser.id, name, email} }, { status: 201 });

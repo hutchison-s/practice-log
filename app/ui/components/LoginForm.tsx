@@ -77,7 +77,7 @@ function LoginForm() {
             required
             placeholder="e.g., Super$ecret251"
         />
-        <p className="text-red-500 text-center"><small>{statusMsg}</small></p>
+        <p className="text-cyan-500 text-center"><small>{statusMsg}</small></p>
         <div className="flex justify-center">
             <PrimaryButton type="submit" onClick={undefined}>Sign In</PrimaryButton>
         </div>
