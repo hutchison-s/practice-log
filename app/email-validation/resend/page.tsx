@@ -8,7 +8,7 @@ import PageTitle from '@/app/ui/components/PageTitle'
 import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper'
 import { CheckCircle } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function ResendValidation() {
     const searchParams = useSearchParams();
