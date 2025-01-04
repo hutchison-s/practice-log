@@ -18,17 +18,26 @@ function SignUpForm() {
         setStatusMsg('Creating account...')
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
+        if (!validateEmail(fd.get('email') as string)) {
+            return setStatusMsg('Invalid email address format')
+        }
+        if (!validatePassword(fd.get('password') as string)) {
+            return setStatusMsg('Password must be at least 8 characters long and include at least one of each of the following: lowercase letter, UPPERCASE LETTER, number, and a special character !@#$%^&*()?')
+        }
+        if (!validateName(fd.get('name') as string)) {
+            return setStatusMsg('Invalid name format. Please include your first and last name.')
+        }
         fetch('/api/auth/signup', {
             method: "POST", 
             body: fd
         })
         .then(res => res.json())
         .then(json => {
-            if (!json.data.id) {
+            if (!json.data || !json.data.id) {
                 setStatusMsg('Account creation failed: '+json.message);
             } else {
                 setStatusMsg('Account creation successful')
-                router.push(`/login`)
+                router.push(`/signup/success`)
             }
         })
         .catch(err => {
@@ -73,7 +82,7 @@ function SignUpForm() {
             required
             placeholder='e.g., Super$ecret251...'
         />
-        <p className="text-cyan-500 text-center"><small>{statusMsg}</small></p>
+        <p className="text-cyan-500 text-center my-8"><small>{statusMsg}</small></p>
         <div className="flex justify-center">
             <PrimaryButton type="submit" onClick={undefined}>Create Account</PrimaryButton>
         </div>

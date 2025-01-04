@@ -10,8 +10,8 @@ export async function POST(request: Request) {
     const password = fd.get('password') as string;
 
     // Check if the user exists
-    const existingUsers = await sql`SELECT id, name, password FROM teachers WHERE email = ${email}`;
-    if (existingUsers.rowCount === 0) {
+    const existingUsers = await sql`SELECT id, name, password, validated FROM teachers WHERE email = ${email}`;
+    if (!existingUsers || existingUsers.rows.length === 0) {
         return Response.json({ message: 'No user found' }, { status: 401 });
     }
 
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     // Generate JWT token
     const secret = new TextEncoder().encode(jwtSecret);
     const token = await new jose.SignJWT(
-        { userId: user.id, email: email, name: user.name })
+        { userId: user.id, email: email, name: user.name, isVerified: user.validated })
         .setProtectedHeader({alg: 'HS256'})
         .setIssuedAt()
         .setExpirationTime('1 hour')
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
 
     // Return a response with the token set as a cookie
-    return new Response(JSON.stringify({ message: 'success', data: { id: user.id, name: user.name, email } }), {
+    return new Response(JSON.stringify({ message: 'success', data: { id: user.id, name: user.name, email: email, isVerified: user.validated } }), {
         status: 200,
         headers: {
             'Set-Cookie': `token=${token}; ${cookieOptions.join('; ')}`,

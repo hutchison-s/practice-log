@@ -4,7 +4,8 @@ export interface User {
     id: string,
     name: string,
     email?: string,
-    code?: string
+    code?: string,
+    isVerified?: boolean,
     created_at: string
 }
 

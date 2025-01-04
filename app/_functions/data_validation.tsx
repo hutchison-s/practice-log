@@ -14,5 +14,5 @@ export function validateEmail(email: string): boolean {
     return regex.test(email);
 }
 export function validateName(name: string) : boolean {
-    return /^[a-zA-ZÀ-ž']{2,15}[-\s_]*[a-zA-ZÀ-ž']{1,15}$/.test(name);
+    return /^[a-zA-ZÀ-ž']{1,15}[-\s_]*[a-zA-ZÀ-ž']{1,15}/.test(name);
 }

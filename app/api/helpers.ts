@@ -26,14 +26,12 @@ export async function verifyToken(token: string): Promise<{userId: string, email
 
 export function isStudent({user_id, student_id}: AccessArguments): boolean {
     if (!user_id || !student_id) return false;
-    console.log("is the student?", user_id == student_id)
     return user_id == student_id;
 }
 
 export async function isTeacher({user_id, student_id}: AccessArguments): Promise<boolean> {
     if (!user_id || !student_id) return false;
     if (user_id == student_id) {
-        console.log('is the teacher? false')
         return false
     };
     try {
@@ -43,7 +41,6 @@ export async function isTeacher({user_id, student_id}: AccessArguments): Promise
             WHERE id = ${student_id} AND teacher_id = ${user_id}
             LIMIT 1;
         `;
-        console.log("is the teacher?", rows.length > 0)
         return rows.length > 0;
     } catch (error) {
         console.error('Permission Check Error:', error);

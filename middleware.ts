@@ -3,7 +3,6 @@ import { verifyToken } from './app/api/helpers';
 
 
 export async function middleware(request: NextRequest) {
-    console.log('middleware engaged', request.nextUrl.pathname)
     const token = request.cookies.get('token')?.value;
     if (!token) {
         return NextResponse.json({message: 'Please log in to continue.'}, {status: 401})
