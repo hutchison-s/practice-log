@@ -7,7 +7,7 @@ import GlassDiv from '@/app/ui/components/GlassDiv'
 import PageTitle from '@/app/ui/components/PageTitle'
 import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper'
 import { Loader } from 'lucide-react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 function ResetPassword() {
@@ -17,6 +17,7 @@ function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [hasError, setHasError] = useState('')
     const [isSending, setIsSending] = useState(false)
+    const router = useRouter();
 
     async function handleSend() {
         if (password !== confirmPassword) {
@@ -33,6 +34,9 @@ function ResetPassword() {
                         const message = (await res.json()).message
                         console.error(message)
                         setHasError('Could not reset password')
+                    } else {
+                        setIsSending(false);
+                        router.push('/password-reset/success')
                     }
                 })
     }
