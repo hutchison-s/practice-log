@@ -8,11 +8,11 @@ import PageTitle from '@/app/ui/components/PageTitle'
 import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper'
 import { CheckCircle } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 function ResendValidation() {
     const searchParams = useSearchParams();
-    const [isExpired, setIsExpired] = useState(searchParams.get('expired'))
+    const isExpired = searchParams.get('expired')
     const [email, setEmail] = useState('')
     const [isSent, setIsSent] = useState(false)
     const [hasError, setHasError] = useState('')
@@ -37,7 +37,7 @@ function ResendValidation() {
   return (
     <SmallPageWrapper>
         <PageTitle>Resend Validation Link</PageTitle>
-        <BodyText className='text-center'>{isExpired ? "It looks like your link is expired." : "Can't find your validation link?" }</BodyText>
+        <BodyText className='text-center'>{isExpired == 'true' ? "It looks like your link is expired." : "Can't find your validation link?" }</BodyText>
         <BodyText className='text-center'>Enter your email address below to receive a new account validation email.</BodyText>
         <GlassDiv className='grid place-items-center'>
             <ControlledInput input_type='email' label='Email' validator={validateEmail} value={email} onChange={(e)=>setEmail(e.target.value)}/>
