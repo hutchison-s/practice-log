@@ -4,7 +4,7 @@ import PageTitle from '@/app/ui/components/PageTitle'
 import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper'
 import React from 'react'
 
-function SentResetLinkPage() {
+async function SentResetLinkPage() {
   return (
     <SmallPageWrapper>
         <PageTitle>Sent Reset Link</PageTitle>

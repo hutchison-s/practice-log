@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
                 email = ${email}`;
         
         await sendValidationEmail({email, name: teachers[0].name});
-        return NextResponse.json({message: 'success'}, {status: 200});
+        return NextResponse.redirect(new URL('/password-reset/sent', request.url));
     } catch (error) {
         console.error(error)
         return NextResponse.json({message:'Server error. Could not resend link.'}, {status: 500})

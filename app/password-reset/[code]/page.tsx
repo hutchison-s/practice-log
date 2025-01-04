@@ -34,8 +34,6 @@ function ResetPassword() {
                         const message = (await res.json()).message
                         console.error(message)
                         setHasError('Could not reset password')
-                    } else {
-                        return router.push('/password-reset/success');
                     }
                 })
     }
