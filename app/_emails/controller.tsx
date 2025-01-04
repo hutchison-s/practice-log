@@ -39,7 +39,7 @@ export async function sendValidationEmail(recipient: RecipientType) {
         const {rows} = await sql`INSERT INTO validations (email, code) VALUES (${recipient.email}, ${generateRandomString({length: 20, hyphenBreak: 4})}) RETURNING code`;
         const {code} = rows[0];
         const validationLink = `${apiURL}/auth/validate?code=${code}`;
-        sendTemplateEmail([{...recipient}], 2, {name: recipient.name, validationLink})
+        await sendTemplateEmail([{...recipient}], 2, {name: recipient.name, validationLink})
 
     } catch (error) {
         console.error(error);
@@ -53,7 +53,7 @@ export async function sendPasswordResetEmail(recipient: RecipientType) {
         const {rows} = await sql`INSERT INTO reset_codes (email, code) VALUES (${recipient.email}, ${generateRandomString({length: 20, hyphenBreak: 4})}) RETURNING code`;
         const {code} = rows[0];
         const resetLink = `${siteURL}/password-reset/${code}`;
-        sendTemplateEmail([{...recipient}], 3, {name: recipient.name, resetLink})
+        await sendTemplateEmail([{...recipient}], 3, {name: recipient.name, resetLink})
     } catch (error) {
         console.error(error);
     }
