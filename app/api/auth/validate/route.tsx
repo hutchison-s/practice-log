@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
                 code = ${code}`;
         if (!rows || rows.length == 0) {
             console.error('Code provided does not match any existing database records.', code)
-            return NextResponse.redirect(new URL('/email-validation?status=failure&reason='+encodeURIComponent('Invalid email validation code. Contact site administrator.'), request.url));
+            return NextResponse.redirect(new URL('/email-validation?status=failure&reason='+encodeURIComponent('Invalid email validation code. Code may be expired.'), request.url));
         }
         console.log(rows[0])
         const {email, created_at} = rows[0];

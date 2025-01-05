@@ -6,10 +6,12 @@ import PageTitle from '../ui/components/PageTitle'
 import GlassDiv from '../ui/components/GlassDiv'
 import { PrimaryButton } from '../ui/components/Buttons';
 import { CircleCheck } from 'lucide-react'
+import { useUser } from '../_usercontext/useUser'
 
 function RequestReset() {
     const [isSent, setIsSent] = useState(false);
     const [hasError, setHasError] = useState('');
+    const {logout} = useUser()
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -20,6 +22,7 @@ function RequestReset() {
                     console.error(message)
                     setHasError(message);
                 }
+                logout();
                 setIsSent(true);
             }).catch(err => console.error(err))
     }
@@ -49,8 +52,8 @@ function RequestReset() {
         />
     </label>
     {hasError && <p className='text-sm text-center my-4'>{hasError}</p>}
-    {isSent && <p className='flex gap-2'><CircleCheck className='text-teal-500'/> Link has been sent to your email address</p>}
-    <PrimaryButton type='submit' onClick={undefined}>Send Email</PrimaryButton>
+    {isSent && <p className='flex gap-2 items-center justify-center flex-wrap md:flex-nowrap'><CircleCheck className='text-teal-500 text-xl'/> Link has been sent to your email address</p>}
+    <PrimaryButton type='submit' onClick={undefined} disabled={isSent}>Send Email</PrimaryButton>
             </form>
         </GlassDiv>
     </SmallPageWrapper>

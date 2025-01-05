@@ -15,6 +15,9 @@ export async function POST(request: NextRequest) {
             email = ${email}
     `;
     if (!teachers || teachers.length == 0) return NextResponse.json({message:"User does not exist"}, {status: 403})
+        await sql`
+        DELETE FROM reset_codes WHERE email = ${email}
+    `
     await sendPasswordResetEmail({name: teachers[0].name, email: email});
     return NextResponse.json({message: 'Success'}, {status: 200});
 }

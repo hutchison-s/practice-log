@@ -62,3 +62,7 @@ export async function sendPasswordResetEmail(recipient: RecipientType) {
 export async function sendConfirmPasswordResetEmail(recipient: RecipientType) {
     await sendTemplateEmail([{...recipient}], 4, {name: recipient.name});
 }
+
+export async function sendConfirmDeletedAccountEmail(recipient: RecipientType) {
+    await sendTemplateEmail([{...recipient}], 6, {name: recipient.name});
+}
