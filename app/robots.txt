@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /teachers
+Disallow: /students
+Disallow: /api
+
+Sitemap: https://practice-hq.vercel.app/sitemap.xml
