@@ -3,10 +3,14 @@ import Link from "next/link";
 import LoginForm from "../ui/components/LoginForm";
 import SmallPageWrapper from "../ui/components/SmallPageWrapper";
 import BodyText from "../ui/components/BodyText";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Sign In",
+    description: "Sign in to Practice HQ and get back to motivating and monitoring student progress.",
+  };
 
 export default function Page() {
-
-    
 
     return (
         <>

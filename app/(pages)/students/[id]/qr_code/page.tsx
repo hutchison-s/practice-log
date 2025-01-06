@@ -4,6 +4,12 @@ import { NextResponse } from 'next/server';
 import PrintableQRCode from './PrintableQRCode';
 import PageTitle from '@/app/ui/components/PageTitle';
 import BodyText from '@/app/ui/components/BodyText';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Student QR Code",
+    description: "Custom student QR Code for easy Practice HQ sign in",
+  };
 
 async function QR({params, searchParams}: {params: Promise<{id: string}>, searchParams: Promise<{time: string, code: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;

@@ -3,6 +3,12 @@ import { Message } from '@/app/types'
 import PageTitle from '@/app/ui/components/PageTitle'
 import React from 'react'
 import MessageWindow from './MessageWindow'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "Messages",
+  description: "Practice HQ's built-in messaging platform that facilitates communication between lessons.",
+};
 
 async function Page({params}: {params: Promise<{id: string}>}) {
   const id = (await params).id

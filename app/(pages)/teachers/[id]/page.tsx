@@ -4,6 +4,12 @@ import StudentBrowser from "./StudentBrowser";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { EnrolleeWithCurrentWeekPractice, User } from "@/app/types";
 import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Teacher Portal",
+    description: "Teacher dashboard for lessons studio management. Create goals, share resources, and track progress for each student with ease.",
+  };
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;

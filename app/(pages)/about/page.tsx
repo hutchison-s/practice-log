@@ -6,6 +6,12 @@ import IconListItem from "@/app/ui/components/IconListItem";
 import FeaturedText from "@/app/ui/components/FeaturedText";
 import Link from "next/link";
 import GlassDiv from "@/app/ui/components/GlassDiv";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Learn more about the features and benefits for both teachers and students that make Practice HQ an essential platform for connecting lessons and practice to drive measurable growth.",
+};
 
 export default function Page() {
   return (

@@ -11,6 +11,12 @@ import StudentResourceDisplay from "@/app/ui/components/StudentResourceDisplay";
 import { TotalPractice } from "@/app/ui/components/TotalPractice";
 import { MessageCircle, MessageCircleWarning } from "lucide-react";
 import GlassDiv from "@/app/ui/components/GlassDiv";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Student Portal",
+    description: "Student dashboard for tracking progress, logging practice time, and accessing goals and resources provided by their instructors.",
+  };
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
