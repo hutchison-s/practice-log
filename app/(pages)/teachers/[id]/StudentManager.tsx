@@ -74,7 +74,7 @@ function StudentManager({details, dispatch}: {details?: StudentDetails, dispatch
                                 </Link>
                                 {details.time != 0 
                                     ? <Link href={`/students/${details.student.id}/qr_code?code=${details.student.code}&time=${details.time}`} className="text-teal-500"><QrCode size={40} className="transition-all hover:text-teal-300 hover:scale-105"/></Link>
-                                    : <Loader size={40} className="spinner"/>
+                                    : <Loader aria-label="Loader" size={40} className="spinner"/>
                                 }
                             </div>
                         </div>

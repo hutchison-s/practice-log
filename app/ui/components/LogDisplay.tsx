@@ -15,7 +15,7 @@ function LogDisplay({log}: {log: logRow}) {
             <div onClick={()=>setIsOpen(!isOpen)}>
                 <p className="font-golos">{`${log.seconds >= 60 ? (Math.floor(log.seconds / 60))+" min and " : ""} ${(log.seconds % 60)+" sec"}`}</p>
                 <p className="block text-xs font-light text-zinc-400">{`${log.name}, ${timestamp}`}</p>
-                <div className="absolute top-1/2 right-1 -translate-y-1/2">{isOpen ? <ChevronsDownUp size={20}/> : <ChevronsUpDown size={20}/>}</div>
+                <div className="absolute top-1/2 right-1 -translate-y-1/2">{isOpen ? <ChevronsDownUp size={20} aria-label="Collapse"/> : <ChevronsUpDown size={20} aria-label="Expand"/>}</div>
             </div>
             {isOpen &&
                 <div className="w-full text-netural-300 py-2 rounded-b text-sm" onClick={()=>setIsOpen(!isOpen)}>

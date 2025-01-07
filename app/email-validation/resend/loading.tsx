@@ -7,7 +7,7 @@ function LoadingPage() {
   return (
     <SmallPageWrapper>
         <PageTitle>Loading</PageTitle>
-        <Loader className='spinner' size={120}/>
+        <Loader aria-label="Loader" className='spinner' size={120}/>
     </SmallPageWrapper>
   )
 }

@@ -61,7 +61,7 @@ function Page() {
           Verifying QR Code
         </PageTitle>
         <div className="w-full min-h-80 mx-auto mt-8 grid place-items-center">
-          <Loader size={120} className="spinner" />
+          <Loader aria-label="Loader" size={120} className="spinner" />
         </div>
       </main>
     );

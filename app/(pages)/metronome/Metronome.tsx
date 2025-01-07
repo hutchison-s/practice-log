@@ -138,13 +138,13 @@ function Metronome() {
             <section className='flex-1 glass p-4 grid grid-cols-[60px_1fr_60px] rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
             <div className="flex flex-col justify-evenly gap-2 border-2 border-white/25 rounded">
                         <label className='relative size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
-                            <Music3 />
+                            <Music3 aria-label='Quarter Note'/>
                             <span className='absolute rounded-full size-2 bg-white top-1/2 left-7 translate-y-[2px] -translate-x-1'></span>
                             {isCompound && <span className='absolute rounded-full size-1 bg-white top-1/2 right-2 translate-y-[4px] -translate-x-1'></span>}
                             <input onChange={handleSubdivisionChange} hidden type="radio" name="subdivision" value="1" id="beat" defaultChecked disabled={meter.length == 5 || meter.length == 7}/>
                         </label>
                         <label className='relative size-full grid place-items-center p-4 radio-label cursor-pointer rounded'>
-                            <Music2 />
+                            <Music2 aria-label='Eighth Note'/>
                             <span className='absolute rounded-full size-2 bg-white top-1/2 left-4 translate-y-[2px] translate-x-1'></span>
                             <input onChange={handleSubdivisionChange} hidden type="radio" name="subdivision" value="2" id="eighths" />
                         </label>
@@ -156,8 +156,8 @@ function Metronome() {
                     
                     <button className='rounded-full text-teal-500' onClick={handleTogglePlay}>
                         {isPlaying
-                            ? <StopCircle size={120} className='drop-shadow-xl' />
-                            : <PlayCircle size={120} className='drop-shadow-xl' />}
+                            ? <StopCircle size={120} className='drop-shadow-xl' aria-label='Stop' />
+                            : <PlayCircle size={120} className='drop-shadow-xl' aria-label='Play'/>}
                     </button>
                 </div>
                 <MetronomeControl setTempo={setTempo} />

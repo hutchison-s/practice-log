@@ -8,7 +8,7 @@ function loading() {
         <PageTitle>Student Portal</PageTitle>
         <p>Loading profile...</p>
         <div className="spinner text-lighter">
-            <Loader size={120}/>
+            <Loader aria-label="Loader" size={120}/>
         </div>
     </>
   )

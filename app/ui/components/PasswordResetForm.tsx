@@ -42,7 +42,7 @@ function PasswordResetForm() {
         />
     </label>
     {hasError && <p className='text-sm text-center my-4'>{hasError}</p>}
-    {isSent && <p className='flex gap-2 items-center justify-center flex-wrap md:flex-nowrap'><CircleCheck className='text-teal-500 text-xl'/> Link has been sent to your email address</p>}
+    {isSent && <p className='flex gap-2 items-center justify-center flex-wrap md:flex-nowrap'><CircleCheck aria-label="Check Mark" className='text-teal-500 text-xl'/> Link has been sent to your email address</p>}
     <PrimaryButton type='submit' onClick={undefined} disabled={isSent}>Send Email</PrimaryButton>
             </form>
     </>

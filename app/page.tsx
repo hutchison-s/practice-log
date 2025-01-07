@@ -30,7 +30,7 @@ export default function Home() {
             </BodyText>
             <ul className="flex flex-col gap-4 mt-4">
               <li className="flex items-start gap-2">
-                <Check className="text-teal-600" strokeWidth={4} />
+                <Check aria-label="Check Mark"className="text-teal-600" strokeWidth={4} />
                 <BodyText>
                   <strong className="text-txtprimary font-bold">
                     Save Time:
@@ -39,7 +39,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="flex items-start gap-2">
-                <Check className="text-teal-600" strokeWidth={4} />
+                <Check aria-label="Check Mark"className="text-teal-600" strokeWidth={4} />
                 <BodyText>
                   <strong className="text-txtprimary font-bold">
                     Stay Connected:
@@ -48,7 +48,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="flex items-start gap-2">
-                <Check className="text-teal-600" strokeWidth={4} />
+                <Check aria-label="Check Mark"className="text-teal-600" strokeWidth={4} />
                 <BodyText>
                   <strong className="text-txtprimary font-bold">
                     Measure Growth:
@@ -107,7 +107,7 @@ export default function Home() {
             </SubHeading>
             <ul className="flex flex-col gap-4 mt-4">
               <li className="mx-auto flex justify-center gap-4 items-center md:w-3/4">
-                <CircleCheck className="text-teal-500" size={60} />
+                <CircleCheck aria-label="Check Mark" className="text-teal-500" size={60} />
                 <BodyText>
                   <strong className="font-bold text-txtprimary">
                     Goal Setting:
@@ -116,7 +116,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="mx-auto flex justify-center gap-4 items-center md:w-3/4">
-                <FileMusic className="text-teal-500 block" size={60} />
+                <FileMusic aria-label="Media File" className="text-teal-500 block" size={60} />
                 <BodyText>
                   <strong className="font-bold text-txtprimary">
                     Resource Sharing:
@@ -125,7 +125,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="mx-auto flex justify-center gap-4 items-center md:w-3/4">
-                <NotebookPen className="text-teal-500 block" size={60} />
+                <NotebookPen aria-label="Notepad" className="text-teal-500 block" size={60} />
                 <BodyText>
                   <strong className="font-bold text-txtprimary">
                     Practice Logs:
@@ -134,7 +134,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="mx-auto flex justify-center gap-4 items-center md:w-3/4">
-                <MessageCircle className="text-teal-500 block" size={60} />
+                <MessageCircle aria-label="Messaging" className="text-teal-500 block" size={60} />
                 <BodyText>
                   <strong className="font-bold text-txtprimary">
                     Messaging Platform:
@@ -144,7 +144,7 @@ export default function Home() {
                 </BodyText>
               </li>
               <li className="mx-auto flex justify-center gap-4 items-center md:w-3/4">
-                <Wrench className="text-teal-500 block" size={60} />
+                <Wrench aria-label="Tools" className="text-teal-500 block" size={60} />
                 <BodyText>
                   <strong className="font-bold text-txtprimary">
                     Built-In Tools:

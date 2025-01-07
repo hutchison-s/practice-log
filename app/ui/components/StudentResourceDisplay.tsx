@@ -6,15 +6,15 @@ import Link from "next/link"
 function ResourceIcon({t}: {t: string}) {
     switch(true) {
         case t.includes('image'):
-            return <Camera />
+            return <Camera aria-label="Image"/>
         case t.includes('pdf'):
-            return <File />
+            return <File aria-label="File"/>
         case t.includes('video'):
-            return <Video />
+            return <Video aria-label="Video"/>
         case t.includes('audio'):
-            return <Headphones />
+            return <Headphones aria-label="Audio"/>
         default:
-            return <LinkIcon />
+            return <LinkIcon aria-label="Link"/>
     }
 }
 

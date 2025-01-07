@@ -27,10 +27,10 @@ export default function LogInOutButton({isMobile, closeMenu}: {isMobile?: boolea
     return (
         isMobile
         ? user.id != ''
-            ?   <button onClick={handleLogout} className={mobileNavStyle}><LogOut size={80}/><span className="font-light text-sm font-inter text-zinc-400">Sign Out</span></button>
-            :   <button onClick={handleLogin} className={mobileNavStyle}><LogIn size={80}/><span className="font-light text-sm font-inter text-zinc-400">Sign In</span></button>
+            ?   <button onClick={handleLogout} className={mobileNavStyle}><LogOut size={80} aria-label="Sign Out"/><span className="font-light text-sm font-inter text-zinc-400">Sign Out</span></button>
+            :   <button onClick={handleLogin} className={mobileNavStyle}><LogIn size={80} aria-label="Sign In"/><span className="font-light text-sm font-inter text-zinc-400">Sign In</span></button>
         : user.id != ''
-            ?   <button onClick={handleLogout} className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogOut size={18} /></button>
-            :   <button onClick={handleLogin} className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogIn size={18} /></button>
+            ?   <button onClick={handleLogout} className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogOut size={18} aria-label="Sign Out"/></button>
+            :   <button onClick={handleLogin} className="p-2 rounded cursor-pointer my-auto hover:text-teal-500 text-txtprimary"><LogIn size={18} aria-label="Sign In" /></button>
     )
 }

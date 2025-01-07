@@ -13,7 +13,7 @@ function EnroleePreview({student, isSelected, onClick}: {student: EnrolleeWithCu
               <p className="col-span-2 truncate">{student.name}</p>
               <p className="col-span-2 truncate font-light text-sm text-zinc-400">{student.subject}</p>
               <div className="flex items-center justify-items-end align-center gap-2">
-                <PieChart percent={percent} size={20}/>
+                <PieChart aria-label="Pie Chart" percent={percent} size={20}/>
                 <span className="text-sm font-light">
                     {goalDisplay}
                 </span>

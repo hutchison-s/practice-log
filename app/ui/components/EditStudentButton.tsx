@@ -59,7 +59,7 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
         <button 
             onClick={()=>setIsEditing(true)}
             className="grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-600 p-2 rounded-full w-fit outline outline-0 outline-white transition-all hover:scale-105 hover:outline-2">
-            <Pencil size={20} />
+            <Pencil aria-label="Pencil" size={20} />
         </button>
         <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
             <form 

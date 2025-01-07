@@ -28,16 +28,16 @@ export default function Page() {
       Teaching music is more than just sharing knowledge—it&apos;s about creating a lasting impact on your students&apos; lives. At Practice HQ, we understand the challenges of juggling multiple students while staying organized and engaged. That&apos;s why we&apos;ve built tools to simplify your workflow and help you focus on what matters most: inspiring your students.
       </BodyText>
     <ul>
-      <IconListItem icon={<Workflow size={40}/>}>
+      <IconListItem icon={<Workflow size={40} aria-label="Workflow"/>}>
         <strong className="text-white text-shadow-sm">Simplify Your Workflow:</strong> Manage resources like videos, audio recordings, and PDFs in a single, organized platform.
       </IconListItem>
-      <IconListItem icon={<ChartPie size={40}/>}>
+      <IconListItem icon={<ChartPie size={40} aria-label="Pie Chart"/>}>
         <strong className="text-white text-shadow-sm">Track Progress:</strong> Set clear goals for your students and monitor their achievements between lessons.
       </IconListItem>
-      <IconListItem icon={<MessageCircle size={40}/>}>
+      <IconListItem icon={<MessageCircle size={40} aria-label="Messaging"/>}>
         <strong className="text-white text-shadow-sm">Engage with Students Anytime:</strong> Answer student questions and provide guidance between lessons with our built-in messaging platform.
       </IconListItem>
-      <IconListItem icon={<UserRoundCheck size={40}/>}>
+      <IconListItem icon={<UserRoundCheck size={40} aria-label="Authenticated User"/>}>
         <strong className="text-white text-shadow-sm">Streamlined Access:</strong> Securely log in with your email to get started effortlessly.
       </IconListItem>
       </ul>
@@ -48,16 +48,16 @@ export default function Page() {
       Music students need more than just instruction—they need support, structure, and encouragement to thrive. Practice HQ gives students a personalized space to take ownership of their practice journey, helping them stay motivated and connected with their teacher every step of the way.
       </BodyText>
       <ul>
-        <IconListItem icon={<Clock size={40}/>}>
+        <IconListItem icon={<Clock size={40} aria-label="Clock"/>}>
           <strong className="text-white text-shadow-sm">Track Practice:</strong> Log practice sessions and reflect on their progress.
         </IconListItem>
-        <IconListItem icon={<CircleCheck size={40}/>}>
+        <IconListItem icon={<CircleCheck aria-label="Check Mark" size={40}/>}>
         <strong className="text-white text-shadow-sm">Goal Oriented:</strong> Stay motivated with clear, instructor-set goals.
         </IconListItem>
-        <IconListItem icon={<FileMusic size={40}/>}>
+        <IconListItem icon={<FileMusic size={40} aria-label="Media File"/>}>
         <strong className="text-white text-shadow-sm">Organized Access:</strong> Access resources anytime, anywhere, through a QR code provided by their teacher.
         </IconListItem>
-        <IconListItem icon={<MessageCircle size={40}/>}>
+        <IconListItem icon={<MessageCircle size={40} aria-label="Messaging"/>}>
         <strong className="text-white text-shadow-sm">Stay Connected:</strong> Ask questions and receive feedback through our integrated messaging system.
         </IconListItem>
       </ul>

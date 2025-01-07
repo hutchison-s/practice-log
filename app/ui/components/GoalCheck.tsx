@@ -1,7 +1,7 @@
 'use client'
 
 import { Goal } from '@/app/types'
-import { CheckCircle, Circle, Loader2 } from 'lucide-react';
+import { CheckCircle, Circle, Loader } from 'lucide-react';
 import React, { useState } from 'react'
 
 function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
@@ -38,10 +38,10 @@ function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
 
   return (
     isChanging 
-        ? <Loader2 className='animate-spin'/>
+        ? <Loader aria-label="Loader" className='animate-spin'/>
         : goal?.is_complete
-                ? <CheckCircle role='checkbox' tabIndex={0} onClick={toggleCheck} onKeyUp={(e)=>{if(e.key == 'Enter') {toggleCheck()}}} className='text-teal-500 cursor-pointer rounded-full transition-all hover:bg-white/10' />
-                : <Circle role='checkbox' tabIndex={0} onClick={toggleCheck} onKeyUp={(e)=>{if(e.key == 'Enter') {toggleCheck()}}} className='text-white/50 cursor-pointer rounded-full transition-all hover:bg-white/10' />
+                ? <CheckCircle aria-label='Check Mark' role='checkbox' tabIndex={0} onClick={toggleCheck} onKeyUp={(e)=>{if(e.key == 'Enter') {toggleCheck()}}} className='text-teal-500 cursor-pointer rounded-full transition-all hover:bg-white/10' />
+                : <Circle aria-label="Empty Checkbox"role='checkbox' tabIndex={0} onClick={toggleCheck} onKeyUp={(e)=>{if(e.key == 'Enter') {toggleCheck()}}} className='text-white/50 cursor-pointer rounded-full transition-all hover:bg-white/10' />
           
     )
 }

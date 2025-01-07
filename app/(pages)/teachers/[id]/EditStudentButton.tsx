@@ -61,7 +61,7 @@ function EditStudentButton({student}: {student?: EnrolleeWithCurrentWeekPractice
         <button 
             onClick={()=>setIsEditing(true)}
             className="grid place-items-center bg-primary p-2 rounded-full w-fit hover:brightness-110">
-            <Pencil size={20} />
+            <Pencil aria-label="Pencil" size={20} />
         </button>
         <dialog ref={modalRef} className="w-full max-w-[600px] p-4 rounded-xl bg-gradient-to-br from-indigo-950/50 to-background/50 backdrop-blur text-txtprimary border-4 border-white/25 drop-shadow-xl">
             <form 

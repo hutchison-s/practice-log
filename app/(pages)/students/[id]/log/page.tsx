@@ -36,7 +36,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
             <h3 className="font-golos font-bold text-xl -mb-4">{student.name}</h3>
             <div className="text-txtsecondary mb-8 text-center">
                 <p className="text-zinc-400">{student.subject}</p>
-                <p className="text-zinc-400"><span>with </span><span className="relative text-teal-500">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
+                <p className="text-zinc-400"><span>with </span><span className="relative text-teal-500">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} aria-label="New Message" className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
             </div>
             <div className="grid gap-4 justify-center lg:grid-cols-2 w-full">
                 <section className="flex flex-col gap-4 items-center border-2 glass rounded-lg p-4 h-fit lg:sticky lg:top-20">
@@ -44,8 +44,8 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     <div className="flex w-full justify-items-center text-center">
                         <div className="mx-auto">
                             {thisWeek
-                                ? <PieChart percent={Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)} size={50}/>
-                                : <PieChart percent={0} size={50} />
+                                ? <PieChart aria-label="Pie Chart" percent={Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)} size={50}/>
+                                : <PieChart aria-label="Pie Chart" percent={0} size={50} />
                             }
                         </div>
                     </div>

@@ -12,7 +12,7 @@ function StudentGoalDisplay({goal}: {goal: Goal}) {
         style={{opacity: goal.is_complete ? '0.5' : '1'}}
     > 
         <div className="grid place-items-center justify-start">
-            {goal.is_complete ? <CheckCircle /> : <Circle />}
+            {goal.is_complete ? <CheckCircle /> : <Circle aria-label="Empty Checkbox"/>}
         </div>
         <div>
             <h4>{goal.goal_title}</h4>
