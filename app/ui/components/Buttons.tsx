@@ -14,9 +14,9 @@ export function PrimaryButton({
     disabled?: boolean
 }) {
     const styles = {
-        lg: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-2xl text-shadow-sm drop-shadow px-20 py-4 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 ",
-        md: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-lg text-shadow-sm drop-shadow px-16 py-2 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 ",
-        sm: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-md text-shadow-sm drop-shadow px-6 py-2 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 "
+        lg: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-2xl text-shadow-sm drop-shadow px-20 py-4 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 ",
+        md: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-lg text-shadow-sm drop-shadow px-16 py-2 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 ",
+        sm: "font-bold font-golos bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-md text-shadow-sm drop-shadow px-6 py-2 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 disabled:brightness-50 "
     }
     return (
             <button
@@ -42,9 +42,9 @@ export function PrimaryLinkButton({
     className?: string
 }) {
     const styles = {
-        lg: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-2xl text-shadow-sm drop-shadow px-20 py-4 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 ",
-        md: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-lg text-shadow-sm drop-shadow px-16 py-2 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 ",
-        sm: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-md text-shadow-sm drop-shadow px-6 py-2 rounded-full outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 "
+        lg: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-2xl text-shadow-sm drop-shadow px-20 py-4 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 ",
+        md: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-lg text-shadow-sm drop-shadow px-16 py-2 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 ",
+        sm: "font-golos font-bold grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary text-md text-shadow-sm drop-shadow px-6 py-2 rounded-xl outline outline-0 outline-white transition-all hover:outline-1 hover:scale-105 "
     }
     return (
         <Link
@@ -70,9 +70,9 @@ export function SecondaryButton({
     disabled?: boolean
 }) {
     const styles = {
-        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
+        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
     }
     return (
         <button
@@ -88,9 +88,9 @@ export function SecondaryButton({
 
 export function SecondaryLinkButton({children, href, size = 'md', className}: {children: React.ReactNode, href: string, size?: 'lg' | 'md' | 'sm', className?: string}) {
     const styles = {
-        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-full drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
+        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
     }
     return (
         <Link

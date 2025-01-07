@@ -33,10 +33,10 @@ function ResourceDisplay({r, onDelete}: {r: Resource, onDelete: (id: string)=>vo
 
   return (
     
-        r && <div className="flex justify-between align-items-center bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur rounded p-2 w-full">
-            <div className="flex gap-2 align-items-center">
-                <ResourceIcon t={r.type} />
-                {isDeleting ? <div>Deleting <Elipsis /></div>: <Link href={r.url} target="blank">{r.title}</Link>}
+        r && <li className="flex gap-4 justify-between align-items-center bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur rounded p-2 w-full">
+            <div className="flex-1 flex align-items-center">
+                
+                {isDeleting ? <div>Deleting <Elipsis /></div>: <Link href={r.url} target="blank" className="w-full flex gap-2"><ResourceIcon t={r.type} /> {r.title}</Link>}
             </div>
             <button onClick={()=>{
                 setIsDeleting(true)
@@ -44,7 +44,7 @@ function ResourceDisplay({r, onDelete}: {r: Resource, onDelete: (id: string)=>vo
                 }}>
                 <Trash />
             </button>
-        </div>
+        </li>
   )
 }
 

@@ -66,6 +66,15 @@ dialog::backdrop {
   backdrop-filter: blur(8px);
 }
 
+li:focus-visible,
+button:focus-visible,
+li[role='button']:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 1px solid rgb(8, 155, 133);
+  outline-offset: 4px;
+}
+
 input:-internal-autofill-selected {
   background-color: initial;
 }

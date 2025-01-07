@@ -27,7 +27,7 @@ export default function Page() {
       <BodyText className="text-xl my-8">
       Teaching music is more than just sharing knowledge—it&apos;s about creating a lasting impact on your students&apos; lives. At Practice HQ, we understand the challenges of juggling multiple students while staying organized and engaged. That&apos;s why we&apos;ve built tools to simplify your workflow and help you focus on what matters most: inspiring your students.
       </BodyText>
-    
+    <ul>
       <IconListItem icon={<Workflow size={40}/>}>
         <strong className="text-white text-shadow-sm">Simplify Your Workflow:</strong> Manage resources like videos, audio recordings, and PDFs in a single, organized platform.
       </IconListItem>
@@ -40,24 +40,27 @@ export default function Page() {
       <IconListItem icon={<UserRoundCheck size={40}/>}>
         <strong className="text-white text-shadow-sm">Streamlined Access:</strong> Securely log in with your email to get started effortlessly.
       </IconListItem>
+      </ul>
     </GlassDiv>
     <GlassDiv>
       <SubHeading className="text-center">For Students</SubHeading>
       <BodyText className="text-xl my-8">
       Music students need more than just instruction—they need support, structure, and encouragement to thrive. Practice HQ gives students a personalized space to take ownership of their practice journey, helping them stay motivated and connected with their teacher every step of the way.
       </BodyText>
-      <IconListItem icon={<Clock size={40}/>}>
-        <strong className="text-white text-shadow-sm">Track Practice:</strong> Log practice sessions and reflect on their progress.
-      </IconListItem>
-      <IconListItem icon={<CircleCheck size={40}/>}>
-      <strong className="text-white text-shadow-sm">Goal Oriented:</strong> Stay motivated with clear, instructor-set goals.
-      </IconListItem>
-      <IconListItem icon={<FileMusic size={40}/>}>
-      <strong className="text-white text-shadow-sm">Organized Access:</strong> Access resources anytime, anywhere, through a QR code provided by their teacher.
-      </IconListItem>
-      <IconListItem icon={<MessageCircle size={40}/>}>
-      <strong className="text-white text-shadow-sm">Stay Connected:</strong> Ask questions and receive feedback through our integrated messaging system.
-      </IconListItem>
+      <ul>
+        <IconListItem icon={<Clock size={40}/>}>
+          <strong className="text-white text-shadow-sm">Track Practice:</strong> Log practice sessions and reflect on their progress.
+        </IconListItem>
+        <IconListItem icon={<CircleCheck size={40}/>}>
+        <strong className="text-white text-shadow-sm">Goal Oriented:</strong> Stay motivated with clear, instructor-set goals.
+        </IconListItem>
+        <IconListItem icon={<FileMusic size={40}/>}>
+        <strong className="text-white text-shadow-sm">Organized Access:</strong> Access resources anytime, anywhere, through a QR code provided by their teacher.
+        </IconListItem>
+        <IconListItem icon={<MessageCircle size={40}/>}>
+        <strong className="text-white text-shadow-sm">Stay Connected:</strong> Ask questions and receive feedback through our integrated messaging system.
+        </IconListItem>
+      </ul>
     </GlassDiv>
   
 

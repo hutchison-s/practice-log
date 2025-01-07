@@ -11,7 +11,7 @@ function LogDisplay({log}: {log: logRow}) {
     if (log.seconds == 0) return null;
     const timestamp = utcToTimeZone(log.start, 'day, month, year, date, hour, minute');
     return (
-        <div className="glass px-4 py-2 pr-8 border-[1px] border-slate-600 border-l-4 border-l-txtprimary rounded shadow-sm">
+        <li className="glass px-4 py-2 pr-8 border-[1px] border-slate-600 border-l-4 border-l-txtprimary rounded shadow-sm">
             <div onClick={()=>setIsOpen(!isOpen)}>
                 <p className="font-golos">{`${log.seconds >= 60 ? (Math.floor(log.seconds / 60))+" min and " : ""} ${(log.seconds % 60)+" sec"}`}</p>
                 <p className="block text-xs font-light text-zinc-400">{`${log.name}, ${timestamp}`}</p>
@@ -24,7 +24,7 @@ function LogDisplay({log}: {log: logRow}) {
                 </div>
                 
             }
-        </div>
+        </li>
     )
 }
 

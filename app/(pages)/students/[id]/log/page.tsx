@@ -61,17 +61,17 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <TotalPractice logs={logs || []} />
                     <GlassDiv>
                         <SubHeading className="text-center">Active Goals</SubHeading>
-                        <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                        <ul className="grid gap-2 w-full p-2 max-w-[600px]">
                             {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}
                             {goals.length == 0 && <p className="text-zinc-400 text-center">No active goals</p>}
-                        </div>
+                        </ul>
                     </GlassDiv>
                     <GlassDiv>
                         <SubHeading className="text-center">Resources</SubHeading>
-                        <div className="grid gap-2 w-full p-2 max-w-[600px]">
+                        <ul className="grid gap-2 w-full p-2 max-w-[600px]">
                             {resources?.map(r => <StudentResourceDisplay key={r.id} r={r}/>)}
                             {resources.length == 0 && <p className="text-txtsecondary text-center">No resources</p>}
-                        </div>
+                        </ul>
                     </GlassDiv>
                     
                 </section>

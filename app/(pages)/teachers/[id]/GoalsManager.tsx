@@ -9,7 +9,7 @@ function GoalsManager({goals, onUpdate, onDelete}: {goals?: Goal[], onUpdate: (g
     <>
         
         {!goals && <p>Loading <Elipsis/></p>}
-        {goals?.map(g => <GoalDisplay goal={g} key={g.id} onUpdate={onUpdate} onDelete={onDelete}/>)}
+        {goals && <ul>{goals?.map(g => <GoalDisplay goal={g} key={g.id} onUpdate={onUpdate} onDelete={onDelete}/>)}</ul>}
         
     </>
   )
