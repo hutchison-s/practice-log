@@ -144,7 +144,7 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
   return (
     <>
         <SecondaryButton onClick={()=>{setIsSubmitting(true)}} size="sm" 
-                className="flex justify-between items-center mx-auto px-4 my-4 min-w-48">Add Resource<Plus aria-label="Plus Mark" /></SecondaryButton>
+                className="relative flex justify-between items-center mx-auto px-4 my-4 min-w-48">Add Resource<Plus aria-label="Plus Mark" /></SecondaryButton>
         <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
             <form 
                 ref={formRef}

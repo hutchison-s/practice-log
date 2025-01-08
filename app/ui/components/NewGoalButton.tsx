@@ -59,7 +59,7 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
                     setIsSubmitting(!isSubmitting)
                 }}
                 size="sm" 
-                className="flex justify-between items-center mx-auto px-4 my-4 min-w-48">
+                className="relative flex justify-between items-center mx-auto px-4 my-4 min-w-48">
                     <span>Add Goal</span> <Plus aria-label="Plus Mark" />
             </SecondaryButton>
         
