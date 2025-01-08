@@ -12,11 +12,11 @@ const inter = Inter({subsets: ["latin"], display: 'swap', variable: '--inter-fon
 
 export const metadata: Metadata = {
   title: "Practice HQ",
-  description: "The essential platform for connecting lessons and practice to drive measurable growth.",
+  description: "The essential platform for connecting music lessons and student practice to drive measurable growth.",
   openGraph: {
     images: ['/opengraph.png'],
     type: 'website',
-    description: "The essential platform for connecting lessons and practice to drive measurable growth."
+    description: "The essential platform for connecting music lessons and student practice to drive measurable growth."
   }
 };
 
