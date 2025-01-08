@@ -70,9 +70,9 @@ export function SecondaryButton({
     disabled?: boolean
 }) {
     const styles = {
-        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
+        lg: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        md: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        sm: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
     }
     return (
         <button
@@ -88,9 +88,9 @@ export function SecondaryButton({
 
 export function SecondaryLinkButton({children, href, size = 'md', className}: {children: React.ReactNode, href: string, size?: 'lg' | 'md' | 'sm', className?: string}) {
     const styles = {
-        lg: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        md: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
-        sm: "font-inter bg-white/5 backdrop-blur border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
+        lg: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-2xl px-20 py-4 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        md: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-lg px-16 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 ",
+        sm: "font-inter bg-white/5 border-2 border-teal-600 text-txtprimary text-shadow-sm text-md px-6 py-2 rounded-xl drop-shadow transition-all hover:scale-105 hover:bg-white/10 "
     }
     return (
         <Link
