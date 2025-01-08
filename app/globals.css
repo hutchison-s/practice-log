@@ -49,6 +49,10 @@ body {
   box-shadow: 4px 6px 20px #00000044;
   border: 1px solid #ffffff33;
 }
+.glass .glass {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 .glass::before,
 dialog::before {
   content: '';
