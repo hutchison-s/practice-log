@@ -37,8 +37,8 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <p className="text-zinc-400">{student.subject}</p>
                 <p className="text-zinc-400"><span>with </span><span className="relative text-teal-500">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} aria-label="New Message" className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
             </div>
-            <div className="grid gap-4 justify-center lg:grid-cols-2 w-full">
-                <section className="flex flex-col gap-4 items-center border-2 glass rounded-lg p-4 h-fit lg:sticky lg:top-24">
+            <div className="flex flex flex-wrap gap-8 md:gap-4 justify-center w-full">
+                <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] border-2 glass rounded-lg p-4 order-1">
                     <SubHeading>Weekly Goal</SubHeading>
                     <div className="flex w-full justify-items-center text-center">
                         <div className="mx-auto">
@@ -56,13 +56,25 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     <p>{thisWeek ? thisWeek.current_week_minutes : 0} of {student.weekly_goal} minutes</p>
                     <PracticeButton />
                 </section>
-                <section className="flex flex-col gap-4 items-center">
-                <TotalPractice logs={logs || []} />
+                
+                <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] order-2">
+                    <TotalPractice logs={logs || []} />
                     <GlassDiv>
                         <SubHeading className="text-center">Active Goals</SubHeading>
                         {goals && <GoalsList goals={goals.slice(0, 5)} isStudentView/>}
                         {goals?.length > 4 && <Link href={`/students/${id}/goals`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Goals</Link>}
                     </GlassDiv>
+                </section>
+                <section className="flex-[100%] flex flex-col gap-4 items-center order-4 md:flex-[40%] md:order-3">
+                    <GlassDiv>
+                        <SubHeading className="text-center">Previous Logs</SubHeading>
+                        <div className="grid gap-2 w-full max-w-[600px] mx-auto">
+                            {logs && <PracticeLogList logs={logs.slice(0, 5)}/>}
+                            {logs && logs.length > 5 && <Link href={`/students/${id}/logs`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Logs</Link>}
+                        </div>
+                    </GlassDiv>
+                </section>
+                <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] order-3 md:order-4">
                     <GlassDiv>
                         <SubHeading className="text-center">Resources</SubHeading>
                             {resources && <ResourceList resources={resources.slice(0, 5)} isStudentView/>}
@@ -70,14 +82,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     </GlassDiv>
                     
                 </section>
+                
             </div>
-            
-            <SubHeading className="mt-8">Previous Logs</SubHeading>
-                    
-                    <div className="grid gap-2 w-full max-w-[600px] mx-auto">
-                        {logs && <PracticeLogList logs={logs.slice(0, 5)}/>}
-                        {logs && logs.length > 5 && <Link href={`/students/${id}/logs`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Logs</Link>}
-                    </div>
+           
 
         </>
     )
