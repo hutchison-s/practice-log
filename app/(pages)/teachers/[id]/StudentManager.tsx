@@ -20,7 +20,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SubHeading from "@/app/ui/components/SubHeading";
 import Elipsis from "@/app/ui/components/Elipsis";
-import BodyText from "@/app/ui/components/BodyText";
 
 function StudentManager({
   details,
@@ -123,60 +122,49 @@ function StudentManager({
           Next Lesson: {details.nextLessonDay}
         </p>
 
-        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">
-          Recent Logs
-        </SubHeading>
-        {isLoaded && details.logs.length == 0 && (
-          <BodyText className="font-light">No logs yet</BodyText>
-        )}
+        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Recent Logs</SubHeading>
         {isLoaded ? <LogManager logs={details.logs} /> : <Elipsis />}
-        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">
-          Goals
-        </SubHeading>
-        <GoalsManager
-          goals={details.goals}
-          onUpdate={(g: Goal) => {
-            dispatch({ type: "UPDATE_GOAL", payload: { goal: g } });
-          }}
-          onDelete={(id: string) => {
-            dispatch({ type: "DELETE_GOAL", payload: { goalId: id } });
-          }}
-        />
-        {isLoaded && details.goals.length == 0 && (
-          <BodyText className="font-light">No goals yet</BodyText>
-        )}
-        {isLoaded ? (
-          <NewGoalButton
-            student_id={details.student.id}
-            onCreate={(g: Goal) => {
-              dispatch({ type: "CREATE_GOAL", payload: { goal: g } });
-            }}
-          />
-        ) : (
-          <Elipsis />
-        )}
-        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">
-          Resources
-        </SubHeading>
-        <ResourcesManager
-          resources={details.resources}
-          onDelete={(id: string) => {
-            dispatch({ type: "DELETE_RESOURCE", payload: { resourceId: id } });
-          }}
-        />
-        {isLoaded && details.resources.length == 0 && (
-          <BodyText className="font-light">No resources yet</BodyText>
-        )}
-        {isLoaded ? (
-          <NewResourceButton
-            student_id={details.student.id}
-            onCreate={(r: Resource) => {
-              dispatch({ type: "CREATE_RESOURCE", payload: { resource: r } });
-            }}
-          />
-        ) : (
-          <Elipsis />
-        )}
+        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Goals</SubHeading>
+        
+        {isLoaded 
+          ? <>
+              <GoalsManager
+                goals={details.goals}
+                onUpdate={(g: Goal) => {
+                  dispatch({ type: "UPDATE_GOAL", payload: { goal: g } });
+                }}
+                onDelete={(id: string) => {
+                  dispatch({ type: "DELETE_GOAL", payload: { goalId: id } });
+                }}
+              />
+              <NewGoalButton
+                student_id={details.student.id}
+                onCreate={(g: Goal) => {
+                  dispatch({ type: "CREATE_GOAL", payload: { goal: g } });
+                }}
+              />
+            </> 
+          : <Elipsis />
+        }
+        <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Resources</SubHeading>
+        
+        {isLoaded 
+          ? <>
+              <ResourcesManager
+                resources={details.resources}
+                onDelete={(id: string) => {
+                  dispatch({ type: "DELETE_RESOURCE", payload: { resourceId: id } });
+                }}
+              /> 
+              <NewResourceButton
+                student_id={details.student.id}
+                onCreate={(r: Resource) => {
+                  dispatch({ type: "CREATE_RESOURCE", payload: { resource: r } });
+                }}
+              />
+            </> 
+          : <Elipsis />
+        }
 
         <div className="w-full flex gap-2 justify-evenly items-center mt-4 border-t-2 border-t-background/50 pt-4">
           <EditStudentButton

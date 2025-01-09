@@ -1,6 +1,6 @@
 'use client'
 
-import PracticeButton from "@/app/(pages)/students/[id]/log/PracticeButton";
+import PracticeButton from "@/app/(pages)/students/[id]/PracticeButton";
 import { useSession } from "@/app/_sessionContext/SessionProvider"
 import { useEffect, useState } from "react";
 

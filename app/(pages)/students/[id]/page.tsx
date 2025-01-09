@@ -1,17 +1,17 @@
 import SubHeading from "@/app/ui/components/SubHeading";
-import PageTitle from "../../../../ui/components/PageTitle";
+import PageTitle from "../../../ui/components/PageTitle";
 import PracticeButton from "./PracticeButton";
 import Link from "next/link";
-import LogDisplay from "@/app/ui/components/LogDisplay";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import PieChart from "@/app/ui/components/PieChart";
 import { Enrollee, Goal, logRow, Resource, User, WeeklyPractice } from "@/app/types";
-import StudentGoalDisplay from "@/app/ui/components/StudentGoalDisplay";
-import StudentResourceDisplay from "@/app/ui/components/StudentResourceDisplay";
 import { TotalPractice } from "@/app/ui/components/TotalPractice";
 import { MessageCircle, MessageCircleWarning } from "lucide-react";
 import GlassDiv from "@/app/ui/components/GlassDiv";
 import { Metadata } from "next";
+import PracticeLogList from "@/app/ui/components/PracticeLogList";
+import GoalsList from "../../teachers/[id]/GoalsList";
+import ResourceList from "../../teachers/[id]/ResourceList";
 
 export const metadata: Metadata = {
     title: "Student Portal",
@@ -24,7 +24,6 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
     const {data} = await fetchJSONWithToken<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}>(`${apiURL}/students/${id}/details`);
     if (!data) throw new Error("Server error");
-    console.log(data)
     const {student, logs, resources, goals, thisWeek} = data;
     if (!student) throw new Error("Could not locate student records.")
     const teacherResponse = await fetchJSONWithToken<User>(`${apiURL}/teachers/${student.teacher_id}`);
@@ -39,7 +38,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <p className="text-zinc-400"><span>with </span><span className="relative text-teal-500">{teacherResponse.data?.name} <Link href={`/students/${id}/messages`} className="absolute left-full top-1/2 -translate-y-1/2 translate-x-2">{hasNewMessage ? <MessageCircleWarning size={40} aria-label="New Message" className="animate-bounce" color="white"/> : <MessageCircle/>}</Link></span></p>
             </div>
             <div className="grid gap-4 justify-center lg:grid-cols-2 w-full">
-                <section className="flex flex-col gap-4 items-center border-2 glass rounded-lg p-4 h-fit lg:sticky lg:top-20">
+                <section className="flex flex-col gap-4 items-center border-2 glass rounded-lg p-4 h-fit lg:sticky lg:top-24">
                     <SubHeading>Weekly Goal</SubHeading>
                     <div className="flex w-full justify-items-center text-center">
                         <div className="mx-auto">
@@ -61,17 +60,13 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <TotalPractice logs={logs || []} />
                     <GlassDiv>
                         <SubHeading className="text-center">Active Goals</SubHeading>
-                        <ul className="grid gap-2 w-full p-2 max-w-[600px]">
-                            {goals?.map(g => <StudentGoalDisplay goal={g} key={g.id} />)}
-                            {goals.length == 0 && <p className="text-zinc-400 text-center">No active goals</p>}
-                        </ul>
+                        {goals && <GoalsList goals={goals.slice(0, 5)} isStudentView/>}
+                        {goals?.length > 4 && <Link href={`/students/${id}/goals`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Goals</Link>}
                     </GlassDiv>
                     <GlassDiv>
                         <SubHeading className="text-center">Resources</SubHeading>
-                        <ul className="grid gap-2 w-full p-2 max-w-[600px]">
-                            {resources?.map(r => <StudentResourceDisplay key={r.id} r={r}/>)}
-                            {resources.length == 0 && <p className="text-txtsecondary text-center">No resources</p>}
-                        </ul>
+                            {resources && <ResourceList resources={resources.slice(0, 5)} isStudentView/>}
+                            {resources?.length > 4 && <Link href={`/students/${id}/resources`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Resources</Link>}
                     </GlassDiv>
                     
                 </section>
@@ -79,12 +74,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
             
             <SubHeading className="mt-8">Previous Logs</SubHeading>
                     
-                    <div className="grid gap-2">
-                        {logs && logs.map((log, idx) => {
-                            return idx < 5 ?<LogDisplay log={log} key={log.log_id}/> : null
-                        })}
-                        {logs && logs.length > 5 && <Link href={`/students/${id}/log/history`} className="text-lighter underline text-right text-sm">...view full list</Link>}
-                        {logs.length == 0 && <p className="text-txtsecondary text-center">No logs yet</p>}
+                    <div className="grid gap-2 w-full max-w-[600px] mx-auto">
+                        {logs && <PracticeLogList logs={logs.slice(0, 5)}/>}
+                        {logs && logs.length > 5 && <Link href={`/students/${id}/logs`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Logs</Link>}
                     </div>
 
         </>

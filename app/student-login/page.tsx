@@ -44,7 +44,7 @@ function Page() {
 
         console.log(message);
         login(data);
-        router.push(`/students/${data.id}/log`);
+        router.push(`/students/${data.id}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred.');
         setIsLoading(false);
