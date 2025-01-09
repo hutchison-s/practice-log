@@ -35,7 +35,7 @@ export default function PracticeButton() {
                     {isSubmitting ? "Ending session..." : "Stop Practice Session"}
                 </SecondaryButton>
             :   <PrimaryButton
-                    size="md"
+                    size="lg"
                     onClick={startSession}
                     className="mx-auto"
                 >
