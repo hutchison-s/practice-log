@@ -24,9 +24,11 @@ import Elipsis from "@/app/ui/components/Elipsis";
 function StudentManager({
   details,
   dispatch,
+  onDelete,
 }: {
   details?: StudentDetails;
   dispatch: (action: ActionType) => void;
+  onDelete: (id: string) => void;
 }) {
   const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -63,11 +65,6 @@ function StudentManager({
         </section>
       </>
     );
-  }
-
-  function handleDeleteStudent() {
-    dispatch({ type: "SET_SELECTED_STUDENT", payload: undefined });
-    router.refresh();
   }
 
   function handleUpdateStudent() {
@@ -173,7 +170,7 @@ function StudentManager({
           />
           <DeleteStudentButton
             student={details.student}
-            onDelete={handleDeleteStudent}
+            onDelete={onDelete}
           />
         </div>
       </section>

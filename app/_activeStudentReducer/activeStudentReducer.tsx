@@ -11,7 +11,6 @@ type Action =
   | { type: "SET_DETAILS"; payload: StudentDetails }
   | { type: "CLEAR_DETAILS" }
   | { type: "SET_SELECTED_STUDENT"; payload: EnrolleeWithCurrentWeekPractice | undefined};
-
 // Reducer function
 export const reducer = (state: StudentDetails | undefined, action: Action): StudentDetails | undefined => {
   switch (action.type) {
@@ -94,7 +93,6 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
         } else {
             return undefined;
         }
-
     default:
       return state;
   }

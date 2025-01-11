@@ -23,11 +23,15 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.subject, 
             s.weekly_goal,
             s.day_of_week,
+            s.group_id,
+            g.color as group_color,
             SUM(log.total_time) AS total_practice_time
         FROM 
             students AS s
         LEFT JOIN 
             logs AS log ON log.student_id = s.id
+        LEFT JOIN
+            groups AS g ON g.id = s.group_id
         WHERE 
             s.teacher_id = ${id}
         GROUP BY
@@ -39,7 +43,9 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.teacher_id, 
             s.subject, 
             s.weekly_goal,
-            s.day_of_week;
+            s.day_of_week,
+            s.group_id,
+            group_color;
         `;
         for (const s of rows) {
             const {data} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${s.id}/logs/current_week`, 3600);

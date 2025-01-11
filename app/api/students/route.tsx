@@ -6,7 +6,7 @@ import { getRoles } from "../helpers";
 
 export async function POST(request: Request): apiResponse<Enrollee> {
     try {
-        const {name, subject, teacher_id, weeklyGoal, dow} = await request.json();
+        const {name, subject, teacher_id, weeklyGoal, dow, group_id} = await request.json();
         if (!name || !subject || !teacher_id || !weeklyGoal || !dow) {
             console.error('missing required field(s)', name, subject, teacher_id, weeklyGoal, dow);
         }
@@ -15,7 +15,7 @@ export async function POST(request: Request): apiResponse<Enrollee> {
         if (!roles.includes('teacher')) {
             return NextResponse.json({message: 'Access Denied'}, {status: 403})
         }
-        const insertResponse = await sql`INSERT INTO students (name, subject, teacher_id, weekly_goal, day_of_week) VALUES (${name}, ${subject}, ${teacher_id}, ${weeklyGoal}, ${parseInt(dow)}) RETURNING *`;
+        const insertResponse = await sql`INSERT INTO students (name, subject, teacher_id, weekly_goal, day_of_week, group_id) VALUES (${name}, ${subject}, ${teacher_id}, ${weeklyGoal}, ${parseInt(dow)}, ${group_id || null}) RETURNING *`;
         if (insertResponse.rowCount == 0) {
             return NextResponse.json({message: 'failed to create student'}, {status: 500})
         }

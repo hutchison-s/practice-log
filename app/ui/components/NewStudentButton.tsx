@@ -1,5 +1,6 @@
 'use client'
 
+import { Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react"
@@ -13,6 +14,8 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const [subject, setSubject] = useState('');
     const [dow, setDow] = useState("0");
     const [weeklyGoal, setWeeklyGoal] = useState(60);
+    const [groupId, setGroupId] = useState<string | null>(null)
+    const [groups, setGroups] = useState<Group[]>([])
     const [hasError, setHasError] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
     const modalRef = useRef<HTMLDialogElement>(null);
@@ -31,7 +34,8 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                 subject,
                 teacher_id,
                 dow,
-                weeklyGoal
+                weeklyGoal,
+                group_id: groupId == '0' ? null : groupId,
             })
         }).then(async res => {
             if (!res.ok) {
@@ -62,8 +66,17 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     }, [hasError])
 
     useEffect(()=>{
+        const populateGroups = async () => {
+            fetch(`/api/teachers/${teacher_id}/groups`)
+            .then(res => res.json())
+            .then(json => {
+              setGroups([...json.data])
+              modalRef.current?.showModal();
+            })
+            .catch(err => console.error(err))
+          }
         if (isOpen) {
-            modalRef.current?.showModal()
+            populateGroups()
         } else {
             modalRef.current?.close()
         }
@@ -88,14 +101,14 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     id='name' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(e.target.value)}} 
-                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
                 <label htmlFor="subject" className="font-bold font-golos text-white">Subject or Instrument
                 <input
                     id='subject' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(e.target.value)}} 
-                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
                 <label htmlFor="weeklyGoal" className="font-bold font-golos text-white">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span>
                 <input
@@ -103,10 +116,10 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     type="number" 
                     defaultValue={60}
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}} 
-                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400'
+                    className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
                 <label htmlFor="dow" className="font-bold font-golos text-white">Lesson Day
-                <select name="dow" id="dow" className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 focus:outline-none font-inter font-light text-zinc-400' 
+                <select name="dow" id="dow" className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400' 
                     onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
                     <option value="0">Sunday</option>
                     <option value="1">Monday</option>
@@ -116,6 +129,13 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     <option value="5">Friday</option>
                     <option value="6">Saturday</option>
                 </select></label>
+                <label className=" font-bold font-golos text-white">
+                  Assign to a group:
+              <select onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
+                <option value={'0'}>No Group</option>
+                {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
+              </select>
+          </label>
                 <div className="w-full grid place-items-center gap-2 mt-4">
                     <PrimaryButton
                     type="submit"

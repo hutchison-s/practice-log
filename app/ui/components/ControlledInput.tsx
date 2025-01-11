@@ -32,7 +32,7 @@ export function ControlledInput({value, onChange, validator, input_type, label, 
                 onChange(e)
             }} 
             type={input_type}
-            name={label.toLowerCase()} 
+            name={label.toLowerCase().replace(' ', '-')} 
             placeholder={placeholder}
             required={required}
             className='w-full p-2 border-2 rounded bg-transparent focus:outline-none focus:bg-background'

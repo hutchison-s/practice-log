@@ -1,6 +1,6 @@
 'use client'
 
-import { EnrolleeWithCurrentWeekPractice } from "@/app/types";
+import { EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
 import { Pencil } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
@@ -10,20 +10,19 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
     const [subject, setSubject] = useState(student?.subject || '');
     const [dow, setDow] = useState(student?.day_of_week || 0);
     const [weeklyGoal, setWeeklyGoal] = useState(student?.weekly_goal || 0);
-    const [isEditing, setIsEditing] = useState(false);
+    const [groupId, setGroupId] = useState<string | null>(null)
+    const [groups, setGroups] = useState<Group[]>([])
+    const [isOpen, setIsOpen] = useState(false)
     const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(()=>{
-        if (isEditing) {
+        if (isOpen) {
             setName(student?.name || '');
             setSubject(student?.subject || '');
             setWeeklyGoal(student?.weekly_goal || 0);
             setDow(student?.day_of_week || 0);
-            modalRef.current?.showModal();
-        } else {
-            modalRef.current?.close();
         }
-    }, [isEditing, student?.day_of_week, student?.name, student?.subject, student?.weekly_goal])
+    }, [isOpen, student?.day_of_week, student?.name, student?.subject, student?.weekly_goal])
 
     const handleUpdate = (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
@@ -36,7 +35,8 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                 name: fd.get('name'),
                 subject: fd.get('subject'),
                 weeklyGoal: fd.get('weeklyGoal'),
-                dow: fd.get('dow')
+                dow: fd.get('dow'),
+                group_id: groupId == '0' ? null : groupId,
             })
         })
             .then(res => {
@@ -45,7 +45,7 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                 }
                 return res.json()})
             .then(() => {
-                setIsEditing(false);
+                setIsOpen(false);
                 onUpdate();
             })
             .catch(err => {
@@ -53,11 +53,28 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
             })
     }
 
+    useEffect(()=>{
+        const populateGroups = async () => {
+            fetch(`/api/teachers/${student?.teacher_id}/groups`)
+            .then(res => res.json())
+            .then(json => {
+              setGroups([...json.data])
+              modalRef.current?.showModal();
+            })
+            .catch(err => console.error(err))
+          }
+        if (isOpen) {
+            populateGroups()
+        } else {
+            modalRef.current?.close()
+        }
+    }, [isOpen])
+
 
   return (
     <>
         <button 
-            onClick={()=>setIsEditing(true)}
+            onClick={()=>setIsOpen(true)}
             className="grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-600 p-2 rounded-full w-fit outline outline-0 outline-white transition-all hover:scale-105 hover:outline-2">
             <Pencil aria-label="Pencil" size={20} />
         </button>
@@ -93,6 +110,12 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                     <option value={5}>Friday</option>
                     <option value={6}>Saturday</option>
                 </select>
+                <label className=" font-bold font-golos text-white">
+                  Assign to a group:
+              <select defaultValue={student?.group_id || '0'} onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
+                <option value={'0'}>No Group</option>
+                {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
+              </select></label>
                 <div className="mx-auto mt-4">
                     <PrimaryButton 
                         type="submit" 
@@ -102,7 +125,7 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                 </div>
             </form>
             <div className="flex justify-items-end">
-                <SecondaryButton size='sm' onClick={()=>{setIsEditing(false)}} className="py-0 my-4 mx-auto">Cancel</SecondaryButton>
+                <SecondaryButton size='sm' onClick={()=>{setIsOpen(false)}} className="py-0 my-4 mx-auto">Cancel</SecondaryButton>
             </div>
         </dialog>
     </>

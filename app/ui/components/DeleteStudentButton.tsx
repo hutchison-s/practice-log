@@ -2,7 +2,7 @@ import { EnrolleeWithCurrentWeekPractice } from '@/app/types'
 import { Trash } from 'lucide-react'
 import React from 'react'
 
-function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrentWeekPractice, onDelete: ()=>void}) {
+function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrentWeekPractice, onDelete: (id: string)=>void}) {
     if (!student) return <></>
     const handleDelete = ()=>{
         fetch(`/api/students/${student?.id}`, {method: 'DELETE'})
@@ -12,7 +12,7 @@ function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrent
                 }
                 return res.json()})
             .then(() => {
-                onDelete()
+                onDelete(student.id)
             })
             .catch(err => {
                 console.error(err);

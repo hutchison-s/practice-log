@@ -28,8 +28,9 @@ export async function PATCH(
     { params }: { params: Promise<{ id: string }> }
 ): apiResponse<Enrollee> {
     try {
-        const {name, subject, weeklyGoal, dow} = await request.json();
-        if (!name || !subject || !weeklyGoal || !dow) {
+        const {name, subject, weeklyGoal, dow, group_id} = await request.json();
+        console.log(name, subject, weeklyGoal, dow, group_id)
+        if (!name || !subject || !weeklyGoal || dow < 0 || dow > 6 || isNaN(dow)) {
             return NextResponse.json({message: 'Missing required parameters'}, {status: 400})
         }
         const {id} = await params;
@@ -37,7 +38,7 @@ export async function PATCH(
         if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, day_of_week = ${dow} WHERE id = ${id}`;
+        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id}`;
         revalidatePath(`/teachers/${req_id}`)
         revalidatePath(`/api/teachers/${req_id}`)
         revalidatePath(`/api/students/${id}`)

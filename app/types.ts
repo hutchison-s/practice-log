@@ -15,11 +15,20 @@ export interface Enrollee extends User {
     log?: logRow[],
     day_of_week: string,
     weekly_goal: string,
-    teacher_id: string
+    teacher_id: string,
+    group_id: string | null,
+    group_color: string
 }
 
 export interface EnrolleeWithCurrentWeekPractice extends Enrollee {
     current_week_minutes: string
+}
+
+export type Group = {
+    id: string,
+    name: string,
+    teacher_id: string,
+    color: string
 }
 
 export type StudentDetails = {

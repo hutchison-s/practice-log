@@ -29,7 +29,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                             <NewStudentButton teacher_id={id} />
                             <SecondaryLinkButton href={`/teachers/${id}/qr-codes`} className="text-center my-1">View All QR Codes</SecondaryLinkButton>
                         </div>
-                        <StudentBrowser students={students || []} />
+                        <StudentBrowser students={students || []} teacher_id={id}/>
                         <div className="flex w-full justify-center mt-8 p-2 gap-4 flex-wrap md:flex-nowrap">
                             <SecondaryLinkButton href="/password-reset" size="sm">Change Password</SecondaryLinkButton>
                             <SecondaryLinkButton href={`/teachers/${id}/delete-account`} size="sm" className="hover:bg-red-900 hover:border-white">Delete My Account</SecondaryLinkButton>
