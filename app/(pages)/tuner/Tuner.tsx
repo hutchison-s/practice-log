@@ -14,14 +14,15 @@ function Tuner() {
     const parent = useRef<HTMLDivElement>(null)
     const marker = useRef<HTMLDivElement>(null)
     const frequencyHistory = useRef<number[]>([])
+    const stream = useRef<MediaStream>()
 
     useEffect(() => {
         if (!isListening) return;
         const getAudioInput = async () => {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          stream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
           const audioContext = new window.AudioContext
           const analyser = audioContext.createAnalyser();
-          const source = audioContext.createMediaStreamSource(stream);
+          const source = audioContext.createMediaStreamSource(stream.current);
           const bufferLength = analyser.fftSize;
           const buffer = new Float32Array(bufferLength);
     
@@ -46,6 +47,14 @@ function Tuner() {
             }
             if (listeningRef.current) {
                 requestAnimationFrame(detect);
+            } else {
+              if (!stream.current) return;
+                const tracks = stream.current.getTracks();
+                for (const track of tracks) {
+                  track.stop();
+                }
+                source.disconnect();
+                audioContext.close();
             }
           };
     
@@ -53,6 +62,7 @@ function Tuner() {
         };
     
         getAudioInput();
+
       }, [isListening]);
 
       useEffect(()=>{
@@ -66,6 +76,16 @@ function Tuner() {
             })
         }
       }, [frequency])
+
+      useEffect(()=>{
+        return () => {
+          if (!stream.current) return;
+          const tracks = stream.current.getTracks();
+          for (const t of tracks) {
+            t.stop();
+          }
+        }
+      }, [])
 
       function start() {
         setIsListening(true);
