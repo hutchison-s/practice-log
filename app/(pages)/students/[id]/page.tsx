@@ -4,7 +4,7 @@ import PracticeButton from "./PracticeButton";
 import Link from "next/link";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import PieChart from "@/app/ui/components/PieChart";
-import { Enrollee, Goal, logRow, Resource, User, WeeklyPractice } from "@/app/types";
+import { Enrollee, Goal, logRow, Resource, User, weeklyTotal } from "@/app/types";
 import { TotalPractice } from "@/app/ui/components/TotalPractice";
 import { MessageCircle, MessageCircleWarning } from "lucide-react";
 import GlassDiv from "@/app/ui/components/GlassDiv";
@@ -22,13 +22,14 @@ export const metadata: Metadata = {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const id = (await params).id;
-    const {data} = await fetchJSONWithToken<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: WeeklyPractice}>(`${apiURL}/students/${id}/details`);
+    const {data} = await fetchJSONWithToken<{student: Enrollee, logs: logRow[], resources: Resource[], goals: Goal[], thisWeek: weeklyTotal}>(`${apiURL}/students/${id}/details`);
     if (!data) throw new Error("Server error");
     const {student, logs, resources, goals, thisWeek} = data;
     if (!student) throw new Error("Could not locate student records.")
     const teacherResponse = await fetchJSONWithToken<User>(`${apiURL}/teachers/${student.teacher_id}`);
     const {data: newMessages} = await fetchJSONWithToken<number>(`${apiURL}/students/${student.id}/messages/unread`);
     const hasNewMessage = newMessages != 0;
+    console.log(data)
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
@@ -43,17 +44,17 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     <div className="flex w-full justify-items-center text-center">
                         <div className="mx-auto">
                             {thisWeek
-                                ? <PieChart aria-label="Pie Chart" percent={Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)} size={50}/>
+                                ? <PieChart aria-label="Pie Chart" percent={Math.round((Math.floor((parseInt(thisWeek.weekly_total)) / 60) / student.weekly_goal) * 100)} size={50}/>
                                 : <PieChart aria-label="Pie Chart" percent={0} size={50} />
                             }
                         </div>
                     </div>
                     
                     {thisWeek
-                        ? <p>{Math.round((parseInt(thisWeek.current_week_minutes) / parseInt(thisWeek.weekly_goal)) * 100)}%</p>
+                        ? <p>{Math.round((Math.floor((parseInt(thisWeek.weekly_total)) / 60) / student.weekly_goal) * 100)}%</p>
                         : <p>0%</p>
                     }
-                    <p>{thisWeek ? thisWeek.current_week_minutes : 0} of {student.weekly_goal} minutes</p>
+                    <p>{thisWeek ? Math.floor((parseInt(thisWeek.weekly_total)) / 60) : 0} of {student.weekly_goal} minutes</p>
                     <PracticeButton />
                 </section>
                 

@@ -22,7 +22,7 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
   return (
     <li 
         className='relative w-full grid grid-cols-[2rem_1fr_2rem] items-center px-4 py-2 bg-gradient-to-tl from-indigo-950/75 to-indigo-800/75 border-[1px] border-white/25 backdrop-blur rounded shadow-sm'
-        style={{opacity: goal.is_complete ? '0.3' : '1'}}
+        style={{opacity: goal.is_complete ? '0.3' : '1', filter: goal.is_complete ? 'brightness(50%)' : 'brightness(100%)'}}
     > 
         <div className="grid place-items-center justify-start">
             {user.id != goal.student_id  ? <GoalCheck goal={goal} onUpdate={onUpdate}/> : <CheckCircle aria-label='Empty Checkbox'/>}

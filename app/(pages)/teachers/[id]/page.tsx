@@ -15,10 +15,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+            const {data: teacher} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`);
 
-            const {data: teacher} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`, 1800);
-
-            const {data: students} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`, 1800);
+            const {data: students} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`);
             if (!teacher) throw new Error("No teacher found")
                 return (
                     <>

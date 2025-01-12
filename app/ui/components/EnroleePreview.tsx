@@ -3,9 +3,9 @@ import PieChart from "./PieChart";
 import AssignGroupButton from "@/app/(pages)/teachers/[id]/AssignGroupButton";
 
 function EnroleePreview({student, isSelected, onClick, onAssign}: {student: EnrolleeWithCurrentWeekPractice, isSelected: boolean, onClick: ()=>void, onAssign: (student_id: string, group_id: string | null, group_color?: string)=>void}) {
-    const weekSum = Number.isNaN(parseInt(student.current_week_minutes || "0")) ? 0 : Math.round(parseInt(student.current_week_minutes || "0"));
+    const weekSum = student?.current_week_minutes
     const weekGoal = student.weekly_goal;
-    const percent = Math.min(Math.round((weekSum / parseInt(weekGoal)) * 100), 100);
+    const percent = Math.min(Math.round((weekSum / weekGoal) * 100), 100);
     const goalDisplay = `${percent}%`
 
   return (

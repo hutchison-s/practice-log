@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
-import { apiResponse, EnrolleeWithCurrentWeekPractice, WeeklyPractice } from "@/app/types";
+import { apiResponse, EnrolleeWithCurrentWeekPractice, weeklyTotal } from "@/app/types";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<EnrolleeWithCurrentWeekPractice[]> {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -47,13 +47,18 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.group_id,
             group_color;
         `;
-        for (const s of rows) {
-            const {data} = await fetchJSONWithToken<WeeklyPractice>(`${apiURL}/students/${s.id}/logs/current_week`, 3600);
-            s.current_week_minutes = data?.current_week_minutes;
+        const students = [...rows]
+        for (let i = 0; i < students.length; i++) {
+            const {data} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${students[i].id}/logs/week_total?current=true`);
+            students[i] = {
+                ...students[i],
+                current_week_minutes: data && data[0] ? Math.floor(parseInt(data[0].weekly_total) / 60) : 0
+            }
         }
+        console.log(students)
         return NextResponse.json({
             message: 'success', 
-            data: rowCount && rowCount > 0 ? rows as EnrolleeWithCurrentWeekPractice[]: []
+            data: rowCount && rowCount > 0 ? students as EnrolleeWithCurrentWeekPractice[]: []
         }, { status: 200 });
     } catch (error) {
         console.error(error);

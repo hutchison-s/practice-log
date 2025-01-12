@@ -1,5 +1,6 @@
 export function utcToTimeZone(utcTimestamp: string, format='day, month, date, year, hour, minute'): string {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('Formatting', utcTimestamp)
 
     const utcDate = new Date(utcTimestamp);
 
@@ -16,4 +17,20 @@ export function utcToTimeZone(utcTimestamp: string, format='day, month, date, ye
     }).format(utcDate);
 
     return localDateString
+}
+
+export function utcToDateInput(utcTimestamp: string) {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('Formatting', utcTimestamp)
+
+    const utcDate = new Date(utcTimestamp);
+
+    const inputDateFormat = new Intl.DateTimeFormat('en-CA', {
+        year: 'numeric',
+        month: 'numeric', 
+        day: 'numeric', 
+        timeZone: userTimezone, // Use the detected timezone
+    }).format(utcDate);
+
+    return inputDateFormat
 }
