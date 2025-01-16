@@ -1,11 +1,11 @@
 'use client'
 
-import { EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
+import { Enrollee, EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
 import { Pencil } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
-function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWeekPractice, onUpdate: ()=>void}) {
+function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWeekPractice, onUpdate: (s: Enrollee)=>void}) {
     const [name, setName] = useState(student?.name || '');
     const [subject, setSubject] = useState(student?.subject || '');
     const [dow, setDow] = useState(student?.day_of_week || 0);
@@ -46,9 +46,11 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                     throw new Error('Update request failed')
                 }
                 return res.json()})
-            .then(() => {
+            .then((json) => {
+                console.log('patch returned', json.data)
+                onUpdate(json.data);
                 setIsOpen(false);
-                onUpdate();
+                
             })
             .catch(err => {
                 console.error(err);

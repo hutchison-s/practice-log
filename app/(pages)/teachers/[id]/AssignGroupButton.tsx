@@ -23,7 +23,7 @@ function AssignGroupButton({student, onAssign}: {student: EnrolleeWithCurrentWee
               method: 'PATCH', 
               headers: {'content-type': 'application/json'}, 
               body: JSON.stringify({
-                name: student.name, subject: student.subject, weeklyGoal: student.weekly_goal, dow: student.day_of_week, group_id: group_id
+                name: student.name, subject: student.subject, weeklyGoal: student.weekly_goal, time_of_day: student.time_of_day, dow: student.day_of_week, group_id: group_id
               })})
               .then(res => {
                 if (res.ok) {

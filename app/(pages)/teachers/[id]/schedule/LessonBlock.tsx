@@ -10,10 +10,10 @@ function LessonBlock({student, onClick}: {student: EnrolleeWithCurrentWeekPracti
     <button onClick={
       onClick ? ()=>onClick(student) : ()=>{router.push(`/teachers/${student.teacher_id}?student=${student.id}`)}
     }
-        className='w-full p-1 rounded-lg border-[1px] border-white/25 text-txtprimary shadow-[0_0_20px_#00000055_inset,0_0_4px_#00000085_inset]'
-        style={{flexGrow: 30 / 15, backgroundImage: `linear-gradient(135deg, ${student.group_color}, ${student.group_color}33)`}}>
+        className='w-full rounded-lg px-[0.5rem] border-[1px] border-white/25 text-txtprimary shadow-[0_0_20px_#00000055_inset,0_0_4px_#00000085_inset]'
+        style={{flex: 30 / 15, backgroundImage: `linear-gradient(135deg, ${student.group_color}, ${student.group_color}33)`}}>
         <p className="text-xs pl-1 pt-1">{simpleTimeString(student.time_of_day)}</p>
-        <h4 className='text-center'>{student.name}</h4>
+        <h4 className='text-center text-sm text-light'>{student.name.substring(0, 10)}{student.name.length > 7 ? '...' : ''}</h4>
     </button>
   )
 }

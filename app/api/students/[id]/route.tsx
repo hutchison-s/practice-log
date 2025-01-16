@@ -37,10 +37,11 @@ export async function PATCH(
         if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day},day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id}`;
+        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day},day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
         revalidatePath(`/teachers/${req_id}`)
         revalidatePath(`/api/teachers/${req_id}`)
         revalidatePath(`/api/students/${id}`)
+        console.log('sending', response.rows)
         return NextResponse.json({message: 'success', data: response.rows[0] as Enrollee}, {status: 200})
     } catch (err) {
         console.error(err);

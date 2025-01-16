@@ -1,13 +1,12 @@
 'use client'
 
-import { Group } from "@/app/types";
+import { Enrollee, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
-import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 
 
 
-function NewStudentButton({teacher_id}: {teacher_id: string}) {
+function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate: (s: Enrollee)=>void}) {
     
     const [isOpen, setIsOpen] = useState(false);
     const [name, setName] = useState('');
@@ -20,7 +19,6 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const [hasError, setHasError] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
     const modalRef = useRef<HTMLDialogElement>(null);
-    const router = useRouter();
 
     const handleEnroll = () => {
         console.log('ernolling new student')
@@ -47,7 +45,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
             console.log(data.message)
             setName('');
             setIsOpen(false);
-            router.refresh();
+            onCreate(data.data)
             
         }).catch(error => {
             console.error(error);

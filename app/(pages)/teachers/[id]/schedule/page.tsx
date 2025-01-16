@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 async function Calendar({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
     const {id} = await params;
     const {data: students} = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`)
     if (!students) return <></>

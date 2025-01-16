@@ -1,29 +1,32 @@
 'use client';
 
-import { ChangeEvent, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import StudentList from "./StudentList";
 import StudentManager from "./StudentManager";
-import { EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
+import { Enrollee, EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
 import { getDetails } from "./actions";
 import { reducer } from "@/app/_activeStudentReducer/activeStudentReducer";
 import Elipsis from "@/app/ui/components/Elipsis";
 import NewGroupButton from "./NewGroupButton";
 import EditGroupButton from "./EditGroupButton";
 import DeleteGroupButton from "./DeleteGroupButton";
-import { useRouter, useSearchParams } from "next/navigation";
-import WeekSchedule from "./schedule/WeekSchedule";
+import { useSearchParams } from "next/navigation";
 import StudentScheduleList from "./StudentScheduleList";
 import { Calendar, List } from "lucide-react";
+import { studentListReducer } from "@/app/_studentListReducer/studentListReducer";
+import NewStudentButton from "@/app/ui/components/NewStudentButton";
+import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
 
 function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurrentWeekPractice[], teacher_id: string }) {
   const searchParams = useSearchParams();
   const initialSelected = searchParams.get('student');
   const [state, dispatch] = useReducer(reducer, undefined);
+  const [studentList, dispatchStudentList] = useReducer(studentListReducer, students)
   const [groups, setGroups] = useState<Group[]>([]);
+  const [groupId, setGroupId] = useState('0');
+  const [activeGroup, setActiveGroup] = useState<Group>()
   const [isListView, setIsListView] = useState(true);
-  const [filterId, setFilterId] = useState('0');
   const [filtered, setFiltered] = useState<EnrolleeWithCurrentWeekPractice[]>(students)
-  const router = useRouter();
 
   useEffect(() => {
     const init = async (student?: EnrolleeWithCurrentWeekPractice) => {
@@ -54,22 +57,14 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
     }
   }, [state?.student]);
 
-  const handleFilter = (e: ChangeEvent<HTMLSelectElement>) => {
-    const filterVal = e.target.value;
-    const group = groups.find(group => group.id == filterVal);
-
-    setFiltered(prev => {
-      console.log(prev.length)
-        return [...students.filter(s => {
-          if (!group) return true;
-          return s.group_id == group.id
-        })]
-    })
-
+  useEffect(()=>{
+      setFiltered(prev => [...studentList?.filter(s => {
+        console.log(prev.length)
+        return groupId == '0' || s.group_id == groupId
+      })])
     dispatch({type: 'CLEAR_DETAILS'})
-    setFilterId(group?.id || '0')
-  
-  }
+    setActiveGroup(groups.find(g => g.id == groupId))
+  }, [groupId, studentList])
 
   const handleNewGroup = (g: Group) => {
     if (!groups) {
@@ -83,33 +78,14 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
     setGroups(prev => {
       return [...prev.map(each => each.id == g.id ? g : each)]
     })
-    students.forEach(each => {
-      if (each.group_id == g.id) {
-        each.group_color = g.color;
-      }
-    })
-    setFiltered(prev => {
-      console.log(prev.length)
-        return [...students.filter(s => {
-          if (!filterId) return true;
-          return s.group_id == filterId
-        })]
-    })
-    router.refresh();
+    dispatchStudentList({type: 'UPDATE_ALL', payload: [...students.map(s => s.group_id == g.id ? {...s, group_color: g.color} : {...s})]})
   }
 
   const handleDeleteGroup = (g: Group) => {
     dispatch({type: 'CLEAR_DETAILS'});
-    setFilterId('0');
-    students.forEach(each => {
-      if (each.group_id == g.id) {
-        each.group_color = '#000000';
-        each.group_id = null;
-      }
-    })
-    setFiltered(students)
+    dispatchStudentList({type: 'UPDATE_ALL', payload: [...students.map(s => s.group_id == g.id ? {...s, group_id: null, group_color: '#000000'} : {...s})]})
+    setGroupId('0');
     setGroups(prev => prev.filter(each => each.id !== g.id))
-    router.refresh();
   }
 
   const handleDeselect = (target: HTMLElement)=>{
@@ -119,17 +95,15 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
   }
 
   const handleDeleteStudent = (id: string) => {
-    const idx = students.findIndex(s => s.id == id);
-    students.splice(idx, 1);
     dispatch({ type: "SET_SELECTED_STUDENT", payload: undefined });
-    setFiltered(prev => {
-      console.log(prev.length)
-        return [...students.filter(s => {
-          if (!filterId) return true;
-          return s.group_id == filterId
-        })]
-    })
-    router.refresh();
+    dispatchStudentList({type: 'DELETE_STUDENT', payload: id})
+  }
+  const handleAddStudent = (student: Enrollee) => {
+    dispatchStudentList({type: 'ADD_STUDENT', payload: {...student, current_week_minutes: 0}})
+  }
+  const handleUpdateStudent = (student: EnrolleeWithCurrentWeekPractice) => {
+    console.log('updating to', student)
+    dispatchStudentList({type: 'MODIFY_STUDENT', payload: {...student, group_color: student.group_id == '0' ? '#000000' : groups.find(g => g.id == student.group_id)!.color}});
   }
 
   const handleClick = (e: MouseEvent) => {
@@ -166,15 +140,20 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
   }, [])
 
   return (
+    <>
+    <div className="flex justify-evenly w-full flex-wrap gap-2">
+        <NewStudentButton teacher_id={teacher_id} onCreate={handleAddStudent}/>
+        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1">View All QR Codes</SecondaryLinkButton>
+    </div>
     <div className="relative w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-2">
       <div className="lg:col-span-2 w-full max-w-[500px] mx-auto flex items-center justify-start gap-2 my-2">
         <label htmlFor="filter" className="text-zinc-400 text-lg">Group:</label>
-        <select name="filter" id="filter" onChange={handleFilter} className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
-          <option value={0}>All Students</option>
+        <select name="filter" id="filter" value={groupId} onChange={(e)=>setGroupId(e.target.value)} className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
+          <option value={'0'}>All Students</option>
           {groups?.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
         </select>
-        {filterId !== '0' && <EditGroupButton onUpdate={handleEditGroup} group={groups.find(g => g.id === filterId)} teacher_id={teacher_id}/>}
-        {filterId !== '0' && <DeleteGroupButton onDelete={handleDeleteGroup} group={groups.find(g => g.id === filterId)} teacher_id={teacher_id} />}
+        <EditGroupButton onUpdate={handleEditGroup} group={activeGroup} teacher_id={teacher_id}/>
+        <DeleteGroupButton onDelete={handleDeleteGroup} group={activeGroup} teacher_id={teacher_id} />
         <NewGroupButton teacher_id={teacher_id} onCreate={handleNewGroup}/>
       </div>
       <div className="w-full md:col-span-2 pl-2">
@@ -206,8 +185,10 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
         details={state}
         dispatch={dispatch}
         onDelete={handleDeleteStudent}
+        onEdit={handleUpdateStudent}
       />}
     </div>
+    </>
   );
 }
 

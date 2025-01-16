@@ -1,6 +1,6 @@
 "use client";
 
-import { Goal, Resource, StudentDetails } from "@/app/types";
+import { Enrollee, EnrolleeWithCurrentWeekPractice, Goal, Resource, StudentDetails } from "@/app/types";
 import {
   Loader,
   MessageCircle,
@@ -25,14 +25,17 @@ function StudentManager({
   details,
   dispatch,
   onDelete,
+  onEdit
 }: {
   details?: StudentDetails;
   dispatch: (action: ActionType) => void;
   onDelete: (id: string) => void;
+  onEdit: (student: EnrolleeWithCurrentWeekPractice)=>void;
 }) {
   const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     if (!details) return;
     const checkForMessages = async () => {
@@ -67,9 +70,10 @@ function StudentManager({
     );
   }
 
-  function handleUpdateStudent() {
+  function handleUpdateStudent(s: Enrollee) {
+    onEdit({...s, current_week_minutes: details!.student.current_week_minutes})
     dispatch({ type: "SET_SELECTED_STUDENT", payload: undefined });
-    router.refresh();
+    router.refresh()
   }
 
   return (
