@@ -14,6 +14,7 @@ export interface Enrollee extends User {
     subject: string,
     log?: logRow[],
     day_of_week: string,
+    time_of_day: string,
     weekly_goal: number,
     teacher_id: string,
     group_id: string | null,

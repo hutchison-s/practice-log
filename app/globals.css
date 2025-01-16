@@ -71,6 +71,11 @@ dialog::backdrop {
   backdrop-filter: blur(8px);
 }
 
+dialog.modalStyle {
+  background-color: #171717;
+  background-image: radial-gradient(circle at 66% 33%, #1e1b4b, #171717, #171717);
+}
+
 li:focus-visible,
 button:focus-visible,
 li[role='button']:focus-visible,

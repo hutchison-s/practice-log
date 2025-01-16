@@ -7,11 +7,6 @@ const AWS_SECRET_KEY_ID = process.env.AWS_SECRET_KEY_ID;
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
-// console.log('AWS_ACCESS_KEY_ID', AWS_ACCESS_KEY_ID)
-// console.log('AWS_SECRET_KEY_ID', AWS_SECRET_KEY_ID)
-// console.log('AWS_REGION', AWS_REGION)
-// console.log('AWS_BUCKET_NAME', AWS_BUCKET_NAME)
-
 if (!AWS_REGION || !AWS_ACCESS_KEY_ID || !AWS_SECRET_KEY_ID || !AWS_BUCKET_NAME) throw new Error('Missing env')
 
 const client = new S3Client({
@@ -43,7 +38,6 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const file = searchParams.get('file');
     const size = searchParams.get('size');
-    console.log(size)
     if (!file || !size) {
         return Response.json(
             {message: "File query parameter is required"},
@@ -80,7 +74,6 @@ export async function DELETE(request: NextRequest) {
 
     try {
         await client.send(command);
-        console.log('Deleted');
         return NextResponse.json({message: 'deleted successsfully'}, {status: 200})
     } catch (error) {
         console.error(error);

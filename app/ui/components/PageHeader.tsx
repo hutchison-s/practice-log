@@ -14,7 +14,7 @@ export default function PageHeader() {
 
     return (
       <>
-        <header className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[65px] flex justify-between items-center lg:h-[85px] z-20 ${isOpen ? '' : 'backdrop-blur-xl'}`}>
+        <header className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[65px] flex justify-between items-center lg:h-[85px] z-30 ${isOpen ? '' : 'backdrop-blur-xl'}`}>
           <Link href={'/'} className="w-full pl-4 text-xl flex justify-start gap-2 align-center font-bold md:w-fit">
             {/* <Image src={logo} alt='PL' width={30}/> */}
             <div className="w-full flex justify-between items-center gap-2 xl:gap-6" >

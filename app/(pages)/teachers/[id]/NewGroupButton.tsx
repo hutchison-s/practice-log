@@ -24,7 +24,6 @@ function NewGroupButton({teacher_id, onCreate}: {teacher_id: string, onCreate: (
             .then(json => {
                 onCreate(json.data);
                 formRef.current?.reset();
-                console.log('submitted');
                 setIsOpen(false)
             })
             .catch(err => {

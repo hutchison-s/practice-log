@@ -14,7 +14,8 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
     const [subject, setSubject] = useState('');
     const [dow, setDow] = useState("0");
     const [weeklyGoal, setWeeklyGoal] = useState(60);
-    const [groupId, setGroupId] = useState<string | null>(null)
+    const [groupId, setGroupId] = useState<string | undefined>('0');
+    const [timeOfDay, setTimeOfDay] = useState<string | undefined>('15:00');
     const [groups, setGroups] = useState<Group[]>([])
     const [hasError, setHasError] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
@@ -35,6 +36,7 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                 teacher_id,
                 dow,
                 weeklyGoal,
+                time_of_day: timeOfDay,
                 group_id: groupId == '0' ? null : groupId,
             })
         }).then(async res => {
@@ -118,20 +120,29 @@ function NewStudentButton({teacher_id}: {teacher_id: string}) {
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}} 
                     className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
-                <label htmlFor="dow" className="font-bold font-golos text-white">Lesson Day
-                <select name="dow" id="dow" className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400' 
-                    onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
-                </select></label>
+                <div className="w-full flex gap-1">
+                    <div className="w-[60%]">
+                        <label htmlFor="dow" className="font-golos font-bold text-shadow">Lesson Day</label>
+                        <select
+                            className="w-full p-[0.65rem] text-md bg-background/50 text-zinc-400 border-[1px] border-white/25 rounded"
+                            name="dow" value={dow} onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
+                            <option value={0}>Sunday</option>
+                            <option value={1}>Monday</option>
+                            <option value={2}>Tuesday</option>
+                            <option value={3}>Wednesday</option>
+                            <option value={4}>Thursday</option>
+                            <option value={5}>Friday</option>
+                            <option value={6}>Saturday</option>
+                        </select>
+                    </div>
+                    <div className="w-[40%]">
+                        <label htmlFor="time" className="font-golos font-bold text-shadow">Time</label>
+                        <input className="w-full p-2 bg-background/50 text-md font-inter text-zinc-400 border-[1px] border-white/25 rounded" type="time" name="time" id="time" value={timeOfDay} onChange={(e)=>setTimeOfDay(e.target.value)} />
+                    </div>
+                </div>
                 <label className=" font-bold font-golos text-white">
                   Assign to a group:
-              <select onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
+              <select onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 w-full truncate rounded-xl">
                 <option value={'0'}>No Group</option>
                 {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
               </select>

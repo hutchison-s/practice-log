@@ -34,3 +34,15 @@ export function utcToDateInput(utcTimestamp: string) {
 
     return inputDateFormat
 }
+
+export function simpleTimeString(time: string) {
+    const [h, m] = time.split(':');
+    const date = new Date('2025-01-01');
+    date.setHours(parseInt(h));
+    date.setMinutes(parseInt(m))
+    return date.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit', hour12: true});
+  }
+
+export function timeInputToISOTime(time: string) {
+    return `${time}:00+00`
+}

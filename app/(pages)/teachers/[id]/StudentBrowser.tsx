@@ -10,11 +10,17 @@ import Elipsis from "@/app/ui/components/Elipsis";
 import NewGroupButton from "./NewGroupButton";
 import EditGroupButton from "./EditGroupButton";
 import DeleteGroupButton from "./DeleteGroupButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import WeekSchedule from "./schedule/WeekSchedule";
+import StudentScheduleList from "./StudentScheduleList";
+import { Calendar, List } from "lucide-react";
 
 function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurrentWeekPractice[], teacher_id: string }) {
+  const searchParams = useSearchParams();
+  const initialSelected = searchParams.get('student');
   const [state, dispatch] = useReducer(reducer, undefined);
   const [groups, setGroups] = useState<Group[]>([]);
+  const [isListView, setIsListView] = useState(true);
   const [filterId, setFilterId] = useState('0');
   const [filtered, setFiltered] = useState<EnrolleeWithCurrentWeekPractice[]>(students)
   const router = useRouter();
@@ -153,10 +159,16 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
     }
   }, [])
 
+  useEffect(()=>{
+    if (initialSelected) {
+      dispatch({type: 'SET_SELECTED_STUDENT', payload: students.find(s => s.id == initialSelected)})
+    }
+  }, [])
+
   return (
-    <div className="w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-2">
+    <div className="relative w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-2">
       <div className="lg:col-span-2 w-full max-w-[500px] mx-auto flex items-center justify-start gap-2 my-2">
-        <label htmlFor="filter" className="hidden w-40">Group</label>
+        <label htmlFor="filter" className="text-zinc-400 text-lg">Group:</label>
         <select name="filter" id="filter" onChange={handleFilter} className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-white p-2 w-full truncate rounded-xl">
           <option value={0}>All Students</option>
           {groups?.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -165,16 +177,27 @@ function StudentBrowser({ students, teacher_id }: { students: EnrolleeWithCurren
         {filterId !== '0' && <DeleteGroupButton onDelete={handleDeleteGroup} group={groups.find(g => g.id === filterId)} teacher_id={teacher_id} />}
         <NewGroupButton teacher_id={teacher_id} onCreate={handleNewGroup}/>
       </div>
-      <StudentList
-        students={filtered}
-        disabled={state?.isLoading}
-        setSelected={(student) => {
-          if (student !== state?.student) {
-            dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
-          }
-        }
-        selected={state?.student}
-      />
+      <div className="w-full md:col-span-2 pl-2">
+        <button className="border-[1px] border-white/25 px-3 py-1 rounded-l" style={{backgroundImage: isListView ? 'linear-gradient(135deg, #3730a3, #1e1b4b)' : 'none'}} onClick={()=>setIsListView(true)}><List /></button>
+        <button className="border-[1px] border-white/25 px-3 py-1 rounded-r" style={{backgroundImage: isListView ? 'none' : 'linear-gradient(135deg, #3730a3, #1e1b4b)'}} onClick={()=>setIsListView(false)}><Calendar /></button>
+      </div>
+      {isListView
+        ? <StudentList
+            students={filtered}
+            disabled={state?.isLoading}
+            setSelected={(student) => {
+              if (student !== state?.student) {
+                dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+              }
+            }
+            selected={state?.student}
+          />
+        : <StudentScheduleList studentList={filtered} onSelect={(student) => {
+              if (student !== state?.student) {
+                dispatch({ type: "SET_SELECTED_STUDENT", payload: student })}
+              }
+          }/>
+      }
       {state?.isLoading
         ? <div className="w-full max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none text-zinc-400 font-inter font-light grid place-items-center text-2xl">
           <p>Gathering Info<Elipsis /></p>

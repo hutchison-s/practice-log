@@ -21,7 +21,6 @@ export async function GET(request: NextRequest) {
             console.error('Code provided does not match any existing database records.', code)
             return NextResponse.redirect(new URL('/email-validation?status=failure&reason='+encodeURIComponent('Invalid email validation code. Code may be expired.'), request.url));
         }
-        console.log(rows[0])
         const {email, created_at} = rows[0];
         if (Date.now() - new Date(created_at).getTime() > 1000 * 60 * 60 * 24) {
             console.error('Validation Link Expired');

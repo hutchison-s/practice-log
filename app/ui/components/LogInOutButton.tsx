@@ -5,7 +5,7 @@ import { LogIn, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const mobileNavStyle =
-  "flex flex-col justify-center items-center gap-1 glass text-xl rounded hover:bg-gradient-to-br hover:from-cyan-500 hover:to-teal-800 z-50 active:bg-indigo-950/50";
+  "flex flex-col justify-center h-[140px] items-center gap-1 glass text-xl rounded hover:bg-gradient-to-br hover:from-cyan-500 hover:to-teal-800 z-50 active:bg-indigo-950/50";
 
 export default function LogInOutButton({isMobile, closeMenu}: {isMobile?: boolean, closeMenu?: ()=>void}) {
     const {user, logout} = useUser();

@@ -46,7 +46,6 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
       }
       return state;
     case "CREATE_RESOURCE":
-      console.log(action.payload.resource)
       if (state) {
         return {
           ...state,
@@ -73,7 +72,6 @@ export const reducer = (state: StudentDetails | undefined, action: Action): Stud
     case "SET_SELECTED_STUDENT":
         if (action.payload) {
           if (state) {
-            console.log('Setting selected to '+action.payload.name)
             return {
                 ...state,
                 isLoading: true,

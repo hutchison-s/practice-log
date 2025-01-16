@@ -23,6 +23,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.subject, 
             s.weekly_goal,
             s.day_of_week,
+            s.time_of_day,
             s.group_id,
             g.color as group_color,
             SUM(log.total_time) AS total_practice_time
@@ -44,6 +45,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.subject, 
             s.weekly_goal,
             s.day_of_week,
+            s.time_of_day,
             s.group_id,
             group_color;
         `;
@@ -55,7 +57,6 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
                 current_week_minutes: data && data[0] ? Math.floor(parseInt(data[0].weekly_total) / 60) : 0
             }
         }
-        console.log(students)
         return NextResponse.json({
             message: 'success', 
             data: rowCount && rowCount > 0 ? students as EnrolleeWithCurrentWeekPractice[]: []

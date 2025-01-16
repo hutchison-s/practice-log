@@ -4,7 +4,7 @@ import { EnrolleeWithCurrentWeekPractice } from "@/app/types"
 import EnroleePreview from "@/app/ui/components/EnroleePreview"
 
 function StudentList({students, selected, setSelected, disabled}: {students: EnrolleeWithCurrentWeekPractice[], selected?: EnrolleeWithCurrentWeekPractice, setSelected: (s: EnrolleeWithCurrentWeekPractice)=>void, disabled?: boolean}) {
-
+  
   const handleAssignGroup = (student_id: string, group_id: string | null, group_color?: string) => {
       students.forEach(each => {
         if (each.id === student_id) {
