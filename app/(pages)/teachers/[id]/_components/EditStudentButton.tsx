@@ -1,11 +1,11 @@
 'use client'
 
-import { Enrollee, EnrolleeWithCurrentWeekPractice, Group } from "@/app/types";
+import { Enrollee, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/ui/components/Buttons";
 import { Pencil } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
-function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWeekPractice, onUpdate: (s: Enrollee)=>void}) {
+function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, onUpdate: (s: Enrollee)=>void, onCancel: ()=>void}) {
     const [name, setName] = useState(student?.name || '');
     const [subject, setSubject] = useState(student?.subject || '');
     const [dow, setDow] = useState(student?.day_of_week || 0);
@@ -144,7 +144,7 @@ function EditStudentButton({student, onUpdate}: {student?: EnrolleeWithCurrentWe
                 </div>
             </form>
             <div className="flex justify-items-end">
-                <SecondaryButton size='sm' onClick={()=>{setIsOpen(false)}} className="py-0 my-4 mx-auto">Cancel</SecondaryButton>
+                <SecondaryButton size='sm' onClick={()=>{setIsOpen(false); onCancel()}} className="py-0 my-4 mx-auto">Cancel</SecondaryButton>
             </div>
         </dialog>
     </>

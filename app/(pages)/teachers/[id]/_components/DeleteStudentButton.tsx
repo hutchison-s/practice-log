@@ -1,10 +1,13 @@
-import { EnrolleeWithCurrentWeekPractice } from '@/app/types'
+import { Enrollee } from '@/app/types'
 import { Trash } from 'lucide-react'
 import React from 'react'
 
-function DeleteStudentButton({student, onDelete}: {student?: EnrolleeWithCurrentWeekPractice, onDelete: (id: string)=>void}) {
-    if (!student) return <></>
+function DeleteStudentButton({student, onDelete, onCancel}: {student: Enrollee, onDelete: (id: string)=>void, onCancel: ()=>void}) {
     const handleDelete = ()=>{
+        const confirmed = confirm('Are you sure you want to delete this student?');
+        if (!confirmed) {
+            return onCancel();
+        }
         fetch(`/api/students/${student?.id}`, {method: 'DELETE'})
             .then(res => {
                 if (!res.ok) {

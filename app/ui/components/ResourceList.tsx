@@ -6,7 +6,7 @@ import React from 'react'
 
 function ResourceList({resources, onDelete, isStudentView}: {resources?: Resource[], onDelete?: (id: string)=>void, isStudentView?: boolean}) {
   if (resources && resources.length == 0) {
-    return <BodyText>No Resources Yet...</BodyText>
+    return <BodyText>No resources yet</BodyText>
   }
   return (
     <ul className="grid gap-2 w-full max-w-[600px] mx-auto">

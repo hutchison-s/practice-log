@@ -1,4 +1,4 @@
-import GoalsList from "@/app/(pages)/teachers/[id]/GoalsList";
+import GoalsList from "@/app/ui/components/GoalsList";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { Goal } from "@/app/types";
 import PageTitle from "@/app/ui/components/PageTitle";

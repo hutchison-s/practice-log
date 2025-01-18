@@ -1,13 +1,13 @@
 'use client'
 
-import { EnrolleeWithCurrentWeekPractice } from '@/app/types'
+import { Enrollee } from '@/app/types'
 import React, { useEffect, useState } from 'react'
 import EmptyBlock from './EmptyBlock';
 import LessonBlock from './LessonBlock';
 import MultiLessonBlock from './MultiLessonBlock';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string, students: EnrolleeWithCurrentWeekPractice[], onSelect?: (s:EnrolleeWithCurrentWeekPractice)=>void}) {
+function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string, students: Enrollee[], onSelect?: (student_id: string)=>void}) {
     const [isOpen, setIsOpen] = useState(false);
     const [windowWidth, setWindowWidth] = useState(400);
     const getHour = (idx: number) => Math.floor((idx * 15) / 60) + 7;
@@ -75,12 +75,12 @@ function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string
     isOpen || windowWidth > 768
     ? <div className='relative w-full border-[1px] border-white/25 flex flex-col h-[400px] md:h-full'>
         <ChevronUp className='absolute top-3 right-3 z-10 md:hidden' size={24} color='white' role='button' onClick={toggleOpen}/>
-        <button onClick={toggleOpen} className='text-lg py-2 text-center glass font-golos font-bold text-txtprimary'>{dayTitle}</button>
+        <button onClick={toggleOpen} className='text-lg py-2 text-center glass font-golos font-bold text-txtprimary'>{dayTitle[0].toUpperCase()}{dayTitle[1]}</button>
         <Blocks />
       </div>
     : <div className='relative w-full border-[1px] border-white/25 flex flex-col h-fit md:h-full'>
         <ChevronDown className='absolute top-3 right-3 z-10' size={24} color='white' role='button' onClick={toggleOpen}/>
-        <button onClick={toggleOpen} className='text-lg py-2 text-center glass font-golos font-bold text-txtprimary'>{dayTitle} <span className='font-inter font-light'>- {students.length}</span></button>
+        <button onClick={toggleOpen} className='text-md py-2 text-center glass font-golos font-bold text-txtprimary'>{dayTitle} <span className='font-inter font-light'>- {students.length}</span></button>
       </div>
   )
 }

@@ -1,10 +1,13 @@
 import { logRow } from '@/app/types'
+import BodyText from '@/app/ui/components/BodyText'
 import PracticeLogList from '@/app/ui/components/PracticeLogList'
 import Link from 'next/link'
 import React from 'react'
 
 function LogManager({logs}: {logs?: logRow[]}) {
-  if (!logs) return <p>Loading Logs...</p>
+  if (logs && logs.length == 0) {
+          return <BodyText className="font-light">No logs yet</BodyText>
+      }
   return (
     <>
         

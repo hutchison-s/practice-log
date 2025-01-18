@@ -1,4 +1,4 @@
-import ResourceList from "@/app/(pages)/teachers/[id]/ResourceList";
+import ResourceList from "@/app/ui/components/ResourceList";
 import { fetchJSONWithToken } from "@/app/AuthHandler";
 import { Resource } from "@/app/types";
 import PageTitle from "@/app/ui/components/PageTitle"

@@ -15,7 +15,13 @@ export async function GET(
         if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const response = await sql`SELECT * FROM students WHERE id = ${id}`;
+        const response = await sql`
+            SELECT 
+                s.*,
+                g.color AS group_color 
+            FROM students as s
+            LEFT JOIN groups AS g ON g.id = s.group_id
+            WHERE s.id = ${id}`;
         return NextResponse.json({message: 'success', data: response.rows[0] as Enrollee}, {status: 200})
     } catch (err) {
         console.error(err);

@@ -12,7 +12,6 @@ export interface User {
 export interface Enrollee extends User {
     total_practice_time: string,
     subject: string,
-    log?: logRow[],
     day_of_week: string,
     time_of_day: string,
     weekly_goal: number,
@@ -21,25 +20,11 @@ export interface Enrollee extends User {
     group_color: string
 }
 
-export interface EnrolleeWithCurrentWeekPractice extends Enrollee {
-    current_week_minutes: number
-}
-
 export type Group = {
     id: string,
     name: string,
     teacher_id: string,
     color: string
-}
-
-export type StudentDetails = {
-    student: EnrolleeWithCurrentWeekPractice,
-    logs: logRow[], 
-    goals: Goal[], 
-    resources: Resource[], 
-    time: number, 
-    nextLessonDay: string,
-    isLoading: boolean
 }
 
 export type logRow = {
@@ -54,6 +39,7 @@ export type logRow = {
 export type weeklyTotal = {
     student_id: string,
     lesson_week_start: string,
+    weekly_goal: string,
     weekly_total: string
 }
 
@@ -100,3 +86,8 @@ export type apiPayload<T> = {
 }
 export type apiResponse<T> = Promise<NextResponse<apiPayload<T>>>
 
+export interface StateController<T> {
+    add: (x: T)=>void,
+    update: (x: T)=>void,
+    delete: (x: T)=>void
+}

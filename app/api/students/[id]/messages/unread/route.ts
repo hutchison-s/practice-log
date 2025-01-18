@@ -11,14 +11,14 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
         if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const {rows}: {rows: {new_messages: number}[]} = await sql`
+        const {rowCount} = await sql`
             SELECT 
-                COUNT(id) as new_messages
+                id
             FROM 
                 messages
             WHERE 
                 student_id = ${id} AND is_read = FALSE AND sent_by != ${req_id}`;
-            return NextResponse.json({data: rows[0].new_messages, message: 'success'}, {status: 200});
+            return NextResponse.json({data: rowCount || 0, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);
             return NextResponse.json({message: 'could not fetch goals'}, {status: 500})
