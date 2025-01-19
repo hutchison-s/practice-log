@@ -2,7 +2,7 @@ import { apiResponse, User } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import { userIs } from "../../helpers";
-import { sendConfirmDeletedAccountEmail } from "@/app/_emails/controller";
+import { sendConfirmDeletedAccountEmail } from "@/app/_utils/emails/controller";
 
 export async function GET(
     request: NextRequest,
@@ -11,7 +11,7 @@ export async function GET(
     try {
       const id = (await params).id;
       const req_id = request.headers.get('x-user-id');
-      if (!await userIs('student or teacher', {user_id: id, student_id: req_id})) {
+      if (!await userIs('owner or teacher', {req_id: id, content_id: req_id})) {
           return NextResponse.json({message: 'You do not have access to this content. Please login and try again.'}, {status: 403})
       }
       const res = await sql`SELECT id, name, email, created_at FROM teachers WHERE id = ${id}`;

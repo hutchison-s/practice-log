@@ -1,8 +1,8 @@
-import PageTitle from "@/app/ui/components/PageTitle";
+import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import StudentBrowser from "./_components/StudentBrowser";
-import { fetchJSONWithToken } from "@/app/AuthHandler";
+import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { Enrollee, Group, User } from "@/app/types";
-import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
+import { SecondaryLinkButton } from "@/app/_ui_components/layout/Buttons";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

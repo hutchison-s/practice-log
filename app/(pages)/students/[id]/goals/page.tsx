@@ -1,8 +1,8 @@
-import GoalsList from "@/app/ui/components/GoalsList";
-import { fetchJSONWithToken } from "@/app/AuthHandler";
+import GoalsList from "@/app/_ui_components/object_display/GoalsList";
+import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { Goal } from "@/app/types";
-import PageTitle from "@/app/ui/components/PageTitle";
-import SubHeading from "@/app/ui/components/SubHeading";
+import PageTitle from "@/app/_ui_components/layout/PageTitle";
+import SubHeading from "@/app/_ui_components/layout/SubHeading";
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {

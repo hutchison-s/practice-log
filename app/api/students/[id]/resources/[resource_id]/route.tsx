@@ -10,7 +10,7 @@ export async function GET(
 ): apiResponse<Resource> {
     const {id, resource_id} = await params;
     const req_id = request.headers.get('x-user-id')
-    if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     const {rows} = await sql`SELECT * FROM resources WHERE id = ${resource_id}`;
@@ -25,7 +25,7 @@ export async function DELETE(
     try {
         const {id, resource_id} = await params;
         const req_id = request.headers.get('x-user-id')
-        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL || '';

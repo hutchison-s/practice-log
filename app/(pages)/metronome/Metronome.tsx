@@ -1,6 +1,6 @@
 'use client'
 
-import RadioLabel from '@/app/ui/components/RadioLabel';
+import RadioLabel from '@/app/_ui_components/RadioLabel';
 import { Music3, Music2, StopCircle, PlayCircle } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react'
 import MetronomeControl from './MetronomeControl';

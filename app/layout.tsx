@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import {Golos_Text, Inter} from "next/font/google";
 import "./globals.css";
-import PageHeader from "./ui/components/PageHeader";
-import UserProvider from "./_usercontext/UserProvider";
+import PageHeader from "./_ui_components/menus/PageHeader";
 import Link from "next/link";
-import SessionProvider from "./_sessionContext/SessionProvider";
-import SessionOverlay from "./ui/components/SessionOverlay";
+import SessionOverlay from "./(pages)/students/[id]/_components/SessionOverlay";
+import UserProvider from "./_contexts/UserProvider";
+import SessionProvider from "./_contexts/SessionProvider";
 
 const golos = Golos_Text({subsets: ["latin"], display: 'swap', variable: '--golos-font'});
 const inter = Inter({subsets: ["latin"], display: 'swap', variable: '--inter-font'});

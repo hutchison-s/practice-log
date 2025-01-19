@@ -1,6 +1,6 @@
-import { fetchJSONWithToken } from '@/app/AuthHandler'
+import { fetchJSONWithToken } from '@/app/_utils/AuthHandler'
 import { Message } from '@/app/types'
-import PageTitle from '@/app/ui/components/PageTitle'
+import PageTitle from '@/app/_ui_components/layout/PageTitle'
 import React from 'react'
 import MessageWindow from './MessageWindow'
 import { Metadata } from 'next'

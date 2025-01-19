@@ -1,13 +1,13 @@
 'use client'
 
-import { simpleTimeString } from '@/app/_functions/dates'
-import { EnrolleeWithCurrentWeekPractice } from '@/app/types'
+import { simpleTimeString } from '@/app/_utils/dates'
+import { Enrollee } from '@/app/types'
 import React, { useEffect, useRef, useState } from 'react'
 import LessonBlock from './LessonBlock';
 import { ChevronsLeft, ChevronsRight, XCircle } from 'lucide-react';
 import EmptyBlock from './EmptyBlock';
 
-function MultiLessonBlock({students, onClick}: {students: EnrolleeWithCurrentWeekPractice[], onClick?: (s:EnrolleeWithCurrentWeekPractice)=>void}) {
+function MultiLessonBlock({students, onClick}: {students: Enrollee[], onClick?: (student_id: string)=>void}) {
     const [isOpen, setIsOpen] = useState(false);
     const modalRef = useRef<HTMLDialogElement>(null)
     function toggleOpen() {

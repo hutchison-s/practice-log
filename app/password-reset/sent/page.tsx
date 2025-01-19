@@ -1,7 +1,7 @@
-import BodyText from '@/app/ui/components/BodyText'
-import GlassDiv from '@/app/ui/components/GlassDiv'
-import PageTitle from '@/app/ui/components/PageTitle'
-import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper'
+import BodyText from '@/app/_ui_components/layout/BodyText'
+import GlassDiv from '@/app/_ui_components/layout/GlassDiv'
+import PageTitle from '@/app/_ui_components/layout/PageTitle'
+import SmallPageWrapper from '@/app/_ui_components/layout/SmallPageWrapper'
 import React from 'react'
 
 async function SentResetLinkPage() {

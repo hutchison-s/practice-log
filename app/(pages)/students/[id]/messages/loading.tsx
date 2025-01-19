@@ -1,6 +1,6 @@
-import Elipsis from '@/app/ui/components/Elipsis'
-import FeaturedText from '@/app/ui/components/FeaturedText'
-import PageTitle from '@/app/ui/components/PageTitle'
+import Elipsis from '@/app/_ui_components/layout/Elipsis'
+import FeaturedText from '@/app/_ui_components/layout/FeaturedText'
+import PageTitle from '@/app/_ui_components/layout/PageTitle'
 import React from 'react'
 
 function MessagesLoading() {

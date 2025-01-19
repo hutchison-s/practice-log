@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { sql } from "@vercel/postgres";
-import { defaultUser } from "@/app/_usercontext/UserContext";
 import { verifyToken } from "../../helpers";
+import { defaultUser } from "@/app/_contexts/UserContext";
 
 export async function GET() {
     const cookieStore = await cookies();

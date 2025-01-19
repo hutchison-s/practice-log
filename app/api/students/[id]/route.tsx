@@ -12,7 +12,7 @@ export async function GET(
     try {
         const {id} = await params;
         const req_id = request.headers.get('x-user-id')
-        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const response = await sql`
@@ -40,7 +40,7 @@ export async function PATCH(
         }
         const {id} = await params;
         const req_id = request.headers.get('x-user-id')
-        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day},day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
@@ -62,7 +62,7 @@ export  async function DELETE(
     try {
         const id = (await params).id;
         const req_id = request.headers.get('x-user-id');
-        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         await sql`DELETE FROM students WHERE id = ${id}`;

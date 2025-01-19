@@ -1,5 +1,5 @@
 import { userIs } from "@/app/api/helpers";
-import { fetchJSONWithToken } from "@/app/AuthHandler";
+import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { apiResponse, Enrollee, Goal, logRow, Resource, weeklyTotal} from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
@@ -11,7 +11,7 @@ export async function GET(
     try {
         const {id} = await params;
         const req_id = request.headers.get('x-user-id');
-        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;

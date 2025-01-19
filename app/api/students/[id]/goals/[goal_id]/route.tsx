@@ -11,7 +11,7 @@ export async function PATCH(
     try {
         const {id, goal_id} = await params;
         const req_id = request.headers.get('x-user-id');
-        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const { goal_title, goal_content, is_complete } = await request.json();
@@ -45,7 +45,7 @@ export async function DELETE(
     try {
         const {id, goal_id} = await params;
         const req_id = request.headers.get('x-user-id')
-        if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         await sql`DELETE FROM goals WHERE id = ${goal_id} RETURNING *`;

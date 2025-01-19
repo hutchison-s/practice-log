@@ -1,11 +1,11 @@
 'use client'
-import { useUser } from '@/app/_usercontext/useUser'
+import { useUser } from '@/app/_hooks/useUser'
 import { Message } from '@/app/types'
 import { Send } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import ChatMessage from './ChatMessage';
-import Elipsis from '@/app/ui/components/Elipsis';
+import Elipsis from '@/app/_ui_components/layout/Elipsis';
 
 function MessageWindow({messages}: {messages: Message[]}) {
     const {user} = useUser();

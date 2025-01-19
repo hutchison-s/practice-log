@@ -1,6 +1,6 @@
 'use client'
 import { Enrollee, Group } from '@/app/types'
-import { PrimaryButton, SecondaryButton } from '@/app/ui/components/Buttons'
+import { PrimaryButton, SecondaryButton } from '@/app/_ui_components/layout/Buttons'
 import { Users } from 'lucide-react'
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
 

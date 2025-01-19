@@ -1,6 +1,6 @@
 'use client'
 
-import { PrimaryButton } from '@/app/ui/components/Buttons'
+import { PrimaryButton } from '@/app/_ui_components/layout/Buttons'
 import React, { useEffect, useRef, useState } from 'react'
 import { NoteRecord, yin, frequencyToPitch } from './FrequncyMaps'
 import PitchName from './PitchName'

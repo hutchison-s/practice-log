@@ -1,4 +1,4 @@
-import { sendConfirmPasswordResetEmail } from "@/app/_emails/controller";
+import { sendConfirmPasswordResetEmail } from "@/app/_utils/emails/controller";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs'

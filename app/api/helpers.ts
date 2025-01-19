@@ -2,9 +2,9 @@ import { sql } from '@vercel/postgres';
 import * as jose from 'jose';
 
 type AccessArguments = {
-    user_id?: string | null, student_id?: string | null
+    req_id?: string | null, content_id?: string | null
 }
-type AccessRole = 'student' | 'teacher' | 'student or teacher';
+type AccessRole = 'owner' | 'teacher' | 'owner or teacher';
 
 export async function verifyToken(token: string): Promise<{userId: string, email: string, name: string, iat: number, exp: number} | null> {
     if (!token) {
@@ -24,21 +24,21 @@ export async function verifyToken(token: string): Promise<{userId: string, email
     }
 }
 
-export function isStudent({user_id, student_id}: AccessArguments): boolean {
-    if (!user_id || !student_id) return false;
-    return user_id == student_id;
+export function isOwner({req_id, content_id}: AccessArguments): boolean {
+    if (!req_id || !content_id) return false;
+    return req_id == content_id;
 }
 
-export async function isTeacher({user_id, student_id}: AccessArguments): Promise<boolean> {
-    if (!user_id || !student_id) return false;
-    if (user_id == student_id) {
+export async function isTeacher({req_id, content_id}: AccessArguments): Promise<boolean> {
+    if (!req_id || !content_id) return false;
+    if (req_id == content_id) {
         return false
     };
     try {
         const {rows} = await sql`
             SELECT id 
             FROM students 
-            WHERE id = ${student_id} AND teacher_id = ${user_id}
+            WHERE id = ${content_id} AND teacher_id = ${req_id}
             LIMIT 1;
         `;
         return rows.length > 0;
@@ -48,15 +48,15 @@ export async function isTeacher({user_id, student_id}: AccessArguments): Promise
     }
 }
 
-export async function userIs(role: AccessRole, {user_id, student_id}: AccessArguments): Promise<boolean> {
+export async function userIs(role: AccessRole, {req_id, content_id}: AccessArguments): Promise<boolean> {
     if (!role) return false;
     switch(role) {
-        case 'student':
-            return isStudent({user_id, student_id});
+        case 'owner':
+            return isOwner({req_id, content_id});
         case 'teacher':
-            return isTeacher({user_id, student_id});
-        case 'student or teacher':
-            return isStudent({user_id, student_id}) || isTeacher({user_id, student_id});
+            return isTeacher({req_id, content_id});
+        case 'owner or teacher':
+            return isOwner({req_id, content_id}) || isTeacher({req_id, content_id});
         default:
             throw new Error('Invalid argument')
     }

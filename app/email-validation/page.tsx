@@ -1,10 +1,10 @@
 import React from 'react'
-import PageTitle from '../ui/components/PageTitle';
-import GlassDiv from '../ui/components/GlassDiv';
-import SubHeading from '../ui/components/SubHeading';
-import BodyText from '../ui/components/BodyText';
-import { PrimaryLinkButton } from '../ui/components/Buttons';
-import SmallPageWrapper from '../ui/components/SmallPageWrapper';
+import PageTitle from '../_ui_components/layout/PageTitle';
+import GlassDiv from '../_ui_components/layout/GlassDiv';
+import SubHeading from '../_ui_components/layout/SubHeading';
+import BodyText from '../_ui_components/layout/BodyText';
+import { PrimaryLinkButton } from '../_ui_components/layout/Buttons';
+import SmallPageWrapper from '../_ui_components/layout/SmallPageWrapper';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -6,11 +6,11 @@ import {
   NotebookPen,
   Wrench,
 } from "lucide-react";
-import BodyText from "./ui/components/BodyText";
-import GlassDiv from "./ui/components/GlassDiv";
-import Hero from "./ui/components/Hero";
-import HomeLinks from "./ui/components/HomeLinks";
-import SubHeading from "./ui/components/SubHeading";
+import BodyText from "./_ui_components/layout/BodyText";
+import GlassDiv from "./_ui_components/layout/GlassDiv";
+import Hero from "./_ui_components/homepage/Hero";
+import HomeLinks from "./_ui_components/homepage/HomeLinks";
+import SubHeading from "./_ui_components/layout/SubHeading";
 import Link from "next/link";
 
 export default function Home() {

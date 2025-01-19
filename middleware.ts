@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
         response.headers.set('x-user-id', req_id);
         return response;
     } catch (error) {
-        return NextResponse.json({message: 'You do not have access to this content. Please check your login status and try again.', error}, {status: 403});
+        return NextResponse.json({message: 'Please sign in to continue.', error}, {status: 403});
     }
 }
 
@@ -28,5 +28,7 @@ export const config = {
         '/api/s3/:path*',
         '/api/students/:path*',
         '/api/teachers/:path*',
+        '/students/:path*',
+        '/teachers/:path*'
     ],
 };

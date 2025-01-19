@@ -13,7 +13,7 @@ export async function GET(
   try {
     const id = (await params).id;
     const req_id = request.headers.get('x-user-id');
-    if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     if (!id) return NextResponse.json({message: 'Invalid URL'}, {status: 404})
@@ -73,7 +73,7 @@ export async function GET(
     
     const {id} = await params;
     const req_id = request.headers.get('x-user-id')
-    if (!(await userIs('student', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('owner', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     const insertResponse = await sql`INSERT INTO logs (student_id) VALUES (${id}) RETURNING *`;
@@ -88,7 +88,7 @@ export async function GET(
     const body = await request.json();
     const {id} = await params;
     const req_id = request.headers.get('x-user-id')
-    if (!(await userIs('student', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('owner', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     const {log_id, journal} = body;

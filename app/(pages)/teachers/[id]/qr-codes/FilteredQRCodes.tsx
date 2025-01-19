@@ -1,10 +1,10 @@
 'use client'
 
 import PrintableQRCode from '@/app/(pages)/students/[id]/qr_code/PrintableQRCode'
-import { EnrolleeWithCurrentWeekPractice, Group } from '@/app/types'
+import { Enrollee, Group } from '@/app/types'
 import React, { useState } from 'react'
 
-function FilteredQRCodes({students, groups}: {students: EnrolleeWithCurrentWeekPractice[], groups: Group[]}) {
+function FilteredQRCodes({students, groups}: {students: Enrollee[], groups: Group[]}) {
     const [filterId, setFilterId] = useState('all');
   
     return (

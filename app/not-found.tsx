@@ -1,7 +1,7 @@
 import React from 'react'
-import PageTitle from './ui/components/PageTitle'
-import { PrimaryLinkButton } from './ui/components/Buttons'
-import FeaturedText from './ui/components/FeaturedText'
+import PageTitle from './_ui_components/layout/PageTitle'
+import { PrimaryLinkButton } from './_ui_components/layout/Buttons'
+import FeaturedText from './_ui_components/layout/FeaturedText'
 
 function NotFound() {
   return (

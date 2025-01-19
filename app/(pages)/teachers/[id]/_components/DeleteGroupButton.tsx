@@ -1,5 +1,4 @@
 
-import { Group } from '@/app/types'
 import { Trash } from 'lucide-react'
 import React from 'react'
 

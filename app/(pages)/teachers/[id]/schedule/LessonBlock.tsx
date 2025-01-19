@@ -1,6 +1,6 @@
 'use client'
 
-import { simpleTimeString } from '@/app/_functions/dates'
+import { simpleTimeString } from '@/app/_utils/dates'
 import { Enrollee } from '@/app/types'
 import { useRouter } from 'next/navigation';
 

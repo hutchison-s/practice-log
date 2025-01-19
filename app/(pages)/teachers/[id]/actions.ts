@@ -1,7 +1,7 @@
 'use server'
 
-import { AssociatedStudentRecords } from "@/app/_reducers/studentBrowserReducer";
-import { fetchJSONWithToken } from "@/app/AuthHandler";
+import { AssociatedStudentRecords } from "@/app/_hooks/studentBrowserReducer";
+import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { logRow, Goal, Resource, Group } from "@/app/types";
 import { weeklyTotal } from "@/app/types";
 

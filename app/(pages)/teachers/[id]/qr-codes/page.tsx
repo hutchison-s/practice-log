@@ -1,7 +1,7 @@
-import { fetchJSONWithToken } from '@/app/AuthHandler';
-import { EnrolleeWithCurrentWeekPractice, Group } from '@/app/types';
-import PageTitle from '@/app/ui/components/PageTitle';
-import PrintButton from '@/app/ui/components/PrintButton';
+import { fetchJSONWithToken } from '@/app/_utils/AuthHandler';
+import { Enrollee, Group } from '@/app/types';
+import PageTitle from '@/app/_ui_components/layout/PageTitle';
+import PrintButton from '@/app/_ui_components/PrintButton';
 
 import React from 'react'
 import FilteredQRCodes from './FilteredQRCodes';
@@ -11,7 +11,7 @@ import FilteredQRCodes from './FilteredQRCodes';
 async function Page({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const students = await fetchJSONWithToken<EnrolleeWithCurrentWeekPractice[]>(`${apiURL}/teachers/${id}/students`);
+    const students = await fetchJSONWithToken<Enrollee[]>(`${apiURL}/teachers/${id}/students`);
     const groups = await fetchJSONWithToken<Group[]>(`${apiURL}/teachers/${id}/groups`);
   return (
     <>

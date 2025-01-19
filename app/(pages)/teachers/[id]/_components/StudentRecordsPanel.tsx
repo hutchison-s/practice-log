@@ -1,17 +1,17 @@
 'use client'
 
-import { AssociatedStudentRecords } from '@/app/_reducers/studentBrowserReducer'
+import { AssociatedStudentRecords } from '@/app/_hooks/studentBrowserReducer'
 import { Goal, Resource, StateController } from '@/app/types'
-import FeaturedText from '@/app/ui/components/FeaturedText'
+import FeaturedText from '@/app/_ui_components/layout/FeaturedText'
 import { AlertCircle } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import LogManager from './LogManager'
 import GoalsManager from './GoalsManager'
 import ResourcesManager from './ResourcesManager'
 import { fetchStudentRecords } from '../actions'
-import NewResourceButton from '@/app/ui/components/NewResourceButton'
-import NewGoalButton from '@/app/ui/components/NewGoalButton'
-import SubHeading from '@/app/ui/components/SubHeading'
+import NewResourceButton from '@/app/(pages)/teachers/[id]/_components/NewResourceButton'
+import NewGoalButton from '@/app/(pages)/teachers/[id]/_components/NewGoalButton'
+import SubHeading from '@/app/_ui_components/layout/SubHeading'
 import StudentRecordsSkeleton from './StudentRecordsSkeleton'
 
 function StudentRecordsPanel({student_id, records, recordsController, goalController, resourceController}: {student_id: string, records: AssociatedStudentRecords | null, recordsController: {set: (rec: AssociatedStudentRecords)=>void, clear: ()=>void}, goalController: StateController<Goal>, resourceController: StateController<Resource>}) {

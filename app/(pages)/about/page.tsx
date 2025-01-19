@@ -1,11 +1,11 @@
 import { ChartPie, CircleCheck, Clock, FileMusic, MessageCircle, UserRoundCheck, Workflow } from "lucide-react";
-import BodyText from "../../ui/components/BodyText";
-import PageTitle from "../../ui/components/PageTitle";
-import SubHeading from "../../ui/components/SubHeading";
-import IconListItem from "@/app/ui/components/IconListItem";
-import FeaturedText from "@/app/ui/components/FeaturedText";
+import BodyText from "../../_ui_components/layout/BodyText";
+import PageTitle from "../../_ui_components/layout/PageTitle";
+import SubHeading from "../../_ui_components/layout/SubHeading";
+import IconListItem from "@/app/_ui_components/layout/IconListItem";
+import FeaturedText from "@/app/_ui_components/layout/FeaturedText";
 import Link from "next/link";
-import GlassDiv from "@/app/ui/components/GlassDiv";
+import GlassDiv from "@/app/_ui_components/layout/GlassDiv";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

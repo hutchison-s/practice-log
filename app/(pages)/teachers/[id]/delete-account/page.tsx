@@ -1,9 +1,9 @@
-import BodyText from '@/app/ui/components/BodyText';
-import { SecondaryLinkButton } from '@/app/ui/components/Buttons';
-import FeaturedText from '@/app/ui/components/FeaturedText';
-import GlassDiv from '@/app/ui/components/GlassDiv';
-import PageTitle from '@/app/ui/components/PageTitle';
-import SmallPageWrapper from '@/app/ui/components/SmallPageWrapper';
+import BodyText from '@/app/_ui_components/layout/BodyText';
+import { SecondaryLinkButton } from '@/app/_ui_components/layout/Buttons';
+import FeaturedText from '@/app/_ui_components/layout/FeaturedText';
+import GlassDiv from '@/app/_ui_components/layout/GlassDiv';
+import PageTitle from '@/app/_ui_components/layout/PageTitle';
+import SmallPageWrapper from '@/app/_ui_components/layout/SmallPageWrapper';
 import React from 'react'
 import DeleteButton from './DeleteButton';
 

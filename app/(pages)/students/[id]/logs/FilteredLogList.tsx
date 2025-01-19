@@ -1,11 +1,11 @@
 'use client'
-import { utcToDateInput } from '@/app/_functions/dates';
+import { utcToDateInput } from '@/app/_utils/dates';
 import { logRow, weeklyTotal } from '@/app/types'
-import BodyText from '@/app/ui/components/BodyText';
-import { PrimaryButton } from '@/app/ui/components/Buttons';
-import PracticeLogList from '@/app/ui/components/PracticeLogList'
-import { TotalPractice } from '@/app/ui/components/TotalPractice';
-import WeekSummary from '@/app/ui/components/WeekSummary';
+import BodyText from '@/app/_ui_components/layout/BodyText';
+import { PrimaryButton } from '@/app/_ui_components/layout/Buttons';
+import PracticeLogList from '@/app/_ui_components/object_display/PracticeLogList'
+import { TotalPractice } from '@/app/(pages)/students/[id]/_components/TotalPractice';
+import WeekSummary from '@/app/_ui_components/WeekSummary';
 import { RotateCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

@@ -1,6 +1,7 @@
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
+import { generateHex, randomInteger } from "@/app/_utils/generators";
 
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 const AWS_SECRET_KEY_ID = process.env.AWS_SECRET_KEY_ID;
@@ -17,22 +18,7 @@ const client = new S3Client({
     }
 });
 
-function generateHex(length = 20) {
-    const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += chars[Math.floor(Math.random() * 16)];
-    }
-    return result;
-}
 
-function randomInteger(length = 20) {
-    const result = [];
-    for (let i = 0; i < length; i++) {
-        result.push(Math.floor(Math.random() * 10));
-    }
-    return result.join('');
-}
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;

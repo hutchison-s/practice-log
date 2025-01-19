@@ -1,6 +1,6 @@
 'use client'
-import { useUser } from '@/app/_usercontext/useUser';
-import { PrimaryButton } from '@/app/ui/components/Buttons'
+import { useUser } from '@/app/_hooks/useUser';
+import { PrimaryButton } from '@/app/_ui_components/layout/Buttons'
 import { useRouter } from 'next/navigation';
 import React from 'react'
 

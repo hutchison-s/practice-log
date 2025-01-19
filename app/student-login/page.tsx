@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import PageTitle from '../ui/components/PageTitle';
+import PageTitle from '../_ui_components/layout/PageTitle';
 import { Loader } from 'lucide-react';
-import { useUser } from '../_usercontext/useUser';
+import { useUser } from '../_hooks/useUser';
 import { useEffect, useState } from 'react';
 
 function Page() {

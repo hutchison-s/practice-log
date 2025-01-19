@@ -1,16 +1,16 @@
-import SubHeading from "@/app/ui/components/SubHeading";
-import PageTitle from "../../../ui/components/PageTitle";
-import PracticeButton from "./PracticeButton";
+import SubHeading from "@/app/_ui_components/layout/SubHeading";
+import PageTitle from "../../../_ui_components/layout/PageTitle";
+import PracticeButton from "./_components/PracticeButton";
 import Link from "next/link";
-import { TotalPractice } from "@/app/ui/components/TotalPractice";
-import GlassDiv from "@/app/ui/components/GlassDiv";
+import { TotalPractice } from "@/app/(pages)/students/[id]/_components/TotalPractice";
+import GlassDiv from "@/app/_ui_components/layout/GlassDiv";
 import { Metadata } from "next";
-import PracticeLogList from "@/app/ui/components/PracticeLogList";
-import GoalsList from "../../../ui/components/GoalsList";
-import ResourceList from "../../../ui/components/ResourceList";
+import PracticeLogList from "@/app/_ui_components/object_display/PracticeLogList";
+import GoalsList from "../../../_ui_components/object_display/GoalsList";
+import ResourceList from "../../../_ui_components/object_display/ResourceList";
 import { fetchStudentPageInfo } from "./actions";
-import ProgressPieChart from "@/app/ui/components/ProgressPieChart";
-import UnreadMessageNotification from "@/app/ui/components/UnreadMessageNotification";
+import ProgressPieChart from "@/app/_ui_components/ProgressPieChart";
+import UnreadMessageNotification from "@/app/_ui_components/UnreadMessageNotification";
 
 export const metadata: Metadata = {
     title: "Student Portal",

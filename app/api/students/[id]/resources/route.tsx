@@ -11,7 +11,7 @@ export async function GET(
     const limit = request.nextUrl.searchParams.get('limit');
     const {id} = await params;
     const req_id = request.headers.get('x-user-id')
-    if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     const query = limit 
@@ -37,7 +37,7 @@ export async function POST(
     if (!url || !resource_type || !title || !key) return NextResponse.json({message: 'Missing paramters from body'}, {status: 400})
     const {id} = await params;
     const req_id = request.headers.get('x-user-id')
-    if (!(await userIs('teacher', {user_id: req_id, student_id: id}))) {
+    if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     const {rows} = await sql`INSERT INTO resources (url, type, student_id, title, key, created_by) VALUES(${url}, ${resource_type}, ${id}, ${title}, ${key}, ${req_id}) RETURNING *`;

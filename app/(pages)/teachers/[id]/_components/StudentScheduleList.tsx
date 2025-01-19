@@ -2,7 +2,6 @@
 import { Enrollee } from '@/app/types'
 import React from 'react'
 import ResponsiveDaySchedule from '../schedule/ResponsiveDaySchedule';
-import EmptyDay from '../schedule/EmptyDay';
 
 function StudentScheduleList({students, disabled, onSelect}: {students: Enrollee[], disabled?: boolean, onSelect: (student_id: string)=>void}) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']

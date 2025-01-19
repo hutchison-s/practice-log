@@ -1,9 +1,9 @@
 
 import { Metadata } from "next";
-import BodyText from "../ui/components/BodyText";
-import PageTitle from "../ui/components/PageTitle";
-import SignUpForm from "../ui/components/SignUpform";
-import SmallPageWrapper from "../ui/components/SmallPageWrapper";
+import BodyText from "../_ui_components/layout/BodyText";
+import PageTitle from "../_ui_components/layout/PageTitle";
+import SignUpForm from "../_ui_components/forms/SignUpform";
+import SmallPageWrapper from "../_ui_components/layout/SmallPageWrapper";
 
 export const metadata: Metadata = {
     title: "Sign Up",

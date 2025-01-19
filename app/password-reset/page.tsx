@@ -1,8 +1,8 @@
-import SmallPageWrapper from '../ui/components/SmallPageWrapper'
-import PageTitle from '../ui/components/PageTitle'
-import GlassDiv from '../ui/components/GlassDiv'
+import SmallPageWrapper from '../_ui_components/layout/SmallPageWrapper'
+import PageTitle from '../_ui_components/layout/PageTitle'
+import GlassDiv from '../_ui_components/layout/GlassDiv'
 
-import PasswordResetForm from '../ui/components/PasswordResetForm'
+import PasswordResetForm from '../_ui_components/forms/PasswordResetForm'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -1,8 +1,8 @@
-import { fetchJSONWithToken } from "@/app/AuthHandler";
+import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { Enrollee, logRow, weeklyTotal } from "@/app/types";
-import PageTitle from "@/app/ui/components/PageTitle";
+import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import FilteredLogList from "./FilteredLogList";
-import FeaturedText from "@/app/ui/components/FeaturedText";
+import FeaturedText from "@/app/_ui_components/layout/FeaturedText";
 
 
 

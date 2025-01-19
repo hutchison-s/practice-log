@@ -1,8 +1,8 @@
-import PageTitle from "../ui/components/PageTitle";
+import PageTitle from "../_ui_components/layout/PageTitle";
 import Link from "next/link";
-import LoginForm from "../ui/components/LoginForm";
-import SmallPageWrapper from "../ui/components/SmallPageWrapper";
-import BodyText from "../ui/components/BodyText";
+import LoginForm from "../_ui_components/forms/LoginForm";
+import SmallPageWrapper from "../_ui_components/layout/SmallPageWrapper";
+import BodyText from "../_ui_components/layout/BodyText";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

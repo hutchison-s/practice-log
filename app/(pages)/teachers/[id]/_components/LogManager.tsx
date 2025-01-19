@@ -1,6 +1,6 @@
 import { logRow } from '@/app/types'
-import BodyText from '@/app/ui/components/BodyText'
-import PracticeLogList from '@/app/ui/components/PracticeLogList'
+import BodyText from '@/app/_ui_components/layout/BodyText'
+import PracticeLogList from '@/app/_ui_components/object_display/PracticeLogList'
 import Link from 'next/link'
 import React from 'react'
 

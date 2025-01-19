@@ -9,7 +9,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
     try {
         const id = (await params).id;
         const req_id = request.headers.get('x-user-id');
-        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         if (!id) return NextResponse.json({message: 'Invalid URL'}, {status: 404})
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
     try {
         const id = (await params).id;
         const req_id = request.headers.get('x-user-id')
-        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         const {rows: teacher_ids} = await sql`SELECT teacher_id FROM students WHERE id = ${id};`

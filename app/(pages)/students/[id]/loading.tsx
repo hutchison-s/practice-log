@@ -1,4 +1,4 @@
-import PageTitle from '@/app/ui/components/PageTitle'
+import PageTitle from '@/app/_ui_components/layout/PageTitle'
 import { Loader } from 'lucide-react'
 import React from 'react'
 

@@ -1,6 +1,6 @@
 import { Goal } from '@/app/types';
 import React from 'react'
-import GoalsList from '../../../../ui/components/GoalsList';
+import GoalsList from '../../../../_ui_components/object_display/GoalsList';
 import Link from 'next/link';
 
 function GoalsManager({goals, onUpdate, onDelete}: {goals?: Goal[], onUpdate: (g: Goal)=>void, onDelete: (id: string)=>void}) {

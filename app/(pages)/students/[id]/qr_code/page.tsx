@@ -1,9 +1,9 @@
-import { fetchJSONWithToken } from '@/app/AuthHandler';
+import { fetchJSONWithToken } from '@/app/_utils/AuthHandler';
 import { Enrollee } from '@/app/types';
 import { NextResponse } from 'next/server';
 import PrintableQRCode from './PrintableQRCode';
-import PageTitle from '@/app/ui/components/PageTitle';
-import BodyText from '@/app/ui/components/BodyText';
+import PageTitle from '@/app/_ui_components/layout/PageTitle';
+import BodyText from '@/app/_ui_components/layout/BodyText';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

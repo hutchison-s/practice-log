@@ -1,7 +1,7 @@
 import { Resource } from '@/app/types';
 import Link from 'next/link';
 import React from 'react'
-import ResourceList from '../../../../ui/components/ResourceList';
+import ResourceList from '../../../../_ui_components/object_display/ResourceList';
 
 function ResourcesManager({resources, onDelete}: {resources?: Resource[], onDelete: (id: string)=>void}) {
     if (!resources) return <>Loading Resources...</>

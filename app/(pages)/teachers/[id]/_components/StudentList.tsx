@@ -1,7 +1,7 @@
 'use client'
 
 import { Enrollee } from "@/app/types";
-import EnroleePreview from "@/app/ui/components/EnroleePreview"
+import EnroleePreview from "@/app/(pages)/teachers/[id]/_components/EnroleePreview"
 import { Loader } from "lucide-react";
 
 function StudentList({students, selected, onSelect, onUpdate, disabled}: {students: Enrollee[], selected: string | null, onSelect: (student_id: string)=>void, onUpdate: (s: Enrollee)=>void, disabled?: boolean}) {

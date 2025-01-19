@@ -1,8 +1,8 @@
-import { fetchJSONWithToken } from '@/app/AuthHandler'
+import { fetchJSONWithToken } from '@/app/_utils/AuthHandler'
 import { Enrollee } from '@/app/types'
 import React from 'react'
 import WeekSchedule from './WeekSchedule';
-import PageTitle from '@/app/ui/components/PageTitle';
+import PageTitle from '@/app/_ui_components/layout/PageTitle';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
-import { SecondaryButton } from '@/app/ui/components/Buttons'
-import SubHeading from '@/app/ui/components/SubHeading'
+import { SecondaryButton } from '@/app/_ui_components/layout/Buttons'
+import SubHeading from '@/app/_ui_components/layout/SubHeading'
 import { Loader } from 'lucide-react'
 import React from 'react'
 

@@ -1,18 +1,17 @@
 'use client';
 
-import useStudentBrowser from "@/app/_reducers/useStudentBrowser";
+import useStudentBrowser from "@/app/_hooks/useStudentBrowser";
 import { Enrollee, Group } from "@/app/types";
-import { SecondaryLinkButton } from "@/app/ui/components/Buttons";
-import NewStudentButton from "@/app/ui/components/NewStudentButton";
+import { SecondaryLinkButton } from "@/app/_ui_components/layout/Buttons";
+import NewStudentButton from "@/app/(pages)/teachers/[id]/_components/NewStudentButton";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import EditGroupButton from "./EditGroupButton";
 import DeleteGroupButton from "./DeleteGroupButton";
 import NewGroupButton from "./NewGroupButton";
 import StudentList from "./StudentList";
-import Elipsis from "@/app/ui/components/Elipsis";
 import StudentRecordsPanel from "./StudentRecordsPanel";
-import FeaturedText from "@/app/ui/components/FeaturedText";
+import FeaturedText from "@/app/_ui_components/layout/FeaturedText";
 import { Calendar, List } from "lucide-react";
 import StudentDetailsHeader from "./StudentDetailsHeader";
 import StudentScheduleList from "./StudentScheduleList";

@@ -1,7 +1,7 @@
 'use client'
-import BodyText from '@/app/ui/components/BodyText'
-import { PrimaryButton, PrimaryLinkButton } from '@/app/ui/components/Buttons'
-import PageTitle from '@/app/ui/components/PageTitle'
+import BodyText from '@/app/_ui_components/layout/BodyText'
+import { PrimaryButton, PrimaryLinkButton } from '@/app/_ui_components/layout/Buttons'
+import PageTitle from '@/app/_ui_components/layout/PageTitle'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 

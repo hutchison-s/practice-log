@@ -1,6 +1,6 @@
 'use client'
-import { utcToTimeZone } from '@/app/_functions/dates'
-import { useUser } from '@/app/_usercontext/useUser'
+import { utcToTimeZone } from '@/app/_utils/dates'
+import { useUser } from '@/app/_hooks/useUser'
 import { Message } from '@/app/types'
 import React, { useEffect } from 'react'
 

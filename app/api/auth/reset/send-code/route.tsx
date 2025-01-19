@@ -1,4 +1,4 @@
-import { sendPasswordResetEmail } from "@/app/_emails/controller";
+import { sendPasswordResetEmail } from "@/app/_utils/emails/controller";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 

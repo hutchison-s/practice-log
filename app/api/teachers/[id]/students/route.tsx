@@ -2,9 +2,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import { apiResponse, Enrollee } from "@/app/types";
 
-export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Enrollee[]> {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    
+export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Enrollee[]> {    
     try {
         const id = (await params).id;
         const req_id = request.headers.get('x-user-id');

@@ -9,7 +9,7 @@ export async function GET(request: NextRequest,
     try {
         const id = (await params).id;
         const req_id = request.headers.get('x-user-id');
-        if (!(await userIs('student or teacher', {user_id: req_id, student_id: id}))) {
+        if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         if (!id) return NextResponse.json({message: 'Invalid URL'}, {status: 404})
@@ -17,46 +17,34 @@ export async function GET(request: NextRequest,
         const isCurrent = searchParams.get('current')
         const {rows} = isCurrent
             ? await sql`
-            SELECT 
-    logs.student_id,
-    students.weekly_goal,
-    DATE_TRUNC('day', logs.start_time) - 
-        ((EXTRACT(DOW FROM logs.start_time)::int - students.day_of_week + 7) % 7) * INTERVAL '1 day' + INTERVAL '1 day' AS lesson_week_start,
-    SUM(logs.total_time) AS weekly_total
-FROM 
-    logs
-JOIN 
-    students ON logs.student_id = students.id
-WHERE 
-    logs.student_id = ${id}
-    AND DATE_TRUNC('day', logs.start_time) - 
-        ((EXTRACT(DOW FROM logs.start_time)::int - students.day_of_week + 7) % 7) * INTERVAL '1 day' + INTERVAL '1 day' = 
-        DATE_TRUNC('day', CURRENT_DATE) - 
-        ((EXTRACT(DOW FROM CURRENT_DATE)::int - students.day_of_week + 7) % 7) * INTERVAL '1 day' + INTERVAL '1 day'
-GROUP BY 
-    logs.student_id, students.weekly_goal, DATE_TRUNC('day', logs.start_time) - 
-        ((EXTRACT(DOW FROM logs.start_time)::int - students.day_of_week + 7) % 7) * INTERVAL '1 day' + INTERVAL '1 day'
-ORDER BY 
-    lesson_week_start;
-
+            SELECT
+              DATE_TRUNC('DAY', CURRENT_TIMESTAMP) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP) + 7) - s.day_of_week) % 7)) as lesson_week_start,
+              l.student_id,
+              s.weekly_goal,
+              sum(l.total_time) AS weekly_total
+            FROM
+              logs AS l
+            LEFT JOIN
+              students AS s ON l.student_id = s.id
+            WHERE
+              l.student_id = ${id} AND l.start_time >= DATE_TRUNC('DAY', CURRENT_TIMESTAMP) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP) + 7) - s.day_of_week) % 7))
+            GROUP BY
+              lesson_week_start, l.student_id, s.weekly_goal;
             `
             : await sql`
-          SELECT 
-            logs.student_id,
-            students.weekly_goal,
-            DATE_TRUNC('day', logs.start_time) - 
-                ((EXTRACT(DOW FROM logs.start_time)::int - students.day_of_week + 7) % 7) * INTERVAL '1 day' + INTERVAL '1 days' AS lesson_week_start,
-            SUM(logs.total_time) AS weekly_total
-          FROM 
-            logs
-          JOIN 
-            students ON logs.student_id = students.id
-          WHERE 
-            logs.student_id = ${id}
-          GROUP BY 
-            logs.student_id, lesson_week_start
-          ORDER BY 
-            lesson_week_start;
+          SELECT
+            DATE_TRUNC('day', l.start_time) - (INTERVAL '1 day' * (((EXTRACT(DOW from l.start_time) + 7) - s.day_of_week) % 7)) as lesson_week_start,
+            l.student_id,
+            s.weekly_goal,
+            sum(l.total_time) AS weekly_total
+          FROM
+            logs AS l
+          LEFT JOIN
+            students AS s ON l.student_id = s.id
+          WHERE
+            l.student_id = ${id}
+          GROUP BY
+            lesson_week_start, l.student_id, s.weekly_goal;
         `;
         return NextResponse.json({data: rows.length > 0 ? rows as weeklyTotal[] : [] as weeklyTotal[], message: 'success'}, {status: 200});
     } catch (error) {
