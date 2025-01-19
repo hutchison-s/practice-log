@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         { userId: user.id, code: code, name: user.name })
         .setProtectedHeader({alg: 'HS256'})
         .setIssuedAt()
-        .setExpirationTime('1 hour')
+        .setExpirationTime('1 day')
         .sign(secret);
 
     // Set the token in an HTTP-only, secure cookie

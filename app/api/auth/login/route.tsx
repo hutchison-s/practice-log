@@ -29,7 +29,7 @@ export async function POST(request: Request) {
         { userId: user.id, email: email, name: user.name, isVerified: user.validated })
         .setProtectedHeader({alg: 'HS256'})
         .setIssuedAt()
-        .setExpirationTime('1 hour')
+        .setExpirationTime('1 day')
         .sign(secret);
 
     // Set the token in an HTTP-only, secure cookie
