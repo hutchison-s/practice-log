@@ -9,7 +9,7 @@ function GoalsManager({goals, onUpdate, onDelete}: {goals?: Goal[], onUpdate: (g
     <>
         
         {goals && <GoalsList goals={goals} onDelete={onDelete} onUpdate={onUpdate} />}
-        {goals.length > 2 && <Link href={`/students/${goals[0].student_id}/goals`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View All Goals</Link>}
+        {goals && <Link href={`/students/${goals[0].student_id}/goals`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View All Goals</Link>}
         
     </>
   )

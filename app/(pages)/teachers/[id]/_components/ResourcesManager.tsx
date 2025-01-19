@@ -8,7 +8,7 @@ function ResourcesManager({resources, onDelete}: {resources?: Resource[], onDele
     return (
        <>
             {resources && <ResourceList resources={resources} onDelete={onDelete}/>}
-            {resources.length > 2 && <Link href={`/students/${resources[0].student_id}/resources`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View All Resources</Link>}
+            {resources && <Link href={`/students/${resources[0].student_id}/resources`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View All Resources</Link>}
        </>
     )
 }

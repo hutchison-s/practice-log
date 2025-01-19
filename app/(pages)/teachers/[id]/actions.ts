@@ -21,8 +21,8 @@ export async function fetchStudentRecords(id: string, limit?:number): Promise<As
 
 export async function fetchCurrentWeekTotal(student_id: string): Promise<weeklyTotal[]> {
     return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${student_id}/logs/week_total?current=true`, 3600)
-        if (!data) reject('Failed to retrieve log data:'+message);
+        const {data, message} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${student_id}/logs/week_total?current=true`, 1800)
+        if (data == undefined) reject(message)
         resolve(data as weeklyTotal[]);
     })
 }

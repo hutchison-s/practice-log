@@ -51,7 +51,7 @@ export async function GET(
         AND
         start_time <= ${endDate ? endDate : new Date().toISOString()}
       ORDER BY 
-        start_time ASC
+        start_time DESC
       LIMIT 
         ${limit ? parseInt(limit) : 1000}
     `

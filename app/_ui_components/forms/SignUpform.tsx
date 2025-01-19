@@ -27,6 +27,7 @@ function SignUpForm() {
         if (!validateName(fd.get('name') as string)) {
             return setStatusMsg('Invalid name format. Please include your first and last name.')
         }
+        fd.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
         fetch('/api/auth/signup', {
             method: "POST", 
             body: fd

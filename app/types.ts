@@ -39,7 +39,7 @@ export type logRow = {
 export type weeklyTotal = {
     student_id: string,
     lesson_week_start: string,
-    weekly_goal: string,
+    weekly_goal: number,
     weekly_total: string
 }
 

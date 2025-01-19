@@ -36,6 +36,7 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
                 weeklyGoal,
                 time_of_day: timeOfDay,
                 group_id: groupId == '0' ? null : groupId,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
             })
         }).then(async res => {
             if (!res.ok) {

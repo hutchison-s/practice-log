@@ -12,7 +12,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
     const {data: student} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
     const {data: logs} = await fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs`);
     const {data: weeks} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${id}/logs/week_total`);
-    
+    console.log(weeks)
     return (
         <>
             <PageTitle>Student Practice Logs</PageTitle>

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest,
         const {rows} = isCurrent
             ? await sql`
             SELECT
-              DATE_TRUNC('DAY', CURRENT_TIMESTAMP) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP) + 7) - s.day_of_week) % 7)) as lesson_week_start,
+              DATE_TRUNC('DAY', CURRENT_TIMESTAMP AT TIME ZONE s.timezone) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP AT TIME ZONE s.timezone) + 7) - s.day_of_week) % 7)) as lesson_week_start,
               l.student_id,
               s.weekly_goal,
               sum(l.total_time) AS weekly_total
@@ -27,13 +27,13 @@ export async function GET(request: NextRequest,
             LEFT JOIN
               students AS s ON l.student_id = s.id
             WHERE
-              l.student_id = ${id} AND l.start_time >= DATE_TRUNC('DAY', CURRENT_TIMESTAMP) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP) + 7) - s.day_of_week) % 7))
+              l.student_id = ${id} AND l.start_time AT TIME ZONE s.timezone >= DATE_TRUNC('DAY', CURRENT_TIMESTAMP AT TIME ZONE s.timezone) - (INTERVAL '1 day' * (((EXTRACT(DOW from CURRENT_TIMESTAMP AT TIME ZONE s.timezone) + 7) - s.day_of_week) % 7))
             GROUP BY
               lesson_week_start, l.student_id, s.weekly_goal;
             `
             : await sql`
           SELECT
-            DATE_TRUNC('day', l.start_time) - (INTERVAL '1 day' * (((EXTRACT(DOW from l.start_time) + 7) - s.day_of_week) % 7)) as lesson_week_start,
+            DATE_TRUNC('day', l.start_time AT TIME ZONE s.timezone) - (INTERVAL '1 day' * (((EXTRACT(DOW FROM l.start_time AT TIME ZONE s.timezone) + 7) - s.day_of_week) % 7)) AS lesson_week_start,
             l.student_id,
             s.weekly_goal,
             sum(l.total_time) AS weekly_total

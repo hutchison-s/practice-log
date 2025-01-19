@@ -12,7 +12,7 @@ function LogManager({logs}: {logs?: logRow[]}) {
     <>
         
         {logs && <PracticeLogList logs={logs} />}
-        {logs && logs.length > 2 && <Link href={`/students/${logs[0].student_id}/logs`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View Log History</Link>}
+        {logs && <Link href={`/students/${logs[0].student_id}/logs`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View Log History</Link>}
     </>
   )
 }

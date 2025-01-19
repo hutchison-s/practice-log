@@ -1,7 +1,5 @@
 export function utcToTimeZone(utcTimestamp: string, format='day, month, date, year, hour, minute'): string {
-    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log('Formatting', utcTimestamp)
-
+    // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const utcDate = new Date(utcTimestamp);
 
     const localDateString = new Intl.DateTimeFormat('en-US', {
@@ -13,16 +11,37 @@ export function utcToTimeZone(utcTimestamp: string, format='day, month, date, ye
         minute: format.includes('minute') ? 'numeric' : undefined, // "30"
         second: format.includes('second') ? 'numeric' : undefined, // "15"
         timeZoneName: format.includes('timezone') ? 'short' : undefined, // "PST"
-        timeZone: userTimezone, // Use the detected timezone
+        // timeZone: userTimezone, // Use the detected timezone
     }).format(utcDate);
 
     return localDateString
 }
 
+export function timestampWithLocalTimezone() {
+    'use client'
+    const date = new Date();
+
+    // Format the date components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    // Get timezone offset in minutes and convert to hours and minutes
+    const offset = date.getTimezoneOffset(); // in minutes
+    const absOffset = Math.abs(offset);
+    const offsetHours = String(Math.floor(absOffset / 60)).padStart(2, '0');
+    const offsetMinutes = String(absOffset % 60).padStart(2, '0');
+    const offsetSign = offset <= 0 ? '+' : '-';
+
+    // Construct the timestamp
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
+}
+
 export function utcToDateInput(utcTimestamp: string) {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log('Formatting', utcTimestamp)
-
     const utcDate = new Date(utcTimestamp);
 
     const inputDateFormat = new Intl.DateTimeFormat('en-CA', {

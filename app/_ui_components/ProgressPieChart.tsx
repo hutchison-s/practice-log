@@ -18,7 +18,7 @@ function CurrentWeekPieChart({student_id, size}: {student_id: string, size: numb
                     return;
                 }
                 const {weekly_goal, weekly_total} = data[0];
-                setPercent((Math.floor(parseInt(weekly_total) / (parseInt(weekly_goal) * 60)) * 100))
+                setPercent((Math.floor(parseInt(weekly_total) / (weekly_goal * 60) * 100)))
                 setIsLoading(false);
             })
             .catch(reason => {

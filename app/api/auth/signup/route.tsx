@@ -7,6 +7,7 @@ export async function POST(request: Request) {
     const name = fd.get('name') as string;
     const email = fd.get('email') as string;
     const password = fd.get('password') as string;
+    const timezone = fd.get('timezone') as string;
     const saltRounds = parseInt(process.env.BCRYPT_SALT || '10', 10);
 
     const existingUsers = await sql`SELECT id FROM teachers WHERE email = ${email}`;
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     const hashedPass = await bcrypt.hash(password, saltRounds);
-    const newUserResponse = await sql`INSERT INTO teachers (name, email, password) VALUES (${name}, ${email}, ${hashedPass}) RETURNING *`;
+    const newUserResponse = await sql`INSERT INTO teachers (name, email, password, timezone) VALUES (${name}, ${email}, ${hashedPass}, ${timezone}) RETURNING *`;
     const newUser = newUserResponse.rows[0];
     await sendValidationEmail({email, name});
 

@@ -3,8 +3,7 @@ import PieChart from './PieChart';
 
 function WeekSummary({startDate, totalSeconds, goal}: {startDate: string, totalSeconds: number, goal: number}) {
     const start = new Date(startDate);
-    const end = new Date(start).setDate(start.getDate() + 7);
-    console.log(start, end)
+    start.setHours(start.getHours() + 12)
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     const percent = (totalSeconds / (goal * 60)) * 100;

@@ -10,6 +10,7 @@ function LogDisplay({log}: {log: logRow}) {
     const seconds = parseInt(log.total_time)
 
     if (seconds == 0) return null;
+    console.log(log.start_time)
     const timestamp = utcToTimeZone(log.start_time, 'day, month, year, date, hour, minute');
     return (
         <li className="block glass px-4 py-2 pr-8 border-[1px] border-slate-600 border-l-4 border-l-txtprimary rounded shadow-sm">
