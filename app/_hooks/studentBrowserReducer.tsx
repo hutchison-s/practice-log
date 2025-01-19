@@ -46,10 +46,11 @@ export const studentBrowserReducer = (state: StudentBrowserStateType, action: Ac
                 activeStudentDetails: null
             };
         case 'MODIFY_STUDENT':
+            console.log('updating to', action.payload)
             return {
                 ...state,
                 studentList: [
-                    ...state.studentList.map(s => s.id == action.payload.id ? action.payload : s)
+                    ...state.studentList.map(s => s.id == action.payload.id ? {...s, ...action.payload} : {...s})
                 ]
             };
         case 'UPDATE_ALL':

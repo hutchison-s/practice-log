@@ -25,7 +25,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
   const [selectedStudent, setSelectedStudent] = useState<Enrollee | null>(null);
   const [activeGroupId, setActiveGroupId] = useState('0');
   const [isListView, setIsListView] = useState(true);
-  const [filteredStudents, setFilteredStudents] = useState<Enrollee[]>(students)
+  const [filteredStudents, setFilteredStudents] = useState<Enrollee[]>(students);
 
   const findActive = ()=>{
     return state.studentList.find(s=>s.id==selectedStudentId) || null;
@@ -112,12 +112,14 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
               if (isLoading) return;
               setIsLoading(true);
               setSelectedStudentId(student_id);
-              setIsLoading(false)
+              setIsLoading(false);
             }}
             onUpdate={(s: Enrollee)=>{
               setIsLoading(true);
               studentListController.update(s);
-              setIsLoading(false)
+              setSelectedStudentId(s.id);
+              setSelectedStudent(s);
+              setIsLoading(false);
             }}
             selected={selectedStudentId}
           />
@@ -135,7 +137,13 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
       <section className="w-full col-span-1 lg:col-span-2 max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
       {selectedStudent
           ? <>
-              <StudentDetailsHeader student={selectedStudent} onUpdate={studentListController.update} onDelete={handleDeleteStudent} />
+              <StudentDetailsHeader student={selectedStudent} onUpdate={
+                (s: Enrollee)=>{
+                  studentListController.update(s);
+                  setSelectedStudentId(s.id);
+                  setSelectedStudent(s);
+                }
+              } onDelete={handleDeleteStudent} />
               <StudentRecordsPanel student_id={selectedStudent.id} records={state.activeStudentDetails} recordsController={studentDetailsController} goalController={goalController} resourceController={resourceController}/>
             </>
           : <FeaturedText className="text-center my-4 px-8">Select a student to view info</FeaturedText>

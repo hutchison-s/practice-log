@@ -31,8 +31,9 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
     setIsOpen(o => !o)
   }
 
-  const handleEdit = ()=>{
-    onUpdate(student);
+  const handleEdit = (s: Enrollee)=>{
+    onUpdate(s);
+    student = s;
     togglePopup();
   }
   const handleDelete = ()=>{

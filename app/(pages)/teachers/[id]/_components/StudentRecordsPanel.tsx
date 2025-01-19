@@ -56,12 +56,12 @@ function StudentRecordsPanel({student_id, records, recordsController, goalContro
                     </>
                 :   <>
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Recent Logs</SubHeading>
-                        <LogManager logs={records.logs}/>
+                        <LogManager student_id={student_id} logs={records.logs}/>
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Goals</SubHeading>
-                        <GoalsManager goals={records.goals} onDelete={handleGoalDelete} onUpdate={goalController.update}/>
+                        <GoalsManager student_id={student_id} goals={records.goals} onDelete={handleGoalDelete} onUpdate={goalController.update}/>
                         <NewGoalButton student_id={student_id} onCreate={goalController.add} />
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Resources</SubHeading>
-                        <ResourcesManager resources={records.resources} onDelete={handleResourceDelete}/>
+                        <ResourcesManager student_id={student_id} resources={records.resources} onDelete={handleResourceDelete}/>
                         <NewResourceButton student_id={student_id} onCreate={resourceController.add} />
                     </>
     )
