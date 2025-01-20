@@ -40,6 +40,11 @@ body {
   text-shadow: 0 0 10px #00000033;
 }
 
+option {
+  background-color: rgb(var(--background));
+  color: white;
+}
+
 .glass {
   position: relative;
   background-color: #ffffff0a;

@@ -72,7 +72,7 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
           <button onClick={togglePopup}>
             <EllipsisVertical aria-label='Options' size={40} className='text-txtprimary transition-all hover:text-white hover:scale-105' />
           </button>
-          <div ref={popup} className="absolute right-3/4 bottom-3/4 w-fit h-fit grid gap-2 p-2 rounded-xl transition-all origin-bottom-right bg-background/90 shadow-xl border-[1px] border-white/25" style={{scale: isOpen ? 1 : 0}}>
+          <div ref={popup} className="absolute right-3/4 bottom-3/4 w-[54px] h-[98px] grid gap-2 p-2 rounded-xl transition-all origin-bottom-right bg-background/90 shadow-xl border-[1px] border-white/25" style={{scale: isOpen ? 1 : 0}}>
             <EditStudentButton onUpdate={handleEdit} onCancel={()=>togglePopup()} student={student}/>
             <DeleteStudentButton student={student} onDelete={handleDelete} onCancel={()=>togglePopup()} />
           </div>
