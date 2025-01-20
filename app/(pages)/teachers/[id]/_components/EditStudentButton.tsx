@@ -114,18 +114,18 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
                         <select
                             className="w-full p-[0.65rem] text-md bg-background/50 text-zinc-400 border-[1px] border-white/25 rounded"
                             name="dow" value={dow} onChange={(e: ChangeEvent<HTMLSelectElement>)=>{setDow(e.target.value)}}>
-                            <option value={0}>Sunday</option>
-                            <option value={1}>Monday</option>
-                            <option value={2}>Tuesday</option>
-                            <option value={3}>Wednesday</option>
-                            <option value={4}>Thursday</option>
-                            <option value={5}>Friday</option>
-                            <option value={6}>Saturday</option>
+                            <option value={0} className="bg-background text-white">Sunday</option>
+                            <option value={1} className="bg-background text-white">Monday</option>
+                            <option value={2} className="bg-background text-white">Tuesday</option>
+                            <option value={3} className="bg-background text-white">Wednesday</option>
+                            <option value={4} className="bg-background text-white">Thursday</option>
+                            <option value={5} className="bg-background text-white">Friday</option>
+                            <option value={6} className="bg-background text-white">Saturday</option>
                         </select>
                     </div>
                     <div className="w-[40%]">
-                        <label htmlFor="time" className="font-golos font-bold text-shadow">Time</label>
-                        <input className="w-full p-2 bg-background/50 text-md font-inter text-zinc-400 border-[1px] border-white/25 rounded" type="time" name="time" id="time" value={timeOfDay} onChange={(e)=>setTimeOfDay(e.target.value)} />
+                        <label htmlFor="time" className="block font-golos font-bold text-shadow">Time</label>
+                        <input className="block w-full p-2 bg-background/50 text-md font-inter text-zinc-400 border-[1px] border-white/25 rounded" type="time" name="time" id="time" value={timeOfDay} onChange={(e)=>setTimeOfDay(e.target.value)} />
                     </div>
                 </div>
                 
