@@ -6,6 +6,7 @@ export interface User {
     email?: string,
     code?: string,
     isVerified?: boolean,
+    teacher_id?: string,
     created_at: string,
     timezone: string,
     role: 'teacher' | 'student'
@@ -35,7 +36,8 @@ export type logRow = {
     name: string,
     start_time: string,
     total_time: string,
-    journal: string
+    journal: string,
+    journal_prompt: string
   }
 
 export type weeklyTotal = {
@@ -80,6 +82,17 @@ export type Message = {
     content: string,
     is_read: boolean,
     sent_by: string
+}
+
+export type ApprovalRequest = {
+    id: string,
+    student_id: string,
+    student_name: string,
+    teacher_id: string,
+    log_id: string,
+    start_time: string,
+    estimated_time: number,
+    reason?: string
 }
 
 export type apiPayload<T> = {

@@ -13,9 +13,9 @@ type StudentPageInfo = {
 }
 
 export async function fetchStudentRecords(id: string, limit?:number): Promise<AssociatedStudentRecords> {
-    const logPromise = fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs${limit ? '?limit='+limit : ''}`, 3600);
-    const goalPromise = fetchJSONWithToken<Goal[]>(`${apiURL}/students/${id}/goals${limit ? '?limit='+limit : ''}`, 3660);
-    const resourcePromise = fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources${limit ? '?limit='+limit : ''}`, 3600);
+    const logPromise = fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs${limit ? '?limit='+limit : ''}`);
+    const goalPromise = fetchJSONWithToken<Goal[]>(`${apiURL}/students/${id}/goals${limit ? '?limit='+limit : ''}`);
+    const resourcePromise = fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources${limit ? '?limit='+limit : ''}`);
     const [logs, goals, resources] = (await Promise.all([logPromise, goalPromise, resourcePromise]))
     return {
         logs: logs.data || [],

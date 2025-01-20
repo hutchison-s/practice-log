@@ -47,6 +47,8 @@ export async function GET(
       WHERE
         student_id = ${id}
         AND
+        is_approved = TRUE
+        AND
         start_time >= ${startDate ? startDate : '2025-01-01'}
         AND
         start_time <= ${endDate ? endDate : new Date().toISOString()}
@@ -91,9 +93,9 @@ export async function GET(
     if (!(await userIs('owner', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
-    const {log_id, journal} = body;
+    const {log_id, journal, journal_prompt, is_approved} = body;
     console.log('updating log', log_id, journal)
-    await sql`UPDATE logs SET total_time = 0, journal = ${journal} WHERE id = ${log_id}`;
+    await sql`UPDATE logs SET total_time = EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - start_time)), journal = ${journal}, journal_prompt = ${journal_prompt}, is_approved = ${is_approved} WHERE id = ${log_id}`;
     revalidatePath(`/students/${id}`);
     revalidatePath(`/api/students/${id}`);
     return NextResponse.json({message: 'Success', data: {log_id: log_id}});

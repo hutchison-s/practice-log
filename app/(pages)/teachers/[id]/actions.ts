@@ -2,7 +2,7 @@
 
 import { AssociatedStudentRecords } from "@/app/_hooks/studentBrowserReducer";
 import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { logRow, Goal, Resource, Group } from "@/app/types";
+import { logRow, Goal, Resource, Group, ApprovalRequest } from "@/app/types";
 import { weeklyTotal } from "@/app/types";
 
 const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -43,3 +43,7 @@ export async function fetchGroup(teacher_id: string, group_id: string): Promise<
     })
 }
 
+export async function fetchLogApprovals(teacher_id: string): Promise<ApprovalRequest[]> {
+    const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`);
+    return approval_requests || [];
+}
