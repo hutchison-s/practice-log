@@ -6,7 +6,9 @@ export interface User {
     email?: string,
     code?: string,
     isVerified?: boolean,
-    created_at: string
+    created_at: string,
+    timezone: string,
+    role: 'teacher' | 'student'
 }
 
 export interface Enrollee extends User {

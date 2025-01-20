@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './app/api/helpers';
 
+const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
     if (!token) {
-        return NextResponse.json({message: 'Please log in to continue.'}, {status: 401})
+        return NextResponse.redirect(`${siteURL}/login`);
     }
     try {
         const jwtSecret = process.env.JWT_SECRET;
@@ -19,7 +20,7 @@ export async function middleware(request: NextRequest) {
         response.headers.set('x-user-id', req_id);
         return response;
     } catch (error) {
-        return NextResponse.json({message: 'Please sign in to continue.', error}, {status: 403});
+        return NextResponse.redirect(`${siteURL}/login`);
     }
 }
 

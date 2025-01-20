@@ -15,6 +15,7 @@ type Action =
     | {type: 'ADD_GROUP', payload: Group}
     | {type: 'DELETE_GROUP', payload: Group}
     | {type: 'UPDATE_GROUP', payload: Group}
+    | {type: 'DELETE_LOG', payload: logRow}
 
 export type StudentBrowserStateType = {
     studentList: Enrollee[],
@@ -167,6 +168,15 @@ export const studentBrowserReducer = (state: StudentBrowserStateType, action: Ac
                 groups: [
                     ...state.groups.map(g => g.id == action.payload.id ? action.payload : g)
                 ]
+            }
+        case 'DELETE_LOG':
+            if (!state.activeStudentDetails) return state;
+            return {
+                ...state,
+                activeStudentDetails: {
+                    ...state.activeStudentDetails,
+                    logs: [...state.activeStudentDetails.logs.filter(log => log.id !== action.payload.id)]
+                }
             }
         default:
             return state;

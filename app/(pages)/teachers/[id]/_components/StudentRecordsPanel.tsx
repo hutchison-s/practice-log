@@ -1,7 +1,7 @@
 'use client'
 
 import { AssociatedStudentRecords } from '@/app/_hooks/studentBrowserReducer'
-import { Goal, Resource, StateController } from '@/app/types'
+import { Goal, logRow, Resource, StateController } from '@/app/types'
 import FeaturedText from '@/app/_ui_components/layout/FeaturedText'
 import { AlertCircle } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -14,7 +14,7 @@ import NewGoalButton from '@/app/(pages)/teachers/[id]/_components/NewGoalButton
 import SubHeading from '@/app/_ui_components/layout/SubHeading'
 import StudentRecordsSkeleton from './StudentRecordsSkeleton'
 
-function StudentRecordsPanel({student_id, records, recordsController, goalController, resourceController}: {student_id: string, records: AssociatedStudentRecords | null, recordsController: {set: (rec: AssociatedStudentRecords)=>void, clear: ()=>void}, goalController: StateController<Goal>, resourceController: StateController<Resource>}) {
+function StudentRecordsPanel({student_id, records, recordsController, logController, goalController, resourceController}: {student_id: string, records: AssociatedStudentRecords | null, recordsController: {set: (rec: AssociatedStudentRecords)=>void, clear: ()=>void}, logController: StateController<logRow>, goalController: StateController<Goal>, resourceController: StateController<Resource>}) {
     const [hasError, setHasError] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
 
@@ -56,7 +56,7 @@ function StudentRecordsPanel({student_id, records, recordsController, goalContro
                     </>
                 :   <>
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Recent Logs</SubHeading>
-                        <LogManager student_id={student_id} logs={records.logs}/>
+                        <LogManager student_id={student_id} logs={records.logs} onDelete={logController.delete}/>
                         <SubHeading className="mb-1 mt-4 border-t-2 border-t-background/50 pt-4">Goals</SubHeading>
                         <GoalsManager student_id={student_id} goals={records.goals} onDelete={handleGoalDelete} onUpdate={goalController.update}/>
                         <NewGoalButton student_id={student_id} onCreate={goalController.add} />

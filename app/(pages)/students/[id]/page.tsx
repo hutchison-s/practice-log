@@ -5,12 +5,12 @@ import Link from "next/link";
 import { TotalPractice } from "@/app/(pages)/students/[id]/_components/TotalPractice";
 import GlassDiv from "@/app/_ui_components/layout/GlassDiv";
 import { Metadata } from "next";
-import PracticeLogList from "@/app/_ui_components/object_display/PracticeLogList";
 import GoalsList from "../../../_ui_components/object_display/GoalsList";
 import ResourceList from "../../../_ui_components/object_display/ResourceList";
 import { fetchStudentPageInfo } from "./actions";
 import ProgressPieChart from "@/app/_ui_components/ProgressPieChart";
 import UnreadMessageNotification from "@/app/_ui_components/UnreadMessageNotification";
+import LogDisplay from "@/app/_ui_components/object_display/LogDisplay";
 
 export const metadata: Metadata = {
     title: "Student Portal",
@@ -59,7 +59,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     <GlassDiv>
                         <SubHeading className="text-center">Previous Logs</SubHeading>
                         <div className="grid gap-2 w-full max-w-[600px] mx-auto">
-                            <PracticeLogList logs={records.logs}/>
+                        <ul className="grid gap-2 w-full max-w-[600px] mx-auto">
+                            {records.logs.length > 0 && records.logs.map(each => <LogDisplay key={each.id} log={each} />)}
+                        </ul>
                             <Link href={`/students/${id}/logs`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Logs</Link>
                         </div>
                     </GlassDiv>
@@ -67,7 +69,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] order-3 md:order-4">
                     <GlassDiv>
                         <SubHeading className="text-center">Resources</SubHeading>
-                            <ResourceList resources={records.resources} isStudentView/>
+                            <ResourceList resources={records.resources} />
                             <Link href={`/students/${id}/resources`} className="text-lighter underline text-right text-sm w-full block mt-4">View All Resources</Link>
                     </GlassDiv>
                     

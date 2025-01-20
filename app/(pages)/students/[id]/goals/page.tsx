@@ -13,9 +13,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
         <>
             <PageTitle>Student Goals</PageTitle>
             <SubHeading>Active</SubHeading>
-            <GoalsList goals={goals?.filter(g => !g.is_complete) || []} isStudentView />
+            <GoalsList goals={goals?.filter(g => !g.is_complete) || []} isStudentView/>
             <SubHeading>Completed</SubHeading>
-            <GoalsList goals={goals?.filter(g => g.is_complete) || []} isStudentView />
+            <GoalsList goals={goals?.filter(g => g.is_complete) || []} isStudentView/>
         </>
     )
 }

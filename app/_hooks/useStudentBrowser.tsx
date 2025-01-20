@@ -2,7 +2,7 @@
 
 import { useReducer } from "react";
 import { AssociatedStudentRecords, studentBrowserReducer, StudentBrowserStateType } from "./studentBrowserReducer";
-import { Enrollee, Goal, Group, Resource, StateController } from "../types";
+import { Enrollee, Goal, Group, logRow, Resource, StateController } from "../types";
 
 export default function useStudentBrowser(initialState: StudentBrowserStateType) {
     const [state, dispatch] = useReducer(studentBrowserReducer, initialState);
@@ -31,6 +31,11 @@ export default function useStudentBrowser(initialState: StudentBrowserStateType)
         update: (r: Resource) => dispatch({type: 'UPDATE_RESOURCE', payload: r}),
         delete: (r: Resource) => dispatch({type: 'DELETE_RESOURCE', payload: r})
     }
+    const logController: StateController<logRow> = {
+        add: (log: logRow)=>console.log('cannot add', log, 'not yet implemented'),
+        update: (log: logRow)=>console.log('cannot update', log, 'not yet implemented'),
+        delete: (log: logRow)=>dispatch({type: 'DELETE_LOG', payload: log}),
+    }
 
     return {
         state,
@@ -38,6 +43,7 @@ export default function useStudentBrowser(initialState: StudentBrowserStateType)
         studentListController,
         groupController,
         studentDetailsController,
+        logController,
         goalController,
         resourceController
     }

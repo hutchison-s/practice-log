@@ -17,7 +17,6 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
         <>
             <PageTitle>Student Practice Logs</PageTitle>
             <FeaturedText>{student?.name}&apos;s {student?.subject} lessons</FeaturedText>
-            
             <FilteredLogList weekly_goal={student?.weekly_goal || 0} weeks={weeks || []} logs={logs || []} />
 
             

@@ -4,14 +4,14 @@ import PracticeLogList from '@/app/_ui_components/object_display/PracticeLogList
 import Link from 'next/link'
 import React from 'react'
 
-function LogManager({student_id, logs}: {student_id: string, logs?: logRow[]}) {
+function LogManager({student_id, logs, onDelete}: {student_id: string, logs?: logRow[], onDelete: (log: logRow)=>void}) {
   if (logs && logs.length == 0) {
           return <BodyText className="font-light">No logs yet</BodyText>
       }
   return (
     <>
         
-        {logs && <PracticeLogList logs={logs} />}
+        {logs && <PracticeLogList logs={logs} onDelete={onDelete}/>}
         {logs && <Link href={`/students/${student_id}/logs`} className='text-lighter underline block w-full text-right font-light text-sm p-2'>View Log History</Link>}
     </>
   )

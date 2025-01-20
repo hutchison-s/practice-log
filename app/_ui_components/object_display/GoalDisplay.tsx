@@ -25,13 +25,13 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
         style={{opacity: goal.is_complete ? '0.3' : '1', filter: goal.is_complete ? 'brightness(50%)' : 'brightness(100%)'}}
     > 
         <div className="grid place-items-center justify-start">
-            {user.id != goal.student_id  ? <GoalCheck goal={goal} onUpdate={onUpdate}/> : <CheckCircle aria-label='Empty Checkbox'/>}
+            {user.role == 'teacher' ? <GoalCheck goal={goal} onUpdate={onUpdate}/> : <CheckCircle aria-label='Empty Checkbox'/>}
         </div>
         <div>
             <h4>{goal.goal_title}</h4>
             {!goal.is_complete && <p className='text-zinc-400 font-light'>{goal.goal_content}</p>}
         </div>
-        {user.id != goal.student_id && 
+        {user.role == 'teacher' && 
         <button className='grid place-items-center' onClick={handleDelete}>
             <Trash aria-label="Trash Can"  className='brightness-90 cursor-pointer transition-all hover:scale-105 hover:brightness-105'/>
         </button>}

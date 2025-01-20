@@ -20,7 +20,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
   const searchParams = useSearchParams();
   const initialSelected = searchParams.get('student');
   const [isLoading, setIsLoading] = useState(false);
-  const {state, goalController, resourceController, studentDetailsController, studentListController, groupController} = useStudentBrowser({studentList: students, groups: groups, activeStudentDetails: null})
+  const {state, logController, goalController, resourceController, studentDetailsController, studentListController, groupController} = useStudentBrowser({studentList: students, groups: groups, activeStudentDetails: null})
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(initialSelected)
   const [selectedStudent, setSelectedStudent] = useState<Enrollee | null>(null);
   const [activeGroupId, setActiveGroupId] = useState('0');
@@ -144,7 +144,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
                   setSelectedStudent(s);
                 }
               } onDelete={handleDeleteStudent} />
-              <StudentRecordsPanel student_id={selectedStudent.id} records={state.activeStudentDetails} recordsController={studentDetailsController} goalController={goalController} resourceController={resourceController}/>
+              <StudentRecordsPanel student_id={selectedStudent.id} records={state.activeStudentDetails} recordsController={studentDetailsController} logController={logController} goalController={goalController} resourceController={resourceController}/>
             </>
           : <FeaturedText className="text-center my-4 px-8">Select a student to view info</FeaturedText>
       }</section>

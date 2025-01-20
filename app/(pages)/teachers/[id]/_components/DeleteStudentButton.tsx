@@ -24,7 +24,7 @@ function DeleteStudentButton({student, onDelete, onCancel}: {student: Enrollee, 
   return (
     <button 
         onClick={handleDelete}
-        className="grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-600 p-2 rounded-full w-fit outline outline-0 outline-white transition-all hover:scale-105 hover:outline-2">
+        className="grid place-items-center bg-gradient-to-br from-cyan-500 to-teal-600 p-2 rounded-full size-fit outline outline-0 outline-white transition-all hover:scale-105 hover:outline-2">
         <Trash aria-label="Trash Can" size={20} />
     </button>
   )

@@ -8,6 +8,7 @@ import { TotalPractice } from '@/app/(pages)/students/[id]/_components/TotalPrac
 import WeekSummary from '@/app/_ui_components/WeekSummary';
 import { RotateCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const deselected = 'linear-gradient(-45deg, #171717, #171717)'
 const selected = 'linear-gradient(-45deg, #1e1b4b, #3730a3)'
@@ -16,8 +17,9 @@ function FilteredLogList({weekly_goal, logs, weeks}: {weekly_goal: number, logs:
     const [dateRange, setDateRange] = useState<Record<string, string>>({start: `${new Date().getFullYear()}-01-01`, end: new Date().toISOString().substring(0, 10)})
     const [filteredLogs, setFilteredLogs] = useState<logRow[]>(logs);
     const [filteredWeeks, setFilteredWeeks] = useState<weeklyTotal[]>(weeks);
-    const [isLogsSelected, setIsLogsSelected] = useState(true)
+    const [isLogsSelected, setIsLogsSelected] = useState(true);
     const [error, setError] = useState('')
+    const router = useRouter()
 
     function validateDateChoice(payload: {key: string, value: string}) {
         const payloadDate = new Date(payload.value);
@@ -112,7 +114,11 @@ function FilteredLogList({weekly_goal, logs, weeks}: {weekly_goal: number, logs:
                     </div>
         {isLogsSelected
             ? filteredLogs.length > 0 
-                ? <PracticeLogList logs={filteredLogs} /> 
+                ? <PracticeLogList logs={filteredLogs} onDelete={(log: logRow)=>{
+                    setFilteredLogs(prev => {
+                        return [...filteredLogs.filter(each => each.id !== log.id)]
+                    })
+                }}/> 
                 : <BodyText className='mt-2 text-center'>No Logs in this timeframe</BodyText>
             : filteredWeeks.length > 0
                 ? <div className="flex flex-wrap gap-2 max-w-[600px] mx-auto">

@@ -5,6 +5,7 @@ import { Camera, File, Headphones, Link as LinkIcon, Trash, Video } from "lucide
 import Link from "next/link"
 import { useState } from "react"
 import Elipsis from "../layout/Elipsis"
+import { useUser } from "@/app/_hooks/useUser"
 
 function ResourceIcon({t}: {t: string}) {
     switch(true) {
@@ -28,8 +29,9 @@ async function handleDelete(student_id: string, resource_id: string, onDelete: (
 }
 
 
-function ResourceDisplay({r, onDelete}: {r: Resource, onDelete: (id: string)=>void}) {
-    const [isDeleting, setIsDeleting] = useState(false)
+function ResourceDisplay({r, onDelete}: {r: Resource, onDelete?: (id: string)=>void}) {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const {user} = useUser();
 
   return (
     
@@ -38,12 +40,13 @@ function ResourceDisplay({r, onDelete}: {r: Resource, onDelete: (id: string)=>vo
                 
                 {isDeleting ? <div>Deleting <Elipsis /></div>: <Link href={r.url} target="blank" className="w-full flex gap-2"><ResourceIcon t={r.type} /> {r.title}</Link>}
             </div>
-            <button onClick={()=>{
+            {user && user.role == 'teacher' && <button onClick={()=>{
+                const deleteFunc = typeof onDelete == 'function' ? onDelete : (id: string)=>console.log(id);
                 setIsDeleting(true)
-                handleDelete(r.student_id, r.id, onDelete)
+                handleDelete(r.student_id, r.id, deleteFunc)
                 }}>
                 <Trash aria-label="Trash Can" />
-            </button>
+            </button>}
         </li>
   )
 }
