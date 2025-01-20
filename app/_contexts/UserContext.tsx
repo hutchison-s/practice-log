@@ -6,7 +6,9 @@ import { User } from "../types";
 export const defaultUser: User = {
     id: '',
     name: '',
-    created_at: ''
+    created_at: '',
+    timezone: '',
+    role: 'student'
 }
 
 const initialContext = {
