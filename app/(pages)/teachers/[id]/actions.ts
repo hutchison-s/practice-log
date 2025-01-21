@@ -26,6 +26,13 @@ export async function fetchCurrentWeekTotal(student_id: string): Promise<weeklyT
         resolve(data as weeklyTotal[]);
     })
 }
+export async function fetchWeekHistory(student_id: string): Promise<weeklyTotal[]> {
+    return new Promise(async (resolve, reject)=>{
+        const {data, message} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${student_id}/logs/week_total`, 60000);
+        if (data == undefined) reject(message)
+        resolve(data as weeklyTotal[]);
+    })
+}
 
 export async function fetchUnreadMessages(student_id: string): Promise<number> {
     return new Promise(async (resolve, reject)=>{

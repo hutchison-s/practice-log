@@ -11,5 +11,6 @@ export async function DELETE(request: NextRequest, {params}: {params: Promise<{i
     }
     await sql`DELETE FROM logs WHERE id = ${log_id}`;
     revalidatePath(`/api/students/${id}/logs`)
+    revalidatePath(`/teachers/${req_id}`)
     return NextResponse.json({message: 'success'}, {status: 200})
 }
