@@ -1,4 +1,3 @@
-import PieChart from '@/app/_ui_components/PieChart'
 import React from 'react'
 
 function BigPie({percent}: {percent: number}) {

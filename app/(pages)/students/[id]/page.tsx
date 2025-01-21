@@ -8,10 +8,8 @@ import { Metadata } from "next";
 import GoalsList from "../../../_ui_components/object_display/GoalsList";
 import ResourceList from "../../../_ui_components/object_display/ResourceList";
 import { fetchStudentPageInfo } from "./actions";
-import ProgressPieChart from "@/app/_ui_components/ProgressPieChart";
 import UnreadMessageNotification from "@/app/_ui_components/UnreadMessageNotification";
 import LogDisplay from "@/app/_ui_components/object_display/LogDisplay";
-import PieChart from "@/app/_ui_components/PieChart";
 import BigPie from "./_components/BigPie";
 
 export const metadata: Metadata = {
