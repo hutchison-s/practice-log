@@ -43,14 +43,14 @@ export default function PracticeButton() {
                     onClick={()=>{
                         setIsJournalOpen(true);
                     }}
-                    className="bg-gradient-to-br from-indigo-800 to-indigo-950"
+                    className="bg-gradient-to-br from-indigo-800 to-indigo-950 px-10 my-4"
                 >
                     {isJournalOpen ? "Ending session..." : "Stop Practice Session"}
                 </SecondaryButton>
             :   <PrimaryButton
                     size="lg"
                     onClick={startSession}
-                    className="mx-auto"
+                    className="mx-auto px-10 my-4"
                 >
                         Start Practicing
                 </PrimaryButton>

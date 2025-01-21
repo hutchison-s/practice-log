@@ -47,7 +47,6 @@ export async function PATCH(
         revalidatePath(`/teachers/${req_id}`)
         revalidatePath(`/api/teachers/${req_id}`)
         revalidatePath(`/api/students/${id}`)
-        console.log('sending', response.rows)
         return NextResponse.json({message: 'success', data: response.rows[0] as Enrollee}, {status: 200})
     } catch (err) {
         console.error(err);

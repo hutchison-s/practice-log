@@ -29,7 +29,7 @@ export async function fetchCurrentWeekTotal(student_id: string): Promise<weeklyT
 
 export async function fetchUnreadMessages(student_id: string): Promise<number> {
     return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<number>(`${apiURL}/students/${student_id}/messages/unread`, 300)
+        const {data, message} = await fetchJSONWithToken<number>(`${apiURL}/students/${student_id}/messages/unread`, 1800)
         if (data == undefined) reject('Failed to retrieve message data:'+message);
         resolve(data as number);
     })

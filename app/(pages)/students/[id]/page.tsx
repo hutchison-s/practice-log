@@ -11,6 +11,8 @@ import { fetchStudentPageInfo } from "./actions";
 import ProgressPieChart from "@/app/_ui_components/ProgressPieChart";
 import UnreadMessageNotification from "@/app/_ui_components/UnreadMessageNotification";
 import LogDisplay from "@/app/_ui_components/object_display/LogDisplay";
+import PieChart from "@/app/_ui_components/PieChart";
+import BigPie from "./_components/BigPie";
 
 export const metadata: Metadata = {
     title: "Student Portal",
@@ -20,7 +22,9 @@ export const metadata: Metadata = {
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
-    const {student, teacher, records} = await fetchStudentPageInfo(id);
+    const {student, teacher, records, weekTotal} = await fetchStudentPageInfo(id);
+    const percent = weekTotal.length > 0 ? Math.floor((parseInt(weekTotal[0].weekly_total) / (weekTotal[0].weekly_goal * 60)) * 100) : 0
+
     return (
         <>
             <PageTitle>Student Portal</PageTitle>
@@ -40,9 +44,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] border-2 glass rounded-lg p-4 order-1">
                     <SubHeading>Weekly Goal</SubHeading>
                     <div className="flex w-full justify-items-center text-center">
-                        <div className="mx-auto">
-                            <ProgressPieChart student_id={id} size={50}/>
-                        </div>
+                        <BigPie percent={percent} />
                     </div>
                     <PracticeButton />
                 </section>
