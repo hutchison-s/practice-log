@@ -20,7 +20,7 @@ function LogDisplay({log, onDelete}: {log: logRow, onDelete?: (log: logRow)=>voi
                     <p className="block text-xs font-light text-zinc-400">{`${log.name}, ${timestamp}`}</p>
                 </div>
                 <div className="w-full text-netural-300 rounded-b text-sm overflow-hidden transition-opacity pt-2" style={{height: isOpen ? 'fit-content' : '0', opacity: isOpen ? 1 : 0}}>
-                    <p className="text-teal-500 text-shadow font-bold font-golos">Practice Journal:</p>
+                    <p className="text-teal-500 font-bold font-golos">Practice Journal:</p>
                     <p className="text-xs font-light text-zinc-400">{log.journal_prompt}</p>
                     <p className="text-xs font-light text-white mt-1">{log.journal}</p>
                 </div>

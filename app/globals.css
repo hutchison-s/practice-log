@@ -31,13 +31,16 @@ body {
 }
 
 .text-shadow-xl {
-  text-shadow: 0 0 25px #00000088;
+  text-shadow: 0 0 25px #000000aa;
 }
 .text-shadow {
-  text-shadow: 0 0 15px #00000055;
+  text-shadow: 0 0 15px #000000aa;
+}
+.text-shadow-light {
+  text-shadow: 0 0 15px #00000033;
 }
 .text-shadow-sm {
-  text-shadow: 0 0 10px #00000033;
+  text-shadow: 0 0 10px #00000088;
 }
 
 option {
@@ -117,6 +120,10 @@ input:-internal-autofill-selected {
   z-index: -2;
 }
 
+button:not(:disabled):hover {
+  filter: brightness(110%);
+}
+
 .button-container {
   position: relative;
   padding: 0.1rem;
@@ -153,6 +160,18 @@ input:-internal-autofill-selected {
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
   animation-direction: normal, alternate;
+}
+
+.shifty:hover {
+  background-size: 300%;
+  background-position: top left;
+  /* background-image: linear-gradient(var(--tw-args), var(--tw-args)); */
+  animation: shifty 1s ease infinite alternate;
+}
+
+@keyframes shifty {
+  from {background-position: top left;}
+  to {background-position: bottom right;}
 }
 
 @keyframes spin {
