@@ -76,17 +76,18 @@ export async function getRoles(user_id: string | null) {
     return roles;
 }
 
-export async function hasScheduleConflict(teacher_id: string, dow: number, start: string, length: string) {
-    const {rows: names} = await sql`
+export async function hasScheduleConflict(teacher_id: string, student_id: string, dow: number, start: string, length: string) {
+    const {rowCount} = await sql`
     SELECT 
         name
     FROM 
         students 
     WHERE 
         teacher_id = ${teacher_id}
+        AND id != ${student_id}
         AND day_of_week = ${dow}
-        AND ${start+':00+00'}::time AT TIME ZONE 'UTC' <= (time_of_day + make_interval(mins => duration))
-        AND (${start+":00+00"}::time AT TIME ZONE 'UTC' + make_interval(mins => ${length}::int)) > time_of_day;`
-    return names;
+        AND ${start}::time AT TIME ZONE 'UTC' <= (time_of_day + make_interval(mins => duration))
+        AND (${start}::time AT TIME ZONE 'UTC' + make_interval(mins => ${length}::int)) > time_of_day;`
+    return rowCount != 0;
 
 }
