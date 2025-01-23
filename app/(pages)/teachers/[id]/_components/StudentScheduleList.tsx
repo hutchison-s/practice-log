@@ -6,8 +6,8 @@ import ResponsiveDaySchedule from '../schedule/ResponsiveDaySchedule';
 function StudentScheduleList({students, disabled, onSelect}: {students: Enrollee[], disabled?: boolean, onSelect: (student_id: string)=>void}) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const hours = [...students.map(s => parseInt(s.time_of_day.substring(0, 2)))]
-    const minHour = Math.min(...hours);
-    const maxHour = Math.max(...hours) + 2;
+    const minHour = hours.length > 0 ? Math.min(...hours) - 1 : 10;
+    const maxHour = hours.length > 0 ? Math.max(...hours) + 2 : 12;
     const rows = {start: (minHour * 4) - 1, end: (maxHour * 4)}
   return (
     <>

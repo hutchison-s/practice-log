@@ -7,8 +7,8 @@ import EmptyDay from './EmptyDay';
 function WeekSchedule({studentList}: {studentList: Enrollee[]}) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const hours = [...studentList.map(s => parseInt(s.time_of_day.substring(0, 2)))]
-    const minHour = Math.min(...hours) - 1;
-    const maxHour = Math.max(...hours) + 2;
+    const minHour = hours.length > 0 ? Math.min(...hours) - 1 : 10;
+    const maxHour = hours.length > 0 ? Math.max(...hours) + 2 : 12;
     const rows = {start: (minHour * 4), end: (maxHour * 4)}
   return (
     <>
