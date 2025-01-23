@@ -96,6 +96,13 @@ export type ApprovalRequest = {
     reason?: string
 }
 
+export type NotificationSettings = {
+    messages: boolean,
+    approvals: boolean,
+    reports: boolean,
+    report_frequency: number
+}
+
 export type apiPayload<T> = {
     message: string,
     data?: T

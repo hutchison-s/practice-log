@@ -21,8 +21,8 @@ export default function NavBar() {
                     <HoverLink href={"/tuner"}>
                         <span>Tuner</span>
                     </HoverLink>
-                    {user.id != '' && <HoverLink href={`/${user.code ? 'students' : 'teachers'}/${user.id}`}>Portal</HoverLink>}
-                    {user.id != '' && !user.code && <HoverLink href={`/teachers/${user.id}/schedule`}>Schedule</HoverLink>}
+                    {user.id != '' && <HoverLink href={`/${user.role}s/${user.id}`}>Portal</HoverLink>}
+                    {user.id != '' && user.role == 'teacher' && <HoverLink href={`/teachers/${user.id}/schedule`}>Schedule</HoverLink>}
                     <LogInOutButton />
                     
             </nav>

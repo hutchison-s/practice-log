@@ -2,7 +2,7 @@
 
 import { AssociatedStudentRecords } from "@/app/_hooks/studentBrowserReducer";
 import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { logRow, Goal, Resource, Enrollee, User, weeklyTotal } from "@/app/types";
+import { logRow, Goal, Resource, Enrollee, User, weeklyTotal, NotificationSettings } from "@/app/types";
 
 const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -32,7 +32,13 @@ export async function fetchStudent(id: string): Promise<Enrollee> {
 }
 
 export async function fetchTeacher(id: string): Promise<User> {
-    const {data, message} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`, 3600);
+    const {data, message} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`);
+    if (data == undefined) throw new Error(message);
+    return data;
+}
+
+export async function fetchSettings(id: string): Promise<NotificationSettings> {
+    const {data, message} = await fetchJSONWithToken<NotificationSettings>(`${apiURL}/teachers/${id}/preferences`);
     if (data == undefined) throw new Error(message);
     return data;
 }

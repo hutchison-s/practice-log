@@ -18,6 +18,7 @@ export async function POST(request: Request) {
     const hashedPass = await bcrypt.hash(password, saltRounds);
     const newUserResponse = await sql`INSERT INTO teachers (name, email, password, timezone) VALUES (${name}, ${email}, ${hashedPass}, ${timezone}) RETURNING *`;
     const newUser = newUserResponse.rows[0];
+    await sql`INSERT INTO account_preferences (user_id) VALUES (${newUser.id})`
     await sendValidationEmail({email, name});
 
     return Response.json({ message: 'success', data: {id: newUser.id, name, email} }, { status: 201 });

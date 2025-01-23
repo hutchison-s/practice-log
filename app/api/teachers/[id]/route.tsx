@@ -14,7 +14,7 @@ export async function GET(
       if (!await userIs('owner or teacher', {req_id: id, content_id: req_id})) {
           return NextResponse.json({message: 'You do not have access to this content. Please login and try again.'}, {status: 403})
       }
-      const res = await sql`SELECT id, name, email, created_at FROM teachers WHERE id = ${id}`;
+      const res = await sql`SELECT id, name, email, created_at, timezone FROM teachers WHERE id = ${id}`;
       if (res.rowCount != 1) {
           return NextResponse.json({message: 'no teachers to return'}, {status: 404});
       }

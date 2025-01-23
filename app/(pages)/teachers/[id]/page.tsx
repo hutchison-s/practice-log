@@ -29,8 +29,7 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 <NotificationAlert teacher_id={id}/>
                 <StudentBrowser students={students || []} groups={groups || []} teacher_id={id}/>
                 <div className="flex w-full justify-center mt-8 p-2 gap-4 flex-wrap md:flex-nowrap">
-                    <SecondaryLinkButton href="/password-reset" size="sm">Change Password</SecondaryLinkButton>
-                    <SecondaryLinkButton href={`/teachers/${id}/delete-account`} size="sm" className="hover:bg-red-900 hover:border-white">Delete My Account</SecondaryLinkButton>
+                    <SecondaryLinkButton href={`/teachers/${id}/account`} size="sm" className="hover:bg-red-900 hover:border-white">Account Settings</SecondaryLinkButton>
                 </div>
             </>
         )
