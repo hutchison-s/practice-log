@@ -21,6 +21,7 @@ export interface Enrollee extends User {
     teacher_id: string,
     group_id: string | null,
     group_color: string
+    duration: number
 }
 
 export type Group = {

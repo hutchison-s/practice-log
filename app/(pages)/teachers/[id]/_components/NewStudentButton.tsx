@@ -15,14 +15,12 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
     const [weeklyGoal, setWeeklyGoal] = useState(60);
     const [groupId, setGroupId] = useState<string | undefined>('0');
     const [timeOfDay, setTimeOfDay] = useState<string | undefined>('15:00');
+    const [duration, setDuration] = useState('30');
     const [groups, setGroups] = useState<Group[]>([])
-    const [hasError, setHasError] = useState(false);
-    const formRef = useRef<HTMLFormElement>(null);
+    const [hasError, setHasError] = useState('');
     const modalRef = useRef<HTMLDialogElement>(null);
 
     const handleEnroll = () => {
-        console.log('ernolling new student')
-        console.trace()
         fetch(`/api/students`, {
             method: 'POST',
             headers: {
@@ -35,34 +33,32 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
                 dow,
                 weeklyGoal,
                 time_of_day: timeOfDay,
+                duration: duration,
                 group_id: groupId == '0' ? null : groupId,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
             })
         }).then(async res => {
-            if (!res.ok) {
-                throw new Error('Failed to create student')
-            }
             const data = await res.json();
-            console.log(data.message)
+            if (!res.ok) {
+                setHasError(res.status == 409 ? data.message : 'Could not create student.')
+                return;
+            }
+            
             setName('');
             setIsOpen(false);
             onCreate(data.data)
             
         }).catch(error => {
             console.error(error);
-            setHasError(true);
+            setHasError('Could not create student');
         }) 
     }
 
     useEffect(()=>{
         if (hasError) {
-            formRef.current?.classList.add('bg-red-500');
             setTimeout(()=>{
-                formRef.current?.classList.remove('bg-red-500');
-                formRef.current?.reset();
-                setName('');
-                setSubject('');
-            }, 2000)
+                setHasError('')
+            }, 4000)
         }
     }, [hasError])
 
@@ -94,24 +90,24 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
                         handleEnroll()
                     }
                 }}
-                className="grid gap-4 p-4 w-full"
+                className="grid gap-4 p-2 w-full"
             >
-                <p className="text-center text-zince-400 font-inter font-light">Add a new student</p>
-                <label htmlFor="name" className="font-bold font-golos text-white">Student Name 
+                <p className="text-center text-zince-400 font-inter font-light p-1 border-2 rounded" style={{borderColor: hasError ? 'red' : 'transparent'}}>{hasError ? hasError : 'Add a new student'}</p>
+                <label htmlFor="name" className="font-bold font-golos text-txtprimary">Student Name 
                 <input
                     id='name' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setName(e.target.value)}} 
                     className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
-                <label htmlFor="subject" className="font-bold font-golos text-white">Subject or Instrument
+                <label htmlFor="subject" className="font-bold font-golos text-txtprimary">Subject or Instrument
                 <input
                     id='subject' 
                     type="text" 
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setSubject(e.target.value)}} 
                     className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
-                <label htmlFor="weeklyGoal" className="font-bold font-golos text-white">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span>
+                <label htmlFor="weeklyGoal" className="font-bold font-golos text-txtprimary">Weekly Practice Goal <span className="font-light text-sm">( in minutes )</span>
                 <input
                     id='weeklyGoal' 
                     type="number" 
@@ -120,7 +116,7 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
                     className='w-full p-2 border-[1px] border-white/25 rounded bg-background/50 font-inter font-light text-zinc-400'
                 /></label>
                 <div className="w-full flex gap-1">
-                    <div className="w-[60%]">
+                    <div className="flex-1">
                         <label htmlFor="dow" className="font-golos font-bold text-shadow">Lesson Day</label>
                         <select
                             className="w-full p-[0.65rem] text-md bg-background/50 text-zinc-400 border-[1px] border-white/25 rounded"
@@ -134,18 +130,33 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
                             <option value={6} className="bg-background text-white">Saturday</option>
                         </select>
                     </div>
-                    <div className="w-[40%]">
+                    <div className="">
                         <label htmlFor="time" className="block font-golos font-bold text-shadow">Time</label>
                         <input className="block w-full p-2 bg-background/50 text-md font-inter text-zinc-400 border-[1px] border-white/25 rounded" type="time" name="time" id="time" value={timeOfDay} onChange={(e)=>setTimeOfDay(e.target.value)} />
                     </div>
                 </div>
-                <label className=" font-bold font-golos text-white">
-                  Assign to a group:
-              <select onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 w-full truncate rounded-xl">
-                <option value={'0'}>No Group</option>
-                {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
-              </select>
-          </label>
+                <div className="w-full flex gap-1">
+                    <div className="flex-1">
+                        <label htmlFor="group_id" className="block font-bold font-golos text-txtprimary">
+                          Assign to group:</label>
+                                      <select onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="block bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 w-full truncate rounded">
+                        <option value={'0'}>No Group</option>
+                        {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
+                                      </select>
+                        
+                    </div>
+                    <div>
+                        <label htmlFor="duration" className="block font-bold font-golos text-txtprimary">Lesson Length</label>
+                        <select name="duration" id="duration" defaultValue='30' onChange={(e)=>setDuration(e.target.value)} className="block bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 px-3 w-full truncate rounded">
+                            <option value="15">15 min</option>
+                            <option value="30">30 min</option>
+                            <option value="45">45 min</option>
+                            <option value="60">60 min</option>
+                            <option value="90">90 min</option>
+                        </select>
+                    </div>
+                </div>
+          
                 <div className="w-full grid place-items-center gap-2 mt-4">
                     <PrimaryButton
                     type="submit"

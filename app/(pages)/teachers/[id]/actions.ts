@@ -51,6 +51,6 @@ export async function fetchGroup(teacher_id: string, group_id: string): Promise<
 }
 
 export async function fetchLogApprovals(teacher_id: string): Promise<ApprovalRequest[]> {
-    const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`);
+    const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`, 60000);
     return approval_requests || [];
 }

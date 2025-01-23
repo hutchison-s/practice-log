@@ -51,7 +51,7 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
       <h3 className="font-golos font-bold text-lg grid md:text-2xl">
         <span>{student.name}</span>
         <span className="text-sm font-inter font-light md:text-xl">
-          {student.subject}
+          {student.subject} - {student.duration} min
         </span>
       </h3>
       <div className="flex gap-2">

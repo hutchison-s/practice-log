@@ -2,7 +2,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 import { apiResponse, Enrollee } from "@/app/types";
 import { revalidatePath } from "next/cache";
-import { userIs } from "../../helpers";
+import { hasScheduleConflict, userIs } from "../../helpers";
 
 export async function GET(
     request: NextRequest,
@@ -34,8 +34,8 @@ export async function PATCH(
     { params }: { params: Promise<{ id: string }> }
 ): apiResponse<Enrollee> {
     try {
-        const {name, subject, weeklyGoal, dow, time_of_day, group_id} = await request.json();
-        if (!name || !subject || !weeklyGoal || dow < 0 || dow > 6 || isNaN(dow)) {
+        const {name, subject, weeklyGoal, dow, time_of_day, duration, group_id} = await request.json();
+        if (!name || !subject || !weeklyGoal || dow < 0 || dow > 6 || isNaN(dow) || !time_of_day || !duration) {
             return NextResponse.json({message: 'Missing required parameters'}, {status: 400})
         }
         const {id} = await params;
@@ -43,7 +43,11 @@ export async function PATCH(
         if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day},day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
+        const hasConflict = await hasScheduleConflict(req_id!, parseInt(dow), time_of_day, duration);
+        if (hasConflict) {
+            return NextResponse.json({message: "This would conflict with an existing student's lesson time"}, {status: 409})
+        }
+        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day}, duration = ${parseInt(duration)}, day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
         revalidatePath(`/teachers/${req_id}`)
         revalidatePath(`/api/teachers/${req_id}`)
         revalidatePath(`/api/students/${id}`)

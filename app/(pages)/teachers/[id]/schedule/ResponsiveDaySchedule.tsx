@@ -7,10 +7,10 @@ import LessonBlock from './LessonBlock';
 import MultiLessonBlock from './MultiLessonBlock';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string, students: Enrollee[], onSelect?: (student_id: string)=>void}) {
+function ResponsiveDaySchedule({rows, dayTitle, students, onSelect}: {rows: {start: number, end: number}, dayTitle: string, students: Enrollee[], onSelect?: (student_id: string)=>void}) {
     const [isOpen, setIsOpen] = useState(false);
     const [windowWidth, setWindowWidth] = useState(400);
-    const getHour = (idx: number) => Math.floor((idx * 15) / 60) + 7;
+    const getHour = (idx: number) => Math.floor((idx * 15) / 60);
     const getMin = (idx: number) => (idx * 15) % 60;
     const formatTime = (idx: number): string => {
         const h = getHour(idx);
@@ -19,10 +19,9 @@ function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string
     }
     function Blocks() {
         const blocks = [];
-        const rows = 55;
         let streak = false;
         let flex = 1;
-        for (let i = 0; i < rows; i++) {
+        for (let i = rows.start; i < rows.end; i++) {
             const occupants = students.filter(s => s.time_of_day.startsWith(formatTime(i)))
             if (occupants.length == 0) {
                 streak = true;
@@ -35,8 +34,8 @@ function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string
                         streak = false;
                         flex = 1;
                     }
-                    blocks.push(<MultiLessonBlock key={i} students={occupants} onClick={onSelect} />)
-                    i++;
+                    blocks.push(<MultiLessonBlock key={i} flex={Math.max(...occupants.map(s => s.duration)) / 15} students={occupants} onClick={onSelect} />)
+                    i += (Math.max(...occupants.map(s => s.duration)) / 15) - 1;
                     continue;
                 } else {
                     if (streak) {
@@ -44,8 +43,8 @@ function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string
                         streak = false;
                         flex = 1;
                     }
-                    blocks.push(<LessonBlock key={i} student={occupants[0]} onClick={onSelect}/>)
-                    i++;
+                    blocks.push(<LessonBlock key={i} flex={Math.round(occupants[0].duration / 15)} student={occupants[0]} onClick={onSelect}/>)
+                    i += Math.round(occupants[0].duration / 15) - 1;
                     continue;
                 }
             }
@@ -73,9 +72,9 @@ function ResponsiveDaySchedule({dayTitle, students, onSelect}: {dayTitle: string
     
   return (
     isOpen || windowWidth > 768
-    ? <div className='relative w-full border-[1px] border-white/25 flex flex-col h-[400px] md:h-full'>
+    ? <div className='relative w-full border-[1px] border-white/25 grid h-[650px] md:h-full max-h-[900px]' style={{gridTemplateRows: `46px repeat(${rows.end - rows.start}, 1fr)`}}>
         <ChevronUp className='absolute top-3 right-3 z-10 md:hidden' size={24} color='white' role='button' onClick={toggleOpen}/>
-        <button onClick={toggleOpen} className='text-lg py-2 text-center glass font-golos font-bold text-txtprimary'>{dayTitle[0].toUpperCase()}{dayTitle[1]}</button>
+        <button onClick={toggleOpen} className='text-lg grid place-items-center text-center glass font-golos font-bold text-txtprimary'>{dayTitle[0].toUpperCase()}{dayTitle[1]}</button>
         <Blocks />
       </div>
     : <div className='relative w-full border-[1px] border-white/25 flex flex-col h-fit md:h-full'>

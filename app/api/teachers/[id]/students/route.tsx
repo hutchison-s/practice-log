@@ -22,6 +22,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.day_of_week,
             s.time_of_day,
             s.group_id,
+            s.duration,
             g.color as group_color
         FROM 
             students AS s

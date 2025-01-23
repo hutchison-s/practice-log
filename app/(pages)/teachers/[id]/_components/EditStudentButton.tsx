@@ -12,8 +12,10 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
     const [weeklyGoal, setWeeklyGoal] = useState(student?.weekly_goal || 0);
     const [groupId, setGroupId] = useState<string | undefined>('0');
     const [timeOfDay, setTimeOfDay] = useState<string | undefined>('00:00');
+    const [duration, setDuration] = useState(String(student?.duration))
     const [groups, setGroups] = useState<Group[]>([])
     const [isOpen, setIsOpen] = useState(false);
+    const [hasError, setHasError] = useState('')
     const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(()=>{
@@ -38,19 +40,18 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
                 weeklyGoal: fd.get('weeklyGoal'),
                 dow: fd.get('dow'),
                 time_of_day: fd.get('time'),
+                duration: fd.get('duration'),
                 group_id: groupId == '0' ? null : groupId,
             })
         })
-            .then(res => {
+            .then(async res => {
+                const json = await res.json();
                 if (!res.ok) {
-                    throw new Error('Update request failed')
+                    setHasError(res.status == 409 ? json.message : 'Could not create student')
+                    return;
                 }
-                return res.json()})
-            .then((json) => {
-                console.log('patch returned', json.data)
-                onUpdate(json.data);
-                setIsOpen(false);
-                
+                onUpdate({...json.data, group_color: groups.find(g => g.id == groupId)?.color || '#000000'});
+                setIsOpen(false);    
             })
             .catch(err => {
                 console.error(err);
@@ -75,9 +76,18 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
     }, [isOpen])
 
     useEffect(()=>{
+        if (hasError) {
+            setTimeout(()=>{
+                setHasError('')
+            }, 4000)
+        }
+    }, [hasError])
+
+    useEffect(()=>{
         setGroupId(student?.group_id || '0')
         setTimeOfDay(student?.time_of_day.split('+')[0])
-    }, [student?.group_id, student?.time_of_day])
+        setDuration(String(student?.duration))
+    }, [student?.group_id, student?.time_of_day, student?.duration, student?.id])
 
 
   return (
@@ -91,7 +101,7 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
             <form 
                 onSubmit={handleUpdate}
                 className="grid gap-4 bg-transparent">
-                    <p className="text-zinc-400 font-light text-center">Editing student details</p>
+                    <p className="text-zinc-400 font-light text-center p-1 border-2 rounded" style={{borderColor: hasError ? 'red' : 'transparent'}}>{hasError ? hasError : 'Editing student details'}</p>
                 <label htmlFor="name" className="font-golos font-bold text-shadow">Name</label>
                 <input 
                     className="p-2 bg-background/50 text-zinc-400 border-[1px] border-white/25 rounded" 
@@ -109,7 +119,7 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
                     onInput={(e: ChangeEvent<HTMLInputElement>)=>{setWeeklyGoal(parseInt(e.target.value))}}/>
                 
                 <div className="w-full flex gap-1">
-                    <div className="w-[60%]">
+                    <div className="flex-1">
                         <label htmlFor="dow" className="font-golos font-bold text-shadow">Lesson Day</label>
                         <select
                             className="w-full p-[0.65rem] text-md bg-background/50 text-zinc-400 border-[1px] border-white/25 rounded"
@@ -123,18 +133,33 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
                             <option value={6} className="bg-background text-white">Saturday</option>
                         </select>
                     </div>
-                    <div className="w-[40%]">
+                    <div className="">
                         <label htmlFor="time" className="block font-golos font-bold text-shadow">Time</label>
                         <input className="block w-full p-2 bg-background/50 text-md font-inter text-zinc-400 border-[1px] border-white/25 rounded" type="time" name="time" id="time" value={timeOfDay} onChange={(e)=>setTimeOfDay(e.target.value)} />
                     </div>
                 </div>
                 
-                <label className=" font-bold font-golos text-white">
-                  Assign to a group:
-              <select value={groupId} onChange={(e)=>{setGroupId(e.target.value)}} name="group_id" id="group_id" className="bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 w-full truncate rounded-xl">
-                <option value={'0'}>No Group</option>
-                {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
-              </select></label>
+                <div className="w-full flex gap-1">
+                    <div className="flex-1">
+                        <label htmlFor="group_id" className="block font-bold font-golos text-txtprimary">
+                          Assign to group:</label>
+                                      <select onChange={(e)=>{setGroupId(e.target.value)}} value={groupId} name="group_id" id="group_id" className="block bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 w-full truncate rounded">
+                        <option value={'0'}>No Group</option>
+                        {groups?.map(group => <option key={group.id} value={group.id} style={{background: group.color}}>{group.name}</option>)}
+                                      </select>
+                        
+                    </div>
+                    <div>
+                        <label htmlFor="duration" className="block font-bold font-golos text-txtprimary">Lesson Length</label>
+                        <select name="duration" id="duration" value={duration} onChange={(e)=>setDuration(e.target.value)} className="block bg-background/25 border-[1px] border-white/25 text-md font-inter font-light text-zinc-400 p-2 px-3 w-full truncate rounded">
+                            <option value="15">15 min</option>
+                            <option value="30">30 min</option>
+                            <option value="45">45 min</option>
+                            <option value="60">60 min</option>
+                            <option value="90">90 min</option>
+                        </select>
+                    </div>
+                </div>
                 <div className="mx-auto mt-4">
                     <PrimaryButton 
                         type="submit" 

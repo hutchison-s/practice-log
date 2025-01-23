@@ -20,7 +20,13 @@ function AssignGroupButton({student, onAssign}: {student: Enrollee, onAssign: (s
               method: 'PATCH', 
               headers: {'content-type': 'application/json'}, 
               body: JSON.stringify({
-                name: student.name, subject: student.subject, weeklyGoal: student.weekly_goal, time_of_day: student.time_of_day, dow: student.day_of_week, group_id: group_id
+                name: student.name, 
+                subject: student.subject, 
+                weeklyGoal: student.weekly_goal, 
+                time_of_day: student.time_of_day, 
+                duration: student.duration, 
+                dow: student.day_of_week, 
+                group_id: group_id
               })})
           if (!res.ok) {
             alert('Error occured while trying to update group assignment.')
@@ -28,7 +34,7 @@ function AssignGroupButton({student, onAssign}: {student: Enrollee, onAssign: (s
           const {data} = await res.json();
           formRef.current?.reset();
           setIsOpen(false)
-          onAssign({...data, group_color: groups.find(g => g.id == selected)!.color});
+          onAssign({...data, group_color: groups.find(g => g.id == selected)?.color || '#000000'});
       }
   
       const handleCancel = ()=>{

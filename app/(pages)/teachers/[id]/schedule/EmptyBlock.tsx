@@ -4,7 +4,7 @@ function EmptyBlock({flex}: {flex: number}) {
   return (
     <div 
         className='w-full'
-        style={{flex: flex}}>
+        style={{gridRow: `span ${flex}`}}>
           
     </div>
   )
