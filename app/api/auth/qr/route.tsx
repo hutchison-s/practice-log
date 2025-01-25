@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         `HttpOnly`,              // Prevents JavaScript access to the cookie        
         `SameSite=Lax`,          // CSRF protection
         `Path=/`,                // Cookie is sent for all routes
-        `Max-Age=3600`,          // Cookie expires in 1 hour
+        `Max-Age=86400`,          // Cookie expires in 24 hours
     ];
     // Ensures cookie is only sent over HTTPS (only in production)
     if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
