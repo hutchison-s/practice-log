@@ -3,6 +3,12 @@ import { Enrollee, logRow, weeklyTotal } from "@/app/types";
 import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import FilteredLogList from "./FilteredLogList";
 import FeaturedText from "@/app/_ui_components/layout/FeaturedText";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Practice Logs",
+    description: "View student practice logs, weekly summaries, and filter by date for specific reports.",
+  };
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;

@@ -5,6 +5,12 @@ import PrintButton from '@/app/_ui_components/PrintButton';
 
 import React from 'react'
 import FilteredQRCodes from './FilteredQRCodes';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "QR Codes",
+  description: "View, download, and print QR codes for all your students in one place. Filter by group or print all at once.",
+};
 
 
 

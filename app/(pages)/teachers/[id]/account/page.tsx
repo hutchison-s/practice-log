@@ -7,6 +7,12 @@ import { utcToTimeZone } from '@/app/_utils/dates';
 import React from 'react'
 import NotificationOptions from './NotificationOptions';
 import SubHeading from '@/app/_ui_components/layout/SubHeading';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Account Settings",
+    description: "Manage your notification settings and account information.",
+  };
 
 async function AccountPage({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;

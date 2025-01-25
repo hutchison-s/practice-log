@@ -3,6 +3,12 @@ import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
 import { Goal } from "@/app/types";
 import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import SubHeading from "@/app/_ui_components/layout/SubHeading";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Goals",
+    description: "View student goals, both active and completed.",
+  };
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {

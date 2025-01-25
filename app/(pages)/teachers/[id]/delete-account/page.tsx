@@ -6,6 +6,12 @@ import PageTitle from '@/app/_ui_components/layout/PageTitle';
 import SmallPageWrapper from '@/app/_ui_components/layout/SmallPageWrapper';
 import React from 'react'
 import DeleteButton from './DeleteButton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Delete Account",
+  description: "Delete your Practice HQ account and all associated data.",
+};
 
 async function ConfirmDelete({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
