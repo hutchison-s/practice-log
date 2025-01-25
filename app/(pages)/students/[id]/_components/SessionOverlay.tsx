@@ -2,6 +2,7 @@
 
 import PracticeButton from "@/app/(pages)/students/[id]/_components/PracticeButton";
 import { useSession } from "@/app/_contexts/SessionProvider";
+import { useUser } from "@/app/_hooks/useUser";
 import { useEffect, useState } from "react";
 
 function timeFormatFromSeconds(total: number) {
@@ -19,6 +20,7 @@ function timeFormatFromSeconds(total: number) {
 function SessionOverlay() {
     const {session} = useSession();
     const [elapsed, setElapsed] = useState(0);
+    const {user} = useUser();
 
     useEffect(()=>{
         const interval = session ? setInterval(()=>{
@@ -34,7 +36,7 @@ function SessionOverlay() {
     }, [session])
 
   return (
-    session && <>
+    session && user.name && <>
         <div className="z-20 fixed bottom-0 left-0 w-full p-2 bg-gradient-to-br from-cyan-500 to-teal-800 text-txtprimary flex flex-wrap justify-center gap-2 align-center lg:flex-nowrap">
             <h2 className="text-white text-lg my-auto text-shadow-xl">Session in progress: {timeFormatFromSeconds(elapsed)}</h2>
             <PracticeButton />
