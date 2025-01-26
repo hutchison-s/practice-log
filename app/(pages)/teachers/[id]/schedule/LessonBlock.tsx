@@ -14,9 +14,9 @@ function LessonBlock({flex, student, onClick}: {flex: number, student: Enrollee,
         style={{gridRow: `span ${flex}`, backgroundImage: `linear-gradient(135deg, ${student.group_color}, ${student.group_color}33)`, boxSizing: 'border-box'}}>
         <div className="text-xs flex gap-1 justify-between w-full">
           <p className='shrink-0 text-nowrap text-left flex-1/2'>{simpleTimeString(student.time_of_day)}</p>
-          <p className='text-right shrink truncate flex-1/2'>{student.name}</p>
+          <p className='text-right shrink truncate flex-1/2'>{student.subject}</p>
         </div>
-        <h4 className='text-center text-xs text-light grid place-items-center h-full -mt-[0.1rem]'>{student.subject}</h4>
+        <h4 className='text-center text-xs text-light grid place-items-center h-full -mt-[0.1rem] max-w-[80%] mx-auto truncate'>{student.name}</h4>
     </button>
   )
 }

@@ -36,7 +36,7 @@ export default function RootLayout({
             <SessionProvider>
             <PageHeader />
           
-            <div className="w-full pt-20 px-6 sm:px-12 md:px-20">{children}</div>
+            <div className="w-full pt-20 px-4 sm:px-6 md:px-10">{children}</div>
             <SessionOverlay />
             <footer className="absolute bottom-4 left-0 flex w-full justify-center px-2 font-inter font-light text-zinc-400 gap-x-6 flex-wrap md:flex-nowrap">
                 <span>Practice HQ &copy; 2024</span>

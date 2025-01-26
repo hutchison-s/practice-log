@@ -87,8 +87,8 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
     <>
     <div className="flex justify-evenly w-full flex-wrap gap-2">
         <SecondaryLinkButton href={`/teachers/${teacher_id}/reports/weekly_logs?view=table`} className="text-center my-1 md:min-w-[30%]">View Reports</SecondaryLinkButton>
-        <NewStudentButton teacher_id={teacher_id} onCreate={studentListController.add}/>
-        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1 lg:min-w-[30%]">View All QR Codes</SecondaryLinkButton>
+        <NewStudentButton teacher_id={teacher_id} onCreate={studentListController.add} />
+        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1 md:min-w-[30%]">View All QR Codes</SecondaryLinkButton>
     </div>
     <div className="relative w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-5">
       <div className="lg:col-span-5 w-full max-w-[500px] mx-auto flex items-center justify-start gap-2 my-2">
@@ -135,7 +135,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
             }
           }/>
       }
-      <section className="w-full col-span-1 lg:col-span-2 max-w-[600px] glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
+      <section className="w-full col-span-1 lg:col-span-2 lg:max-w-[600px] max-w-full glass rounded-b-lg p-4 lg:rounded-r-lg lg:rounded-bl-none">
       {selectedStudent
           ? <>
               <StudentDetailsHeader student={selectedStudent} onUpdate={

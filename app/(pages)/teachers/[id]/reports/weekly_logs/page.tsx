@@ -23,7 +23,7 @@ async function ReportsPage({params, searchParams}: {params: Promise<{id: string}
     <>
         <section className='no-print'>
           <PageTitle>Teacher Log Reports</PageTitle>
-          <div className="w-full flex justify-center gap-4">
+          <div className="w-full flex flex-wrap md:flex-nowrap justify-center gap-4">
             <HoverLink href={`${siteURL}/teachers/${id}/reports/weekly_logs?view=table`} className={view == 'table' ? 'block px-3 border-b-2 border-b-teal-500 rounded-none' : 'block px-3'}>Table View</HoverLink>
             <HoverLink href={`${siteURL}/teachers/${id}/reports/weekly_logs?view=graph`} className={view == 'graph' ? 'block px-3 border-b-2 border-b-teal-500 rounded-none' : 'block px-3'}>Graph View</HoverLink>
             <PrintButton />
