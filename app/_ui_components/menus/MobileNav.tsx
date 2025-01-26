@@ -19,7 +19,8 @@ export default function MobileNav({ close }: { close: () => void }) {
             <span className="font-light text-sm font-inter text-zinc-400">Home</span>
         </Link>
         {user.id != '' && <Link href={`/${user.code ? 'students' : 'teachers'}/${user.id}`} className={mobileNavStyle} onClick={close}><LayoutDashboard size={80} aria-label="Dashboard"/><span className="font-light text-sm font-inter text-zinc-400">Portal</span></Link>}
-        {user.id != '' && !user.code && <Link href={`/teachers/${user.id}/schedule`} className={mobileNavStyle} onClick={close}><Calendar size={80} aria-label="Schedule"/><span className="font-light text-sm font-inter text-zinc-400">Schedule</span></Link>}
+        {user.id != '' && user.role == 'teacher' && <Link href={`/teachers/${user.id}/schedule`} className={mobileNavStyle} onClick={close}><Calendar size={80} aria-label="Schedule"/><span className="font-light text-sm font-inter text-zinc-400">Schedule</span></Link>}
+        {user.id != '' && user.role == 'teacher' && <Link href={`/teachers/${user.id}/reports/weekly_logs?view=table`} className={mobileNavStyle} onClick={close}><Calendar size={80} aria-label="Schedule"/><span className="font-light text-sm font-inter text-zinc-400">Schedule</span></Link>}
         
         <Link href={"/about"} className={mobileNavStyle} onClick={close}>
             <span>
@@ -27,7 +28,7 @@ export default function MobileNav({ close }: { close: () => void }) {
             </span>
             <span className="font-light text-sm font-inter text-zinc-400">About</span>
         </Link>
-        {!user.id && !user.code && !user.email && <LogInOutButton closeMenu={close} isMobile/>}
+        {!user.id && <LogInOutButton closeMenu={close} isMobile/>}
         <Link href={"/metronome"} className={mobileNavStyle} onClick={close}>
             <span>
               <Image src={metronome} width={80} color="white" alt="Metronome" aria-label="Metronome"/>

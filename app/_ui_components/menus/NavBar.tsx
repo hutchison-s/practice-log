@@ -23,6 +23,7 @@ export default function NavBar() {
                     </HoverLink>
                     {user.id != '' && <HoverLink href={`/${user.role}s/${user.id}`}>Portal</HoverLink>}
                     {user.id != '' && user.role == 'teacher' && <HoverLink href={`/teachers/${user.id}/schedule`}>Schedule</HoverLink>}
+                    {user.id != '' && user.role == 'teacher' && <HoverLink href={`/teachers/${user.id}/reports/weekly_logs?view=table`}>Reports</HoverLink>}
                     <LogInOutButton />
                     
             </nav>
