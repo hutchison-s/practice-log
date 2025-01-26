@@ -86,8 +86,9 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
   return (
     <>
     <div className="flex justify-evenly w-full flex-wrap gap-2">
+        <SecondaryLinkButton href={`/teachers/${teacher_id}/reports/weekly_logs?view=table`} className="text-center my-1 md:min-w-[30%]">View Reports</SecondaryLinkButton>
         <NewStudentButton teacher_id={teacher_id} onCreate={studentListController.add}/>
-        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1">View All QR Codes</SecondaryLinkButton>
+        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1 lg:min-w-[30%]">View All QR Codes</SecondaryLinkButton>
     </div>
     <div className="relative w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-5">
       <div className="lg:col-span-5 w-full max-w-[500px] mx-auto flex items-center justify-start gap-2 my-2">

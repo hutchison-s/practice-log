@@ -43,6 +43,7 @@ body {
   text-shadow: 0 0 10px #00000088;
 }
 
+
 option {
   background-color: rgb(var(--background));
   color: white;
@@ -212,4 +213,27 @@ button:not(:disabled):hover {
   .qr-code {
     page-break-inside: avoid;
   }
+  .student-graph {
+    page-break-inside: avoid;
+  }
+  *, *:after, *:before {
+    color: black !important;
+    text-shadow: none !important;
+    background-image: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  .text-shadow {
+    text-shadow: none;
+  }
+  .glass {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  .print-text {
+    color: black !important;
+    text-shadow: none !important;
+  };
 }

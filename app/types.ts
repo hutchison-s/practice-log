@@ -103,6 +103,20 @@ export type NotificationSettings = {
     report_frequency: number
 }
 
+export type StudentWeekReport = {
+    student_id: number,
+    subject: string,
+    name: string;               // The student's name
+    day: string;                // The day of the week (e.g., "Monday")
+    time: string;               // The time of day in 12-hour format (e.g., "10:00 AM")
+    group: string | null;       // The group name the student belongs to, can be null
+    week: string;               // The start date of the week in format "Mon DD, YYYY"
+    logs: number;          // The count of logs for the student in the week
+    goal: number | null; // The weekly goal in minutes, can be null
+    mins: number;   // Total practice minutes for the week
+    grade: number;            // The percentage of goal achieved (rounded to two decimals)
+  };
+
 export type apiPayload<T> = {
     message: string,
     data?: T

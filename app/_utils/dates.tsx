@@ -65,3 +65,24 @@ export function simpleTimeString(time: string) {
 export function timeInputToISOTime(time: string) {
     return `${time}:00+00`
 }
+
+export function parse12HourTime(timeString: string) {
+    const [timePart, period] = timeString.split(' ');
+    const [hours, minutes] = timePart.split(':').map(Number);
+  
+    let hours24 = hours;
+    if (period.toLowerCase() === 'pm' && hours !== 12) {
+      hours24 += 12;
+    } else if (period.toLowerCase() === 'am' && hours === 12) {
+      hours24 = 0;
+    }
+  
+    return new Date(0, 0, 0, hours24, minutes);
+  }
+
+  export function parseDateString(dateString: string) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const [m, d, y] = dateString.replace(',', '').split(/[\s]/gi);
+    console.log(m, d, y)
+    return new Date(parseInt(y), months.indexOf(m), parseInt(d), 0, 0, 0);
+  }
