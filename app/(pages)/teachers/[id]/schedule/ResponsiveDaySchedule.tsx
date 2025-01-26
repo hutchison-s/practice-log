@@ -30,7 +30,7 @@ function ResponsiveDaySchedule({rows, dayTitle, students, onSelect}: {rows: {sta
             } else {
                 if (occupants.length > 1) {
                     if (streak) {
-                        blocks.push(<EmptyBlock key={i - 1} flex={flex} />);
+                        blocks.push(<EmptyBlock key={i - 1} flex={windowWidth > 768 ? flex : 1} />);
                         streak = false;
                         flex = 1;
                     }
@@ -39,7 +39,7 @@ function ResponsiveDaySchedule({rows, dayTitle, students, onSelect}: {rows: {sta
                     continue;
                 } else {
                     if (streak) {
-                        blocks.push(<EmptyBlock key={i - 1} flex={flex} />);
+                        blocks.push(<EmptyBlock key={i - 1} flex={windowWidth > 768 ? flex : 1} />);
                         streak = false;
                         flex = 1;
                     }
@@ -49,7 +49,7 @@ function ResponsiveDaySchedule({rows, dayTitle, students, onSelect}: {rows: {sta
                 }
             }
         }
-        blocks.push(<EmptyBlock key={'final'} flex={flex} />);
+        blocks.push(<EmptyBlock key={'final'} flex={windowWidth > 768 ? flex : 1} />);
         return blocks.map(b=>b)
     }
 
@@ -72,7 +72,7 @@ function ResponsiveDaySchedule({rows, dayTitle, students, onSelect}: {rows: {sta
     
   return (
     isOpen || windowWidth > 768
-    ? <div className='relative w-full border-[1px] border-white/25 grid h-[650px] md:h-full max-h-[900px]' style={{gridTemplateRows: `46px repeat(${rows.end - rows.start}, 1fr)`}}>
+    ? <div className='relative w-full border-[1px] border-white/25 grid sm:h-[650px] md:h-full max-h-[900px]' style={{gridTemplateRows: windowWidth < 768 ? '46px' : `46px repeat(${rows.end - rows.start}, 1fr)`, gridAutoRows: windowWidth < 768 ? '1fr' : ''}}>
         <ChevronUp className='absolute top-3 right-3 z-10 md:hidden' size={24} color='white' role='button' onClick={toggleOpen}/>
         <button onClick={toggleOpen} className='text-lg grid place-items-center text-center glass font-golos font-bold text-txtprimary'>{dayTitle[0].toUpperCase()}{dayTitle[1]}</button>
         <Blocks />
