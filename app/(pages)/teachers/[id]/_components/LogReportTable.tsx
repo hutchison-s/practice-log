@@ -3,7 +3,7 @@
 import { parse12HourTime, parseDateString } from '@/app/_utils/dates'
 import { StudentWeekReport } from '@/app/types'
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react'
-import React, { ChangeEventHandler, useEffect, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 
 const rowStyle = 'w-full grid grid-cols-[3fr_1fr_2fr_2fr_3fr_repeat(3,_1fr)_1.5fr] gap-1 py-1 px-2 divide-x divide-zinc-400/25'
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -16,6 +16,7 @@ function LogReportTable({rows}: {rows: StudentWeekReport[]}) {
     const [filterCategory, setFilterCategory] = useState<string | null>(null)
     const [filterValue, setFilterValue] = useState('.')
     const [displayFilter, setDisplayFilter] = useState(false);
+    const [windowWidth, setWindowWidth] = useState<number>(1024);
 
     const sorters: Record<string, (a: StudentWeekReport, b: StudentWeekReport)=>number> =  {
         day: (a: StudentWeekReport, b: StudentWeekReport) => days.indexOf(a.day) < days.indexOf(b.day) ? fixOrder(-1) : fixOrder(1),
@@ -83,34 +84,43 @@ function LogReportTable({rows}: {rows: StudentWeekReport[]}) {
     useEffect(()=>{
         resort()
     }, [orderBy.cat, orderBy.order])
+
+    useEffect(()=>{
+        setWindowWidth(window.innerWidth)
+        const handleResize = ()=>setWindowWidth(window.innerWidth)
+        window.addEventListener('resize', handleResize)
+        return ()=>{
+            window.removeEventListener('resize', handleResize);
+        }
+    }, [])
   return (
     <>
-    <div className={'w-full flex justify-end items-center transition-all rounded border-2'} style={{borderColor: displayFilter ? '#14b8a6' : 'transparent'}}>
-        <div
-            className='overflow-hidden flex gap-2 py-1 transition-all'
-            style={{flex: displayFilter ? '1' : '0', paddingInline: displayFilter ? '1rem' : '0'}}>
-                <div style={{flex: displayFilter ? '1' : '0'}} className='flex flex-wrap lg:flex-nowrap gap-2 md:gap-1 items-center'>
-                    <div  className='flex gap-2 items-center flex-[100%] lg:flex-none lg:flex-shrink-1'>
-                        <label htmlFor="filterKey">Filter&nbsp;by: </label>
-                        <select id='filterKey' name='filterKey' onChange={updateFilterCategory} className='bg-background/50 p-1 rounded border-[1px] border-white/25 text-zinc-400'>
-                            <option value={'undefined'}> </option>
-                            {Object.keys(rows[0]).map((k) => <option key={k} value={k}>{k}</option>)}
-                        </select>
+        <div className={'w-full flex justify-end items-center transition-all rounded border-2'} style={{borderColor: displayFilter ? '#14b8a6' : 'transparent', marginTop: displayFilter ? '0' : windowWidth < 1024 ? '-6rem' : '-3rem'}}>
+            <div
+                className='overflow-hidden flex gap-2 py-1 transition-all'
+                style={{flex: displayFilter ? '1' : '0', paddingInline: displayFilter ? '1rem' : '0'}}>
+                    <div style={{flex: displayFilter ? '1' : '0'}} className='flex flex-wrap lg:flex-nowrap gap-2 md:gap-1 items-center'>
+                        <div  className='flex gap-2 items-center flex-[100%] lg:flex-none lg:flex-shrink-1'>
+                            <label htmlFor="filterKey">Filter&nbsp;by: </label>
+                            <select id='filterKey' name='filterKey' onChange={updateFilterCategory} className='bg-background/50 p-1 rounded border-[1px] border-white/25 text-zinc-400'>
+                                <option value={'undefined'}> </option>
+                                {Object.keys(rows[0]).map((k) => <option key={k} value={k}>{k}</option>)}
+                            </select>
+                        </div>
+                        <div className='flex gap-2 items-center'>
+                            <div>includes</div>
+                            <label htmlFor="filterKey" className='hidden'>Filter Value</label>
+                            <input type='text' id='filterKey' name='filterKey' onInput={updateFilterValue} className='bg-background/50 p-1 rounded border-[1px] border-white/25 text-zinc-400 w-40 lg:w-80'/>
+                        </div>
                     </div>
-                    <div className='flex gap-2 items-center'>
-                        <div>includes</div>
-                        <label htmlFor="filterKey" className='hidden'>Filter Value</label>
-                        <input type='text' id='filterKey' name='filterKey' onInput={updateFilterValue} className='bg-background/50 p-1 rounded border-[1px] border-white/25 text-zinc-400 w-40 lg:w-80'/>
-                    </div>
-                </div>
+            </div>
+            <button 
+                className='border-[1px] border-white/25 rounded p-1 w-[35px]'
+                style={{alignSelf: displayFilter ? 'center': 'end'}} 
+                onClick={()=>setDisplayFilter(df => !df)}>
+                    <Filter aria-label='filter'/>
+            </button>
         </div>
-        <button 
-            className='border-[1px] border-white/25 rounded p-1 w-[35px]' 
-            onClick={()=>setDisplayFilter(df => !df)}>
-                <Filter aria-label='filter'/>
-        </button>
-        
-    </div>
         <section className='w-full overflow-x-auto'>
             <table className='w-[1000px] text-left rounded-xl'>
                     <thead >
