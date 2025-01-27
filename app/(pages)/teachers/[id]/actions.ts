@@ -2,7 +2,7 @@
 
 import { AssociatedStudentRecords } from "@/app/_hooks/studentBrowserReducer";
 import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { logRow, Goal, Resource, Group, ApprovalRequest, StudentWeekReport } from "@/app/types";
+import { logRow, Goal, Resource, Group, ApprovalRequest, StudentWeekReport, Enrollee } from "@/app/types";
 import { weeklyTotal } from "@/app/types";
 
 const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -39,6 +39,14 @@ export async function fetchUnreadMessages(student_id: string): Promise<number> {
         const {data, message} = await fetchJSONWithToken<number>(`${apiURL}/students/${student_id}/messages/unread`, 3600)
         if (data == undefined) reject('Failed to retrieve message data:'+message);
         resolve(data as number);
+    })
+}
+
+export async function fetchStudentsOfTeacher(teacher_id: string): Promise<Enrollee[]> {
+    return new Promise(async (resolve, reject)=>{
+        const {data, message} = await fetchJSONWithToken<Enrollee[]>(`${apiURL}/teachers/${teacher_id}/students`, 3600)
+        if (data == undefined) reject('Failed to retrieve message data:'+message);
+        resolve(data as Enrollee[]);
     })
 }
 

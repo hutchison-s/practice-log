@@ -1,10 +1,10 @@
 import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import StudentBrowser from "./_components/StudentBrowser";
-import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { Enrollee, Group, User } from "@/app/types";
 import { SecondaryLinkButton } from "@/app/_ui_components/layout/Buttons";
 import { Metadata } from "next";
 import NotificationAlert from "./_components/NotificationAlert";
+import { fetchTeacher } from "../../students/[id]/actions";
+import { fetchAllGroups, fetchStudentsOfTeacher } from "./actions";
 
 export const metadata: Metadata = {
     title: "Teacher Portal",
@@ -13,11 +13,9 @@ export const metadata: Metadata = {
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-    const {data: teacher} = await fetchJSONWithToken<User>(`${apiURL}/teachers/${id}`, 3600);
-    const {data: students} = await fetchJSONWithToken<Enrollee[]>(`${apiURL}/teachers/${id}/students`, 3600);
-    const {data: groups} = await fetchJSONWithToken<Group[]>(`${apiURL}/teachers/${id}/groups`, 3600);
+    const teacher = await fetchTeacher(id)
+    const students = await fetchStudentsOfTeacher(id);
+    const groups = await fetchAllGroups(id);
 
 
     if (!teacher) throw new Error("No teacher found")

@@ -3,7 +3,7 @@
 import { parse12HourTime, parseDateString } from '@/app/_utils/dates'
 import { StudentWeekReport } from '@/app/types'
 import { ChevronDown, ChevronUp, Filter } from 'lucide-react'
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useState } from 'react'
 
 const rowStyle = 'w-full grid grid-cols-[3fr_1fr_2fr_2fr_3fr_repeat(3,_1fr)_1.5fr] gap-1 py-1 px-2 divide-x divide-zinc-400/25'
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
