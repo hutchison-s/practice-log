@@ -1,7 +1,7 @@
 import React from 'react'
 import { Metadata } from 'next'
 import PageTitle from '@/app/_ui_components/layout/PageTitle';
-import { fetchReport } from '../../actions';
+import { fetchAllGroups, fetchReport } from '../../actions';
 import BodyText from '@/app/_ui_components/layout/BodyText';
 import LogReportTable from '../../_components/LogReportTable';
 import LogReportGraphs from '../../_components/LogReportGraphs';
@@ -19,6 +19,7 @@ async function ReportsPage({params, searchParams}: {params: Promise<{id: string}
     const {id} = await params;
     const {view} = await searchParams;
     const studentRows = await fetchReport(id);
+    const groups = await fetchAllGroups(id);
   return (
     <>
         <section className='no-print'>
@@ -32,7 +33,7 @@ async function ReportsPage({params, searchParams}: {params: Promise<{id: string}
         {studentRows.length == 0 ? <BodyText>No data to report</BodyText>
           : <>
               {view == 'table' && <LogReportTable rows={studentRows} />}
-              {view == 'graph' && <LogReportGraphs rows={studentRows} />}
+              {view == 'graph' && <LogReportGraphs rows={studentRows} groups={groups}/>}
             </>
         }
     </>

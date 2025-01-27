@@ -50,6 +50,14 @@ export async function fetchGroup(teacher_id: string, group_id: string): Promise<
     })
 }
 
+export async function fetchAllGroups(teacher_id: string): Promise<Group[]> {
+    return new Promise(async (resolve, reject)=>{
+        const {data, message} = await fetchJSONWithToken<Group[]>(`${apiURL}/teachers/${teacher_id}/groups`, 3600)
+        if (data == undefined) reject('Failed to retrieve message data:'+message);
+        resolve(data as Group[]);
+    })
+}
+
 export async function fetchLogApprovals(teacher_id: string): Promise<ApprovalRequest[]> {
     const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`, 60000);
     return approval_requests || [];
