@@ -1,8 +1,6 @@
 'use server'
 
-import { Students } from '@/app/api/_controllers/studentController'
-import { Teachers } from '@/app/api/_controllers/teacherController'
-import { Enrollee, weeklyTotal } from '@/app/types'
+import { weeklyTotal } from '@/app/types'
 import { sql } from '@vercel/postgres';
 
 type teacherInfo = {id: string, name: string, email: string}

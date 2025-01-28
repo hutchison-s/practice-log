@@ -8,15 +8,12 @@ import React, { ChangeEventHandler, useEffect, useState } from 'react'
 const rowStyle = 'w-full grid grid-cols-[3fr_1fr_2fr_2fr_3fr_repeat(3,_1fr)_1.5fr] gap-1 py-1 px-2 divide-x divide-zinc-400/25'
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-
-
 function LogReportTable({rows}: {rows: StudentWeekReport[]}) {
     const [sorted, setSorted] = useState(rows);
     const [orderBy, setOrderBy] = useState<{cat: string, order: 'ASC' | 'DESC'}>({cat: 'name', order: 'ASC'})
     const [filterCategory, setFilterCategory] = useState<string | null>(null)
     const [filterValue, setFilterValue] = useState('.')
     const [displayFilter, setDisplayFilter] = useState(false);
-    const [windowWidth, setWindowWidth] = useState<number>(1024);
 
     const sorters: Record<string, (a: StudentWeekReport, b: StudentWeekReport)=>number> =  {
         day: (a: StudentWeekReport, b: StudentWeekReport) => days.indexOf(a.day) < days.indexOf(b.day) ? fixOrder(-1) : fixOrder(1),
@@ -84,15 +81,6 @@ function LogReportTable({rows}: {rows: StudentWeekReport[]}) {
     useEffect(()=>{
         resort()
     }, [orderBy.cat, orderBy.order])
-
-    useEffect(()=>{
-        setWindowWidth(window.innerWidth)
-        const handleResize = ()=>setWindowWidth(window.innerWidth)
-        window.addEventListener('resize', handleResize)
-        return ()=>{
-            window.removeEventListener('resize', handleResize);
-        }
-    }, [])
   return (
     <>
         <div className={'self-end flex justify-end items-center transition-all rounded border-2'} style={{width: displayFilter ? '100%' : 'fit-content', borderColor: displayFilter ? '#14b8a6' : 'transparent', marginTop: displayFilter ? '0' : '-3rem'}}>

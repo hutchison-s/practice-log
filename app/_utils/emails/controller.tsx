@@ -2,9 +2,7 @@
 
 import { sql } from "@vercel/postgres";
 import { generateRandomString } from "../generators";
-import { Teachers } from "@/app/api/_controllers/teacherController";
 import WeeklyTeacherReport from "./WeeklyTeacherReport";
-import { User } from "@/app/types";
 
 const brevoKey = process.env.BREVO_API_KEY || 'NO_KEY';
 type RecipientType = {name: string, email: string}

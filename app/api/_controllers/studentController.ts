@@ -1,4 +1,4 @@
-import { Enrollee, Goal, logRow, Resource, User } from "@/app/types";
+import { Enrollee, User } from "@/app/types";
 import { DB_Controller, idType } from "./parent_classes";
 import { Teachers } from "./teacherController";
 import { GoalController, LogController, MessageController, ResourceController } from "./tableControllers";
