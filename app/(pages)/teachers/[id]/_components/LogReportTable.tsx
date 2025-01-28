@@ -95,10 +95,10 @@ function LogReportTable({rows}: {rows: StudentWeekReport[]}) {
     }, [])
   return (
     <>
-        <div className={'w-full flex justify-end items-center transition-all rounded border-2'} style={{borderColor: displayFilter ? '#14b8a6' : 'transparent', marginTop: displayFilter ? '0' : windowWidth < 1024 ? '-6rem' : '-3rem'}}>
+        <div className={'self-end flex justify-end items-center transition-all rounded border-2'} style={{width: displayFilter ? '100%' : 'fit-content', borderColor: displayFilter ? '#14b8a6' : 'transparent', marginTop: displayFilter ? '0' : '-3rem'}}>
             <div
-                className='overflow-hidden flex gap-2 py-1 transition-all'
-                style={{flex: displayFilter ? '1' : '0', paddingInline: displayFilter ? '1rem' : '0'}}>
+                className='overflow-hidden gap-2 py-1 transition-all'
+                style={{flex: displayFilter ? '1' : '0', paddingInline: displayFilter ? '1rem' : '0', display: displayFilter ? 'flex' : 'none'}}>
                     <div style={{flex: displayFilter ? '1' : '0'}} className='flex flex-wrap lg:flex-nowrap gap-2 md:gap-1 items-center'>
                         <div  className='flex gap-2 items-center flex-[100%] lg:flex-none lg:flex-shrink-1'>
                             <label htmlFor="filterKey">Filter&nbsp;by: </label>
