@@ -91,9 +91,9 @@ export async function sendConfirmDeletedAccountEmail(recipient: RecipientType) {
 }
 
 export async function getTeachersForWeeklyReport() {
-    const {rows, rowCount} = await sql`SELECT t.id, t.name, t.email FROM teachers as t LEFT JOIN account_preferences as ap on ap.user_id = t.id WHERE ap.reports = true AND ap.report_frequency = 7 AND t.validated = true`;
+    const {rows, rowCount} = await sql<teacherInfo>`SELECT t.id, t.name, t.email FROM teachers as t LEFT JOIN account_preferences as ap on ap.user_id = t.id WHERE ap.reports = true AND ap.report_frequency = 7 AND t.validated = true`;
     if (!rowCount || rowCount == 0) return;
-    return rows.map(row => row.data) as teacherInfo[]
+    return rows
 }
 
 export async function sendWeeklyReport(teachers: teacherInfo[]) {
