@@ -1,9 +1,8 @@
-import { fetchJSONWithToken } from '@/app/_utils/AuthHandler'
-import { Enrollee } from '@/app/types'
 import React from 'react'
 import WeekSchedule from './WeekSchedule';
 import PageTitle from '@/app/_ui_components/layout/PageTitle';
 import { Metadata } from 'next';
+import { Teachers } from '@/app/api/_controllers/teacherController';
 
 export const metadata: Metadata = {
     title: "Teacher Schedule",
@@ -11,9 +10,8 @@ export const metadata: Metadata = {
   };
 
 async function Calendar({params}: {params: Promise<{id: string}>}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const {id} = await params;
-    const {data: students} = await fetchJSONWithToken<Enrollee[]>(`${apiURL}/teachers/${id}/students`, 3600)
+    const students = await Teachers.getStudents(id);
     if (!students) return <></>
   return (
     <>

@@ -1,8 +1,7 @@
-import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { Resource } from "@/app/types";
 import PageTitle from "@/app/_ui_components/layout/PageTitle"
 import FilteredResourceList from "./FilteredResourceList";
 import { Metadata } from "next";
+import { Students } from "@/app/api/_controllers/studentController";
 
 export const metadata: Metadata = {
     title: "Resources",
@@ -10,15 +9,13 @@ export const metadata: Metadata = {
   };
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const id = (await params).id;
-    const {data:resources}= await fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources`);
-
+    const {id} = await params;
+    const resources = await Students.getResources(id);
     return (
         <>
             <PageTitle>Student Resources</PageTitle>
             
-            <FilteredResourceList resources={resources || []} student_id={id} />
+            <FilteredResourceList resources={resources} student_id={id} />
 
         </>
     )

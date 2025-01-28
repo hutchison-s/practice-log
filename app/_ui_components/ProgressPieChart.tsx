@@ -13,11 +13,11 @@ function CurrentWeekPieChart({student_id, size}: {student_id: string, size: numb
     useEffect(()=>{
         fetchCurrentWeekTotal(student_id)
             .then(data => {
-                if (data.length == 0) {
+                if (data == null) {
                     setIsLoading(false);
                     return;
                 }
-                const {weekly_goal, weekly_total} = data[0];
+                const {weekly_goal, weekly_total} = data;
                 setPercent((Math.floor(parseInt(weekly_total) / (weekly_goal * 60) * 100)))
                 setIsLoading(false);
             })

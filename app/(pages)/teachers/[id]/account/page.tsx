@@ -1,4 +1,3 @@
-import { fetchSettings, fetchTeacher } from '@/app/(pages)/students/[id]/actions';
 import { SecondaryLinkButton } from '@/app/_ui_components/layout/Buttons';
 import FeaturedText from '@/app/_ui_components/layout/FeaturedText';
 import GlassDiv from '@/app/_ui_components/layout/GlassDiv';
@@ -8,6 +7,7 @@ import React from 'react'
 import NotificationOptions from './NotificationOptions';
 import SubHeading from '@/app/_ui_components/layout/SubHeading';
 import { Metadata } from 'next';
+import { TeacherModel } from '@/app/api/_controllers/teacherController';
 
 export const metadata: Metadata = {
     title: "Account Settings",
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 
 async function AccountPage({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
-    const teacher = await fetchTeacher(id);
-    const settings = await fetchSettings(id);
+    const teacher = await TeacherModel(id);
+    const settings = await teacher.getPreferences();
   return (
     <>
         <PageTitle>Account Settings</PageTitle>

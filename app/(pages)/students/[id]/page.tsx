@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
     const {student, teacher, records, weekTotal} = await fetchStudentPageInfo(id);
-    const percent = weekTotal.length > 0 ? Math.floor((parseInt(weekTotal[0].weekly_total) / (weekTotal[0].weekly_goal * 60)) * 100) : 0
+    const percent = weekTotal ? Math.floor((parseInt(weekTotal.weekly_total) / (student.weekly_goal * 60)) * 100) : 0
 
     return (
         <>

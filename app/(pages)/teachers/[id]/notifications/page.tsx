@@ -1,9 +1,9 @@
 import PageTitle from '@/app/_ui_components/layout/PageTitle';
 import SubHeading from '@/app/_ui_components/layout/SubHeading';
 import React from 'react'
-import { fetchLogApprovals } from '../actions';
 import LogApprovalManager from '../_components/LogApprovalManager';
 import { Metadata } from 'next';
+import { Teachers } from '@/app/api/_controllers/teacherController';
 
 export const metadata: Metadata = {
   title: "Notifications",
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 
 async function NotificationsPage({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
-    const logApprovals = await fetchLogApprovals(id);
+    const logApprovals = await Teachers.getApprovalRequests(id);
     
   return (
     <>
             <PageTitle>Teacher Notifications</PageTitle>
-            <SubHeading>Log Approvals</SubHeading>
+            <SubHeading>Approval Requests</SubHeading>
             <LogApprovalManager requests={logApprovals} />
             
             {/* <SubHeading>New Messages</SubHeading>

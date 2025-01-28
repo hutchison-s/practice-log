@@ -1,80 +1,38 @@
 'use server'
 
 import { AssociatedStudentRecords } from "@/app/_hooks/studentBrowserReducer";
-import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { logRow, Goal, Resource, Group, ApprovalRequest, StudentWeekReport, Enrollee } from "@/app/types";
+import { Students } from "@/app/api/_controllers/studentController";
+import { Teachers } from "@/app/api/_controllers/teacherController";
+import { Group } from "@/app/types";
 import { weeklyTotal } from "@/app/types";
 
-const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export async function fetchStudentRecords(id: string, limit?:number): Promise<AssociatedStudentRecords> {
-    const logPromise = fetchJSONWithToken<logRow[]>(`${apiURL}/students/${id}/logs${limit ? '?limit='+limit : ''}`, 3600);
-    const goalPromise = fetchJSONWithToken<Goal[]>(`${apiURL}/students/${id}/goals${limit ? '?limit='+limit : ''}`, 3660);
-    const resourcePromise = fetchJSONWithToken<Resource[]>(`${apiURL}/students/${id}/resources${limit ? '?limit='+limit : ''}`, 3600);
+    const logPromise = Students.getLogs(id, limit);
+    const goalPromise = Students.getGoals(id, limit);
+    const resourcePromise = Students.getResources(id, limit);
     const [logs, goals, resources] = (await Promise.all([logPromise, goalPromise, resourcePromise]))
     return {
-        logs: logs.data || [],
-        goals: goals.data || [],
-        resources: resources.data || []
+        logs: logs || [],
+        goals: goals || [],
+        resources: resources || []
     }
 }
 
-export async function fetchCurrentWeekTotal(student_id: string): Promise<weeklyTotal[]> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${student_id}/logs/week_total?current=true`, 3600)
-        if (data == undefined) reject(message)
-        resolve(data as weeklyTotal[]);
-    })
+export async function fetchCurrentWeekTotal(student_id: string): Promise<weeklyTotal | null> {
+    return await Students.getCurrentWeek(student_id);
 }
 export async function fetchWeekHistory(student_id: string): Promise<weeklyTotal[]> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<weeklyTotal[]>(`${apiURL}/students/${student_id}/logs/week_total`, 60000);
-        if (data == undefined) reject(message)
-        resolve(data as weeklyTotal[]);
-    })
+    return await Students.getWeekTotals(student_id);
 }
 
 export async function fetchUnreadMessages(student_id: string): Promise<number> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<number>(`${apiURL}/students/${student_id}/messages/unread`, 3600)
-        if (data == undefined) reject('Failed to retrieve message data:'+message);
-        resolve(data as number);
-    })
-}
-
-export async function fetchStudentsOfTeacher(teacher_id: string): Promise<Enrollee[]> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<Enrollee[]>(`${apiURL}/teachers/${teacher_id}/students`, 3600)
-        if (data == undefined) reject('Failed to retrieve message data:'+message);
-        resolve(data as Enrollee[]);
-    })
+    return await Students.getUnreadMessages(student_id);
 }
 
 export async function fetchGroup(teacher_id: string, group_id: string): Promise<Group> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<Group>(`${apiURL}/teachers/${teacher_id}/groups/${group_id}`, 60000)
-        if (data == undefined) reject('Failed to retrieve message data:'+message);
-        resolve(data as Group);
-    })
+    return await Teachers.getGroupById(teacher_id, group_id);
 }
 
 export async function fetchAllGroups(teacher_id: string): Promise<Group[]> {
-    return new Promise(async (resolve, reject)=>{
-        const {data, message} = await fetchJSONWithToken<Group[]>(`${apiURL}/teachers/${teacher_id}/groups`, 3600)
-        if (data == undefined) reject('Failed to retrieve message data:'+message);
-        resolve(data as Group[]);
-    })
-}
-
-export async function fetchLogApprovals(teacher_id: string): Promise<ApprovalRequest[]> {
-    const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`, 60000);
-    return approval_requests || [];
-}
-
-export async function fetchReport(teacher_id: string): Promise<StudentWeekReport[]> {
-    return new Promise(async (resolve, reject)=>{
-        const {data} = await fetchJSONWithToken(`${apiURL}/teachers/${teacher_id}/reports/logs`, 60000);
-        if (data == undefined) reject('Failed to retrieve student practice reports');
-        resolve(data as StudentWeekReport[]);
-    })
+    return await Teachers.getAllGroups(teacher_id);
 }

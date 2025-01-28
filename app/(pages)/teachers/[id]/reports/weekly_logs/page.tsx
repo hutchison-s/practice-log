@@ -1,12 +1,12 @@
 import React from 'react'
 import { Metadata } from 'next'
 import PageTitle from '@/app/_ui_components/layout/PageTitle';
-import { fetchAllGroups, fetchReport } from '../../actions';
 import BodyText from '@/app/_ui_components/layout/BodyText';
 import LogReportTable from '../../_components/LogReportTable';
 import LogReportGraphs from '../../_components/LogReportGraphs';
 import HoverLink from '@/app/_ui_components/menus/HoverLink';
 import PrintButton from '@/app/_ui_components/PrintButton';
+import { TeacherModel } from '@/app/api/_controllers/teacherController';
 
 export const metadata: Metadata = {
     title: "Practice Reports",
@@ -18,8 +18,9 @@ const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
 async function ReportsPage({params, searchParams}: {params: Promise<{id: string}>, searchParams: Promise<{view: string}>}) {
     const {id} = await params;
     const {view} = await searchParams;
-    const studentRows = await fetchReport(id);
-    const groups = await fetchAllGroups(id);
+    const teacher = await TeacherModel(id);
+    const studentRows = await teacher.getLogReports();
+    const groups = await teacher.getAllGroups();
   return (
     <>
         <section className='no-print'>

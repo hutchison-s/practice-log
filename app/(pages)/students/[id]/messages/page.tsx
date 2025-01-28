@@ -1,9 +1,8 @@
-import { fetchJSONWithToken } from '@/app/_utils/AuthHandler'
-import { Message } from '@/app/types'
 import PageTitle from '@/app/_ui_components/layout/PageTitle'
 import React from 'react'
 import MessageWindow from './MessageWindow'
 import { Metadata } from 'next'
+import { Students } from '@/app/api/_controllers/studentController'
 
 export const metadata: Metadata = {
   title: "Messages",
@@ -11,13 +10,12 @@ export const metadata: Metadata = {
 };
 
 async function Page({params}: {params: Promise<{id: string}>}) {
-  const id = (await params).id
-  const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const {data: messages} = await fetchJSONWithToken<Message[]>(`${apiURL}/students/${id}/messages`);
+  const {id} = await params
+  const messages = await Students.getAllMessages(id);
   return (
     <>
         <PageTitle>Messages</PageTitle>
-        <MessageWindow messages={messages || []} />
+        <MessageWindow messages={messages} />
     </>
   )
 }

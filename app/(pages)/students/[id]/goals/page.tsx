@@ -1,9 +1,8 @@
 import GoalsList from "@/app/_ui_components/object_display/GoalsList";
-import { fetchJSONWithToken } from "@/app/_utils/AuthHandler";
-import { Goal } from "@/app/types";
 import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import SubHeading from "@/app/_ui_components/layout/SubHeading";
 import { Metadata } from "next";
+import { Students } from "@/app/api/_controllers/studentController";
 
 export const metadata: Metadata = {
     title: "Goals",
@@ -12,9 +11,8 @@ export const metadata: Metadata = {
 
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const id = (await params).id;
-    const {data: goals} = await fetchJSONWithToken<Goal[]>(`${apiURL}/students/${id}/goals`);
+    const {id} = await params;
+    const goals = await Students.getGoals(id);
     return (
         <>
             <PageTitle>Student Goals</PageTitle>

@@ -3,8 +3,7 @@ import StudentBrowser from "./_components/StudentBrowser";
 import { SecondaryLinkButton } from "@/app/_ui_components/layout/Buttons";
 import { Metadata } from "next";
 import NotificationAlert from "./_components/NotificationAlert";
-import { fetchTeacher } from "../../students/[id]/actions";
-import { fetchAllGroups, fetchStudentsOfTeacher } from "./actions";
+import { TeacherModel } from "@/app/api/_controllers/teacherController";
 
 export const metadata: Metadata = {
     title: "Teacher Portal",
@@ -13,9 +12,9 @@ export const metadata: Metadata = {
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const id = (await params).id;
-    const teacher = await fetchTeacher(id)
-    const students = await fetchStudentsOfTeacher(id);
-    const groups = await fetchAllGroups(id);
+    const teacher = await TeacherModel(id);
+    const students = await teacher.getStudents()
+    const groups = await teacher.getAllGroups();
 
 
     if (!teacher) throw new Error("No teacher found")

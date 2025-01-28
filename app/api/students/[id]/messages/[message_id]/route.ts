@@ -1,4 +1,3 @@
-import { fetchStudent } from "@/app/(pages)/students/[id]/actions";
 import { userIs } from "@/app/api/helpers";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
@@ -13,7 +12,8 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
         if (!(await userIs('owner or teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const {teacher_id} = await fetchStudent(id);
+        const {rows: teachers} = await sql`SELECT teacher_id FROM students WHERE id = ${id}`;
+        const teacher_id = teachers[0].id;
         const {rows}: {rows: Message[]} = await sql`
             UPDATE 
                 messages
