@@ -6,22 +6,22 @@ export class TeacherController extends DB_Controller<User> {
         super('/teachers')
     }
     async getStudents(teacher_id: idType) {
-        return await this.apiCall<Enrollee[]>(`/${teacher_id}/students`);
+        return await this.apiGET<Enrollee[]>(`/${teacher_id}/students`);
     }
     async getGroupById(teacher_id: idType, group_id: idType) {
-        return await this.apiCall<Group>(`/${teacher_id}/groups/${group_id}`)
+        return await this.apiGET<Group>(`/${teacher_id}/groups/${group_id}`)
     }
     async getAllGroups(teacher_id: idType) {
-        return await this.apiCall<Group[]>(`/${teacher_id}/groups`);
+        return await this.apiGET<Group[]>(`/${teacher_id}/groups`);
     }
     async getLogReports(teacher_id: idType) {
-        return await this.apiCall<StudentWeekReport[]>(`/${teacher_id}/reports/logs`);
+        return await this.apiGET<StudentWeekReport[]>(`/${teacher_id}/reports/logs`);
     }
     async getPreferences(teacher_id: idType) {
-        return await this.apiCall<NotificationSettings>(`/${teacher_id}/preferences`);
+        return await this.apiGET<NotificationSettings>(`/${teacher_id}/preferences`);
     }
     async getApprovalRequests(teacher_id: idType) {
-        return await this.apiCall<ApprovalRequest[]>(`/${teacher_id}/approval_requests`);
+        return await this.apiGET<ApprovalRequest[]>(`/${teacher_id}/approval_requests`);
     }
 }
 

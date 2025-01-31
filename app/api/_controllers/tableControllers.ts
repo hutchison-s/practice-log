@@ -8,12 +8,12 @@ export class LogController extends DB_Controller<logRow> {
         this.student_id = student_id;
     }
     async getCurrentWeek(): Promise<weeklyTotal | null> {
-        const weeks = await this.apiCall<weeklyTotal[]>('/week_total?current=true');
+        const weeks = await this.apiGET<weeklyTotal[]>('/week_total?current=true');
         if (weeks.length > 0) return weeks[0];
         else return null;
     }
     async getWeeks(): Promise<weeklyTotal[]> {
-        return await this.apiCall<weeklyTotal[]>('/week_total')
+        return await this.apiGET<weeklyTotal[]>('/week_total')
     }
 }
 

@@ -33,7 +33,7 @@ export class StudentController extends DB_Controller<Enrollee> {
         return await msg.getAll();
     }
     async getUnreadMessages(student_id: idType) {
-        return await this.apiCall<number>(`/${student_id}/messages/unread`)
+        return await this.apiGET<number>(`/${student_id}/messages/unread`)
     }
 }
 export const Students: StudentController = new StudentController();
