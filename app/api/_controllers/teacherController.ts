@@ -21,7 +21,7 @@ export class TeacherController extends DB_Controller<User> {
         return await this.apiCall<NotificationSettings>(`/${teacher_id}/preferences`);
     }
     async getApprovalRequests(teacher_id: idType) {
-        return await this.apiCall<ApprovalRequest[]>(`${teacher_id}/approval_requests`);
+        return await this.apiCall<ApprovalRequest[]>(`/${teacher_id}/approval_requests`);
     }
 }
 
