@@ -1,7 +1,7 @@
 import { Enrollee, User } from "@/app/types";
 import { DB_Controller, idType } from "./parent_classes";
 import { Teachers } from "./teacherController";
-import { GoalController, LogController, MessageController, ResourceController } from "./tableControllers";
+import { Goals, Logs, Messages, Resources } from "./tableControllers";
 
 
 export class StudentController extends DB_Controller<Enrollee> {
@@ -9,28 +9,22 @@ export class StudentController extends DB_Controller<Enrollee> {
         super('/students')
     }
     async getLogs(student_id: idType, limit?: number) {
-        const logs = new LogController(student_id);
-        return await logs.getSome(limit);
+        return await Logs(student_id).getSome(limit);
     }
     async getCurrentWeek(student_id: idType) {
-        const logs = new LogController(student_id);
-        return await logs.getCurrentWeek();
+        return await Logs(student_id).getCurrentWeek();
     }
     async getWeekTotals(student_id: idType) {
-        const logs = new LogController(student_id);
-        return await logs.getWeeks();
+        return await Logs(student_id).getWeeks();
     }
     async getResources(student_id: idType, limit?: number) {
-        const recs = new ResourceController(student_id);
-        return await recs.getSome(limit);
+        return await Resources(student_id).getSome(limit);
     }
     async getGoals(student_id: idType, limit?: number) {
-        const goals = new GoalController(student_id);
-        return await goals.getSome(limit);
+        return await Goals(student_id).getSome(limit);
     }
     async getAllMessages(student_id: idType) {
-        const msg = new MessageController(student_id);
-        return await msg.getAll();
+        return await Messages(student_id).getAll();
     }
     async getUnreadMessages(student_id: idType) {
         return await this.apiGET<number>(`/${student_id}/messages/unread`)

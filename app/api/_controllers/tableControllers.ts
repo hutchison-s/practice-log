@@ -15,6 +15,7 @@ export class LogController extends DB_Controller<logRow> {
     async getWeeks(): Promise<weeklyTotal[]> {
         return await this.apiGET<weeklyTotal[]>('/week_total')
     }
+    
 }
 
 export class ResourceController extends DB_Controller<Resource> {
@@ -23,6 +24,7 @@ export class ResourceController extends DB_Controller<Resource> {
         super(`/students/${student_id}/resources`)
         this.student_id = student_id;
     }
+    
 }
 
 export class GoalController extends DB_Controller<Goal> {
@@ -31,6 +33,7 @@ export class GoalController extends DB_Controller<Goal> {
         super(`/students/${student_id}/goals`)
         this.student_id = student_id;
     }
+    
 }
 
 export class MessageController extends DB_Controller<Message> {
@@ -39,6 +42,7 @@ export class MessageController extends DB_Controller<Message> {
         super(`/students/${student_id}/messages`)
         this.student_id = student_id;
     }
+    
 }
 
 export class ApprovalRequestController extends DB_Controller<ApprovalRequest> {
@@ -48,3 +52,8 @@ export class ApprovalRequestController extends DB_Controller<ApprovalRequest> {
         this.teacher_id = teacher_id;
     }
 }
+
+export const Logs = (id: idType) => new LogController(id);
+export const Resources = (id: idType) => new ResourceController(id);
+export const Goals = (id: idType) => new GoalController(id);
+export const Messages = (id: idType) => new MessageController(id);

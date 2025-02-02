@@ -21,12 +21,12 @@ export class DB_Controller<T> {
         if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
         return data as E;
     }
-    protected async apiPOST<T>(path: string, obj: Partial<T>, revalidatePath?: string): Promise<T> {
+    protected async apiPOST<T>(path: string, obj: Partial<T>, revalidatePath?: string[]): Promise<T> {
         const {data, message} = await postJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
         if (data == undefined) console.error("Error posting data to", this.endpoint_base, ":", message);
         return data as T;
     }
-    protected async apiPATCH<T>(path: string, obj: Partial<T>, revalidatePath?: string): Promise<T> {
+    protected async apiPATCH<T>(path: string, obj: Partial<T>, revalidatePath?: string[]): Promise<T> {
         const {data, message} = await patchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
         if (data == undefined) console.error("Error posting data to", this.endpoint_base, ":", message);
         return data as T;
@@ -41,10 +41,10 @@ export class DB_Controller<T> {
     async getSome(limit?: number): Promise<T[]> {
         return await this.apiGET<T[]>(limit ? `?limit=${limit}` : '')
     }
-    async createOne(obj: Partial<T>, revalidatePath?: string) {
-        return await this.apiPOST(`/`, obj, revalidatePath)
+    async createOne(obj: Partial<T>) {
+        return await this.apiPOST(`/`, obj)
     }
-    async updateOne(id: idType, obj: Partial<T>, revalidatePath?: string) {
-        return await this.apiPATCH(`/`+id, obj, revalidatePath)
+    async updateOne(id: idType, obj: Partial<T>) {
+        return await this.apiPATCH(`/`+id, obj)
     }
 }
