@@ -1,5 +1,6 @@
 'use client'
 
+import { Goals } from '@/app/api/_controllers/tableControllers';
 import { Goal } from '@/app/types'
 import { CheckCircle, Circle, Loader } from 'lucide-react';
 import React, { useState } from 'react'
@@ -9,26 +10,11 @@ function GoalCheck({goal, onUpdate}: {goal: Goal, onUpdate: (g: Goal)=>void}) {
 
     async function toggleCheck() {
         setIsChanging(true);
-        fetch(`/api/students/${goal.student_id}/goals/${goal.id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify(
-                {
-                    ...goal,
-                    is_complete: !goal.is_complete
-                }
-
-            )
-        }).then(res => {
-            if (!res.ok) {
-                throw new Error('Bad response from server')
-            }
-            return res.json();
-        }).then(json => {
-            onUpdate(json.data)
+        Goals(goal.student_id).updateOne(goal.id, {
+            ...goal,
+            is_complete: !goal.is_complete
+        }).then(updated => {
+            onUpdate(updated)
         }).catch(err => {
             console.error(err);
         }).finally(()=>{

@@ -4,6 +4,7 @@ import { Goal } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/_ui_components/layout/Buttons";
 import { Plus } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react"
+import { Goals } from "@/app/api/_controllers/tableControllers";
 
 
 
@@ -23,26 +24,18 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        fetch(`/api/students/${student_id}/goals`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                title: fd.get('title'),
-                content: fd.get('content'),
-                student_id
-            })
-        }).then(res => {
-            if (res.ok) {
+        Goals(student_id).createOne({
+            goal_title: fd.get('title') as string,
+            goal_content: fd.get('content') as string,
+            student_id
+        })
+        .then(res => {
+            if (res) {
                 setIsSubmitting(false);
-                return res.json();
+                return onCreate(res)
             } else {
                 throw new Error('Post failed')
             }
-        }).then(json => {
-            onCreate(json.data)
         })
         .catch(err => {
             console.error(err);
