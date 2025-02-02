@@ -1,5 +1,6 @@
 import { apiResponse, ApprovalRequest } from "@/app/types";
 import { sql } from "@vercel/postgres";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<ApprovalRequest[]> {
@@ -23,5 +24,6 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
     }
     const {rows, rowCount} = await sql`INSERT INTO approval_requests (teacher_id, student_id, log_id, estimated_time, reason) VALUES (${id}, ${student_id}, ${log_id}, ${estimated_time}, ${reason}) RETURNING *`;
     if (rowCount == 0) return NextResponse.json({message: 'Error occured while creating approval reqest'}, {status: 500});
+    revalidateTag(`approval_requests${id}`)
     return NextResponse.json({message: 'success', data: rows[0]}, {status: 200});
 }

@@ -1,7 +1,7 @@
 import { userIs } from "@/app/api/helpers";
 import { apiResponse, Resource } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -33,8 +33,7 @@ export async function DELETE(
         if (keys.length == 0) return NextResponse.json({message: 'Cannot delete resource.'}, {status: 403});
         await fetch(`${apiURL}/s3?file=${keys[0].key}`, {method: 'DELETE'})
         await sql`DELETE FROM resources WHERE id = ${resource_id} AND created_by = ${req_id}`;
-        revalidatePath(`/api/students/${id}/resources`);
-        revalidatePath(`/teachers/${req_id}`)
+        revalidateTag(`resources${id}`)
         return NextResponse.json({message: 'success'}, {status: 200})
     } catch (error) {
         console.error(error);

@@ -1,7 +1,7 @@
 import { apiResponse, Message } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { userIs } from "@/app/api/helpers";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Message[]> {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
                 (student_id, sent_by, content)
             VALUES
                 (${id}, ${req_id}, ${content})`;
-        revalidatePath(`/students/${id}/messages`)
+        revalidateTag(`messages${id}`)
         return NextResponse.json({data: rows, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);

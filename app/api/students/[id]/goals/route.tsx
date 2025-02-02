@@ -1,7 +1,7 @@
 import { userIs } from "@/app/api/helpers";
 import { apiResponse, Goal } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal[]> {
@@ -30,8 +30,8 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
 }
 
 export async function POST(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal> {
-    const {title, content} = await request.json();
-    if (!title || !content) {
+    const {goal_title, goal_content} = await request.json();
+    if (!goal_title || !goal_content) {
         return NextResponse.json({message: 'invalid request format'}, {status: 400})
     }
     
@@ -45,10 +45,9 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
             INSERT INTO goals 
                 (student_id, goal_title, goal_content, created_by)
             VALUES
-                (${id}, ${title}, ${content}, ${req_id})
+                (${id}, ${goal_title}, ${goal_content}, ${req_id})
             RETURNING *`
-        revalidatePath(`/students/${id}`);
-        revalidatePath(`/teachers/${req_id}`);
+        revalidateTag('goals'+id)
         return NextResponse.json({data: rows[0], message: 'success'}, {status: 201});
     } catch (error) {
         console.error(error);

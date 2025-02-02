@@ -1,6 +1,6 @@
 import { apiResponse, Group } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Group[]> {
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
         
         const {rows} = await sql`INSERT INTO groups (name, color, teacher_id) VALUES (${group_name}, ${color}, ${id}) RETURNING *`;
         if (!rows || rows.length == 0) return NextResponse.json({message: "Could not add group"}, {status: 500})
-        revalidatePath(`/teachers/${id}`)
+        revalidateTag('groups'+id)
         return NextResponse.json({message: 'Success', data: rows[0] as Group}, {status: 201})
     } catch (error) {
         console.error(error);

@@ -1,6 +1,6 @@
 import { apiResponse, Group } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string, group_id: string}>}): apiResponse<Group> {
@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest, {params}: {params: Promise<{id
         
         const {rows} = await sql`UPDATE groups SET name = ${group_name}, color = ${color} WHERE id = ${group_id} RETURNING *`;
         if (!rows || rows.length == 0) return NextResponse.json({message: "Could not update group"}, {status: 500})
-        revalidatePath(`/teachers/${id}`)
+        revalidateTag('groups'+id)
         return NextResponse.json({message: 'Success', data: rows[0] as Group}, {status: 200})
     } catch (error) {
         console.error(error);
@@ -49,7 +49,7 @@ export async function DELETE(request: NextRequest, {params}: {params: Promise<{i
         
         const {rows} = await sql`DELETE FROM groups WHERE id = ${group_id} RETURNING *`;
         if (!rows || rows.length == 0) return NextResponse.json({message: "Could not delete group"}, {status: 500})
-        revalidatePath(`/teachers/${id}`)
+        revalidateTag('groups'+id)
         return NextResponse.json({message: 'Success', data: rows[0] as Group}, {status: 200})
     } catch (error) {
         console.error(error);

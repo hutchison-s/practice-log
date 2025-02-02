@@ -1,6 +1,6 @@
 import { userIs } from "@/app/api/helpers";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(request: NextRequest, {params}: {params: Promise<{id: string, log_id: string}>}) {
@@ -10,7 +10,6 @@ export async function DELETE(request: NextRequest, {params}: {params: Promise<{i
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
     await sql`DELETE FROM logs WHERE id = ${log_id}`;
-    revalidatePath(`/api/students/${id}/logs`)
-    revalidatePath(`/teachers/${req_id}`)
+    revalidateTag('logs'+id);
     return NextResponse.json({message: 'success'}, {status: 200})
 }

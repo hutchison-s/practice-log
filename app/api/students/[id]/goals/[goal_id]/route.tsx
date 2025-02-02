@@ -1,6 +1,7 @@
 import { userIs } from "@/app/api/helpers";
 import { apiResponse, Goal } from "@/app/types";
 import { sql } from "@vercel/postgres";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -30,6 +31,7 @@ export async function PATCH(
         if (rows.length === 0) {
             return NextResponse.json({ message: 'Goal not found' }, { status: 404 });
         }
+        revalidateTag('goals'+id)
         return NextResponse.json({ message: 'Success', data: rows[0] as Goal }, { status: 200 });
     } catch (err) {
         console.error('Error processing PATCH request:', err);
@@ -49,6 +51,7 @@ export async function DELETE(
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
         await sql`DELETE FROM goals WHERE id = ${goal_id} RETURNING *`;
+        revalidateTag('goals'+id)
         return NextResponse.json({message: 'success'}, {status: 200});
     } catch (error) {
         console.error('Error processing PATCH request:', error);

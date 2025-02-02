@@ -1,7 +1,7 @@
 import { userIs } from "@/app/api/helpers";
 import { apiResponse, Resource } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -42,7 +42,6 @@ export async function POST(
     }
     const {rows} = await sql`INSERT INTO resources (url, type, student_id, title, key, created_by) VALUES(${url}, ${resource_type}, ${id}, ${title}, ${key}, ${req_id}) RETURNING *`;
     if (!rows || rows.length == 0) return NextResponse.json({message: 'Insert failed'}, {status: 500})
-    revalidatePath(`/students/${id}`);
-    revalidatePath(`/teachers/${req_id}`);
+    revalidateTag(`resources${id}`)
     return NextResponse.json({message: 'success', data: rows[0] as Resource}, {status: 201})
 }

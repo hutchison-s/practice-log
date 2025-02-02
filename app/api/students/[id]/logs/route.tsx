@@ -1,7 +1,7 @@
 import { userIs } from "@/app/api/helpers";
 import { apiResponse } from "@/app/types";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 60;
@@ -96,7 +96,6 @@ export async function GET(
     const {log_id, journal, journal_prompt, is_approved} = body;
     console.log('updating log', log_id, journal)
     await sql`UPDATE logs SET total_time = EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - start_time)), journal = ${journal}, journal_prompt = ${journal_prompt}, is_approved = ${is_approved} WHERE id = ${log_id}`;
-    revalidatePath(`/students/${id}`);
-    revalidatePath(`/api/students/${id}`);
+    revalidateTag('logs'+id);
     return NextResponse.json({message: 'Success', data: {log_id: log_id}});
   }
