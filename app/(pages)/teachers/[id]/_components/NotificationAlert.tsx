@@ -1,12 +1,10 @@
-import { fetchJSONWithToken } from '@/app/_utils/AuthHandler';
-import { ApprovalRequest } from '@/app/types';
+import { Teachers } from '@/app/api/_controllers/teacherController';
 import { CircleAlert } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 
 async function NotificationAlert({teacher_id}: {teacher_id: string}) {
-    const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const {data: approval_requests} = await fetchJSONWithToken<ApprovalRequest[]>(`${apiURL}/teachers/${teacher_id}/approval_requests`);
+    const approval_requests = await Teachers.getApprovalRequests(teacher_id)
   return (
     approval_requests 
         && approval_requests.length > 0 

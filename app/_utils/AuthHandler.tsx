@@ -19,7 +19,7 @@ function parseTags(url: string) {
     return []
 }
 
-export async function fetchJSONWithToken<T>(url: string, revalidate: null | number = null): Promise<apiPayload<T>> {
+export async function fetchJSONWithToken<T>(url: string, revalidate?: boolean): Promise<apiPayload<T>> {
     const cookieStore = await cookies();
     const tags = parseTags(url);
 
@@ -30,8 +30,8 @@ export async function fetchJSONWithToken<T>(url: string, revalidate: null | numb
 
     try {
         const response = await fetch(url, { 
-            cache: revalidate ? undefined : 'no-cache', 
-            next: revalidate ? { revalidate, tags } : {tags}, 
+            cache: revalidate ? 'no-cache' : 'force-cache', 
+            next: {tags}, 
             headers: { "Cookie": `token=${token.value}` } 
         });
 

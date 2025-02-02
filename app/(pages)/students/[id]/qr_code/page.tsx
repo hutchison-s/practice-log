@@ -1,10 +1,9 @@
-import { fetchJSONWithToken } from '@/app/_utils/AuthHandler';
-import { Enrollee } from '@/app/types';
 import { NextResponse } from 'next/server';
 import PrintableQRCode from './PrintableQRCode';
 import PageTitle from '@/app/_ui_components/layout/PageTitle';
 import BodyText from '@/app/_ui_components/layout/BodyText';
 import { Metadata } from 'next';
+import { Students } from '@/app/api/_controllers/studentController';
 
 export const metadata: Metadata = {
     title: "Student QR Code",
@@ -18,9 +17,7 @@ async function QR({params, searchParams}: {params: Promise<{id: string}>, search
     if (!time || !code) {
         return new NextResponse("Missing parameters", { status: 400 });
     }
-    const {data: student} = await fetchJSONWithToken<Enrollee>(`${apiURL}/students/${id}`);
-    const student_name = student!.name;
-    const course_name = student!.subject;
+    const student = await Students.getOneById(id);
     const qrLink = `${apiURL}/students/${id}/qr_code?code=${code}&time=${time}&width=300`
     
 
@@ -31,7 +28,7 @@ async function QR({params, searchParams}: {params: Promise<{id: string}>, search
                 <BodyText className='my-4'>Print this code and give it to your student. They should keep it with their method books, in their instrument case, or wherever they will see it every time they practice.</BodyText>
                 <BodyText className='mb-4'>This code <strong>IS</strong> their login. Students do not log in the same way teachers do.</BodyText>
             </div>
-            <PrintableQRCode name={student_name} course={course_name} imageURL={qrLink} width={300} />
+            <PrintableQRCode name={student.name} course={student.subject} imageURL={qrLink} width={300} />
         </>
     )
 }
