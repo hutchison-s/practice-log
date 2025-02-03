@@ -3,6 +3,8 @@ import { Enrollee, Group } from '@/app/types'
 import { PrimaryButton, SecondaryButton } from '@/app/_ui_components/layout/Buttons'
 import { Users } from 'lucide-react'
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import { Students } from '@/app/api/_controllers/studentController'
+import { Groups } from '@/app/api/_controllers/tableControllers'
 
 function AssignGroupButton({student, onAssign}: {student: Enrollee, onAssign: (s: Enrollee)=>void}) {
   const modalRef = useRef<HTMLDialogElement>(null)
@@ -16,25 +18,21 @@ function AssignGroupButton({student, onAssign}: {student: Enrollee, onAssign: (s
           const fd = new FormData(e.currentTarget);
           const selected = fd.get('group_id') as string;
           const group_id = selected == '0' ? null : selected;
-          const res = await fetch(`/api/students/${student.id}`, {
-              method: 'PATCH', 
-              headers: {'content-type': 'application/json'}, 
-              body: JSON.stringify({
-                name: student.name, 
-                subject: student.subject, 
-                weeklyGoal: student.weekly_goal, 
-                time_of_day: student.time_of_day, 
-                duration: student.duration, 
-                dow: student.day_of_week, 
-                group_id: group_id
-              })})
-          if (!res.ok) {
+          const updatedStudent = await Students.updateOne(student.id, {
+              name: student.name, 
+              subject: student.subject, 
+              weekly_goal: student.weekly_goal, 
+              time_of_day: student.time_of_day, 
+              duration: student.duration, 
+              day_of_week: student.day_of_week, 
+              group_id: group_id
+          })
+          if (!updatedStudent) {
             alert('Error occured while trying to update group assignment.')
           }
-          const {data} = await res.json();
           formRef.current?.reset();
           setIsOpen(false)
-          onAssign({...data, group_color: groups.find(g => g.id == selected)?.color || '#000000'});
+          onAssign({...updatedStudent, group_color: groups.find(g => g.id == selected)?.color || '#000000'});
       }
   
       const handleCancel = ()=>{
@@ -44,10 +42,9 @@ function AssignGroupButton({student, onAssign}: {student: Enrollee, onAssign: (s
   
       useEffect(()=>{
           const populateGroups = async () => {
-            fetch(`/api/teachers/${student.teacher_id}/groups`)
-            .then(res => res.json())
-            .then(json => {
-              setGroups([...json.data])
+            Groups(student.teacher_id).getAll()
+            .then(gList => {
+              setGroups([...gList])
               modalRef.current?.showModal();
             })
             .catch(err => console.error(err))

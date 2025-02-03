@@ -3,6 +3,7 @@ import { Group } from '@/app/types'
 import { PrimaryButton, SecondaryButton } from '@/app/_ui_components/layout/Buttons'
 import { Pencil } from 'lucide-react'
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import { Groups } from '@/app/api/_controllers/tableControllers'
 
 function EditGroupButton({teacher_id, groupId, onUpdate}: {teacher_id: string, groupId?: string, onUpdate: (g: Group)=>void}) {
     
@@ -16,19 +17,16 @@ function EditGroupButton({teacher_id, groupId, onUpdate}: {teacher_id: string, g
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!groupId) return;
         const fd = new FormData(e.currentTarget)
-        const res = await fetch(`/api/teachers/${teacher_id}/groups/${groupId}`, {
-            method: 'PATCH', 
-            headers: {'content-type': 'application/json'}, 
-            body: JSON.stringify({
-                group_name: fd.get('group_name') as string, 
-                color: fd.get('color') as string
-            })})
-        if (!res.ok) {
+        const updatedGroup = await Groups(teacher_id).updateOne(groupId, {
+            name: fd.get('group_name') as string, 
+            color: fd.get('color') as string
+        })
+        if (!updatedGroup) {
             return alert('Error occured while updating group.');
         }
-        const json = await res.json();
-        onUpdate(json.data);
+        onUpdate(updatedGroup);
         formRef.current?.reset();
         setIsOpen(false)
             

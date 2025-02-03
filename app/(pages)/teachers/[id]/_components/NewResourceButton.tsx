@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "../../../../_ui_components/layout/Buttons";
 import { Plus, Upload } from "lucide-react";
 import { Resource } from "@/app/types";
+import { Resources } from "@/app/api/_controllers/tableControllers";
 
 function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreate: (r: Resource)=>void}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,31 +34,20 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
     function createResourceRow(
         key: string,
         url: string,
-        resource_type: string,
+        type: string,
         student_id: string,
         title: string
     ) {
-        fetch(`/api/students/${student_id}/resources`, {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({
+        Resources(student_id).createOne({
                 key,
                 url,
-                resource_type,
+                type,
                 student_id,
                 title
             })
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error('could not create db reference')
-            }
-        })
-        .then(json => {
-            console.log('Created new Resource:', json.data.id, json.data.type, json.data.url);
-            onCreate(json.data as Resource)
+        .then(newResource => {
+            console.log('Created new Resource:', newResource.id, newResource.type, newResource.url);
+            onCreate(newResource)
         })
     }
 
@@ -66,26 +56,16 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
             setHasError('You must provide a valid URL.')
             return;
         }
-        fetch(`/api/students/${student_id}/resources`, {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({
+        if (!student_id) return;
+        Resources(student_id).createOne({
                 key: `${title}-link-${Date.now()}`,
                 url: content as string,
-                resource_type: 'link',
+                type: 'link',
                 student_id: student_id,
                 title: title
             })
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error('could not create db reference')
-            }
-        })
-        .then(json => {
-            onCreate(json.data as Resource)
+        .then(newResource => {
+            onCreate(newResource)
         })
         .catch(err => {
             console.error(err);

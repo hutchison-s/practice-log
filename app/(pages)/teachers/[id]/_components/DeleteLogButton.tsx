@@ -1,4 +1,5 @@
 import { useUser } from '@/app/_hooks/useUser';
+import { Logs } from '@/app/api/_controllers/tableControllers';
 import { logRow } from '@/app/types'
 import { Trash } from 'lucide-react';
 import React from 'react'
@@ -10,11 +11,9 @@ function DeleteLogButton({log, onDelete}: {log: logRow, onDelete: (log: logRow)=
     const handleDelete = async ()=>{
         const isConfirmed = confirm('Are you sure you want to delete this log? This cannot be undone.');
         if (!isConfirmed) return;
-        fetch(`/api/students/${log.student_id}/logs/${log.id}`, {method: 'DELETE'})
-            .then(res => {
-                if (res.ok) {
-                    onDelete(log);
-                }
+        Logs(log.student_id).deleteOne(log.id)
+            .then(() => {
+                onDelete(log);
             })
             .catch(err => {
                 console.error(err);

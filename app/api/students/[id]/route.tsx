@@ -34,8 +34,8 @@ export async function PATCH(
     { params }: { params: Promise<{ id: string }> }
 ): apiResponse<Enrollee> {
     try {
-        const {name, subject, weeklyGoal, dow, time_of_day, duration, group_id} = await request.json();
-        if (!name || !subject || !weeklyGoal || dow < 0 || dow > 6 || isNaN(dow) || !time_of_day || !duration) {
+        const {name, subject, weekly_goal, day_of_week, time_of_day, duration, group_id} = await request.json();
+        if (!name || !subject || !weekly_goal || day_of_week < 0 || day_of_week > 6 || isNaN(day_of_week) || !time_of_day || !duration) {
             return NextResponse.json({message: 'Missing required parameters'}, {status: 400})
         }
         const {id} = await params;
@@ -43,14 +43,13 @@ export async function PATCH(
         if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        // const hasConflict = await hasScheduleConflict(req_id!, id, parseInt(dow), time_of_day, duration);
+        // const hasConflict = await hasScheduleConflict(req_id!, id, parseInt(day_of_week), time_of_day, duration);
         // if (hasConflict) {
         //     return NextResponse.json({message: "This would conflict with an existing student's lesson time"}, {status: 409})
         // }
-        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weeklyGoal}, time_of_day = ${time_of_day}, duration = ${parseInt(duration)}, day_of_week = ${dow}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
+        const response = await sql`UPDATE students SET name = ${name}, subject = ${subject}, weekly_goal = ${weekly_goal}, time_of_day = ${time_of_day}, duration = ${parseInt(duration)}, day_of_week = ${day_of_week}, group_id = ${group_id} WHERE id = ${id} RETURNING *`;
         revalidatePath(`/teachers/${req_id}`)
-        revalidatePath(`/api/teachers/${req_id}`)
-        revalidatePath(`/api/students/${id}`)
+        revalidatePath(`/students/${id}`)
         return NextResponse.json({message: 'success', data: response.rows[0] as Enrollee}, {status: 200})
     } catch (err) {
         console.error(err);
@@ -70,8 +69,7 @@ export  async function DELETE(
         }
         await sql`DELETE FROM students WHERE id = ${id}`;
         revalidatePath(`/teachers/${req_id}`)
-        revalidatePath(`/api/teachers/${req_id}`)
-        revalidatePath(`/api/students/${id}`)
+        revalidatePath(`/students/${id}`)
         return NextResponse.json({message: 'success'}, {status: 200})
     } catch (err) {
         console.error(err);

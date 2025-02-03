@@ -1,4 +1,4 @@
-import { fetchJSONWithToken, patchJSONWithToken, postJSONWithToken } from "@/app/_utils/AuthHandler";
+import { deleteWithToken, fetchJSONWithToken, patchJSONWithToken, postJSONWithToken } from "@/app/_utils/AuthHandler";
 
 export type idType = string | number
 
@@ -28,7 +28,12 @@ export class DB_Controller<T> {
     }
     protected async apiPATCH<T>(path: string, obj: Partial<T>, revalidatePath?: string[]): Promise<T> {
         const {data, message} = await patchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
-        if (data == undefined) console.error("Error posting data to", this.endpoint_base, ":", message);
+        if (data == undefined) console.error("Error patching data to", this.endpoint_base, ":", message);
+        return data as T;
+    }
+    protected async apiDELETE<T>(path: string): Promise<T> {
+        const {data, message} = await deleteWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
+        if (!data && !message) console.error("Error deleting data at", this.endpoint_base, ":", message);
         return data as T;
     }
 
@@ -42,9 +47,12 @@ export class DB_Controller<T> {
         return await this.apiGET<T[]>(limit ? `?limit=${limit}` : '')
     }
     async createOne(obj: Partial<T>) {
-        return await this.apiPOST(`/`, obj)
+        return await this.apiPOST<T>(`/`, obj)
     }
     async updateOne(id: idType, obj: Partial<T>) {
-        return await this.apiPATCH(`/`+id, obj)
+        return await this.apiPATCH<T>(`/`+id, obj)
+    }
+    async deleteOne(id: idType) {
+        return await this.apiDELETE<null>(`/${id}`);
     }
 }

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useState } from "react"
 import Elipsis from "../layout/Elipsis"
 import { useUser } from "@/app/_hooks/useUser"
+import { Resources } from "@/app/api/_controllers/tableControllers"
 
 function ResourceIcon({t}: {t: string}) {
     switch(true) {
@@ -23,7 +24,7 @@ function ResourceIcon({t}: {t: string}) {
 }
 
 async function handleDelete(student_id: string, resource_id: string, onDelete: (id: string)=>void) {
-    await fetch(`/api/students/${student_id}/resources/${resource_id}`, {method: 'DELETE'})
+    await Resources(student_id).deleteOne(resource_id);
     console.log('deleted')
     onDelete(resource_id);
 }

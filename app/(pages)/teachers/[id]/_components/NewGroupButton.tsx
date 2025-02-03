@@ -3,6 +3,7 @@ import { Group } from '@/app/types'
 import { PrimaryButton, SecondaryButton } from '@/app/_ui_components/layout/Buttons'
 import { Plus } from 'lucide-react'
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import { Groups } from '@/app/api/_controllers/tableControllers'
 
 function NewGroupButton({teacher_id, onCreate}: {teacher_id: string, onCreate: (g: Group)=>void}) {
     const modalRef = useRef<HTMLDialogElement>(null)
@@ -12,19 +13,15 @@ function NewGroupButton({teacher_id, onCreate}: {teacher_id: string, onCreate: (
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget)
-        const res = await fetch(`/api/teachers/${teacher_id}/groups`, {
-            method: 'POST', 
-            headers: {'content-type': 'application/json'}, 
-            body: JSON.stringify({
-                group_name: fd.get('group_name') as string, 
-                color: fd.get('color') as string
-            })})
-        if (!res.ok) {
+        const newGroup = await Groups(teacher_id).createOne({
+            name: fd.get('group_name') as string, 
+            color: fd.get('color') as string
+        })
+        if (!newGroup) {
             alert('Error occurred while attempting to create group.');
             return;
         }
-        const json = await res.json();
-        onCreate(json.data);
+        onCreate(newGroup);
         formRef.current?.reset();
         setIsOpen(false)
     }

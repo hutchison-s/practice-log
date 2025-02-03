@@ -1,3 +1,4 @@
+import { Students } from '@/app/api/_controllers/studentController';
 import { Enrollee } from '@/app/types'
 import { Trash } from 'lucide-react'
 import React from 'react'
@@ -8,12 +9,7 @@ function DeleteStudentButton({student, onDelete, onCancel}: {student: Enrollee, 
         if (!confirmed) {
             return onCancel();
         }
-        fetch(`/api/students/${student?.id}`, {method: 'DELETE'})
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Delete request failed')
-                }
-                return res.json()})
+        Students.deleteOne(student.id)
             .then(() => {
                 onDelete(student.id)
             })

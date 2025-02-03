@@ -110,3 +110,29 @@ export async function patchJSONWithToken<T>(url: string, body: Partial<T>, reval
         }
     })
 }
+export async function deleteWithToken<T>(url: string) : Promise<apiPayload<T>> {
+    const cookieStore = await cookies();
+    return new Promise(async (resolve, reject)=>{
+        try {
+            const token = cookieStore.get('token');
+            if (!token) reject('Unauthorized')
+            const response = await fetch(url, { 
+                method: 'DELETE', 
+                headers: {
+                    "Cookie": `token=${token?.value}`, 
+                    "Content-Type": "application/json", 
+                    "Accept": "application/json"
+                }
+            })
+            if (!response.ok) {
+                console.log(response.statusText)
+                reject(response.status);
+            }
+            const payload = await response.json();
+            resolve(payload as apiPayload<T>)
+        } catch (error) {
+            console.log("Deletion Error:", error)
+            reject("Deletion error")
+        }
+    })
+}

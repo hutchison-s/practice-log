@@ -1,4 +1,4 @@
-import { ApprovalRequest, Goal, logRow, Message, Resource, weeklyTotal } from "@/app/types";
+import { ApprovalRequest, Goal, Group, logRow, Message, Resource, weeklyTotal } from "@/app/types";
 import { DB_Controller, idType } from "./parent_classes";
 
 export class LogController extends DB_Controller<logRow> {
@@ -52,8 +52,16 @@ export class ApprovalRequestController extends DB_Controller<ApprovalRequest> {
         this.teacher_id = teacher_id;
     }
 }
+export class GroupController extends DB_Controller<Group> {
+    teacher_id: idType
+    constructor(teacher_id: idType) {
+        super(`/teachers/${teacher_id}/groups`)
+        this.teacher_id = teacher_id;
+    }
+}
 
-export const Logs = (id: idType) => new LogController(id);
-export const Resources = (id: idType) => new ResourceController(id);
-export const Goals = (id: idType) => new GoalController(id);
-export const Messages = (id: idType) => new MessageController(id);
+export const Logs = (student_id: idType) => new LogController(student_id);
+export const Resources = (student_id: idType) => new ResourceController(student_id);
+export const Goals = (student_id: idType) => new GoalController(student_id);
+export const Messages = (student_id: idType) => new MessageController(student_id);
+export const Groups = (teacher_id: idType) => new GroupController(teacher_id);

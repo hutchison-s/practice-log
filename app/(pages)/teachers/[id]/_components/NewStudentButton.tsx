@@ -3,6 +3,8 @@
 import { Enrollee, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/_ui_components/layout/Buttons";
 import { ChangeEvent, useEffect, useRef, useState } from "react"
+import { Students } from "@/app/api/_controllers/studentController";
+import { Groups } from "@/app/api/_controllers/tableControllers";
 
 
 
@@ -21,32 +23,24 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
     const modalRef = useRef<HTMLDialogElement>(null);
 
     const handleEnroll = () => {
-        fetch(`/api/students`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                subject,
-                teacher_id,
-                dow,
-                weeklyGoal,
-                time_of_day: timeOfDay,
-                duration: duration,
-                group_id: groupId == '0' ? null : groupId,
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            })
-        }).then(async res => {
-            const data = await res.json();
-            if (!res.ok) {
-                setHasError(res.status == 409 ? data.message : 'Could not create student.')
+        Students.createOne({
+            name,
+            subject,
+            teacher_id,
+            day_of_week: dow,
+            weekly_goal: weeklyGoal,
+            time_of_day: timeOfDay,
+            duration: parseInt(duration),
+            group_id: groupId == '0' ? null : groupId,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        }).then(newStudent => {
+            if (!newStudent) {
+                setHasError('Could not create student.')
                 return;
             }
-            
             setName('');
             setIsOpen(false);
-            onCreate(data.data)
+            onCreate(newStudent)
             
         }).catch(error => {
             console.error(error);
@@ -64,10 +58,9 @@ function NewStudentButton({teacher_id, onCreate}: {teacher_id: string, onCreate:
 
     useEffect(()=>{
         const populateGroups = async () => {
-            fetch(`/api/teachers/${teacher_id}/groups`)
-            .then(res => res.json())
-            .then(json => {
-              setGroups([...json.data])
+            Groups(teacher_id).getAll()
+            .then(gList => {
+              setGroups([...gList])
               modalRef.current?.showModal();
             })
             .catch(err => console.error(err))

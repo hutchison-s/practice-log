@@ -33,14 +33,14 @@ export async function POST(
     request: NextRequest,
     {params}: {params: Promise<{id: string}>}
 ): apiResponse<Resource> {
-    const {url, resource_type, title, key} = await request.json();
-    if (!url || !resource_type || !title || !key) return NextResponse.json({message: 'Missing paramters from body'}, {status: 400})
+    const {url, type, title, key} = await request.json();
+    if (!url || !type || !title || !key) return NextResponse.json({message: 'Missing paramters from body'}, {status: 400})
     const {id} = await params;
     const req_id = request.headers.get('x-user-id')
     if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
         return NextResponse.json({message: 'Access denied'}, {status: 403})
     }
-    const {rows} = await sql`INSERT INTO resources (url, type, student_id, title, key, created_by) VALUES(${url}, ${resource_type}, ${id}, ${title}, ${key}, ${req_id}) RETURNING *`;
+    const {rows} = await sql`INSERT INTO resources (url, type, student_id, title, key, created_by) VALUES(${url}, ${type}, ${id}, ${title}, ${key}, ${req_id}) RETURNING *`;
     if (!rows || rows.length == 0) return NextResponse.json({message: 'Insert failed'}, {status: 500})
     revalidateTag(`resources${id}`)
     return NextResponse.json({message: 'success', data: rows[0] as Resource}, {status: 201})

@@ -4,6 +4,8 @@ import { Enrollee, Group } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/_ui_components/layout/Buttons";
 import { Pencil } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { Students } from "@/app/api/_controllers/studentController";
+import { Groups } from "@/app/api/_controllers/tableControllers";
 
 function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, onUpdate: (s: Enrollee)=>void, onCancel: ()=>void}) {
     const [name, setName] = useState(student?.name || '');
@@ -30,27 +32,22 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
     const handleUpdate = (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        fetch(`/api/students/${student?.id}`, {
-            method: 'PATCH', 
-            headers: {"Content-Type": "application/json"},
-            credentials: 'include', 
-            body: JSON.stringify({
-                name: fd.get('name'),
-                subject: fd.get('subject'),
-                weeklyGoal: fd.get('weeklyGoal'),
-                dow: fd.get('dow'),
-                time_of_day: fd.get('time'),
-                duration: fd.get('duration'),
+        if (!student) return;
+        Students.updateOne(student?.id, {
+                name: fd.get('name') as string,
+                subject: fd.get('subject') as string,
+                weekly_goal: parseInt(fd.get('weeklyGoal') as string),
+                day_of_week: fd.get('dow') as string,
+                time_of_day: fd.get('time') as string,
+                duration: parseInt(fd.get('duration') as string),
                 group_id: groupId == '0' ? null : groupId,
             })
-        })
-            .then(async res => {
-                const json = await res.json();
-                if (!res.ok) {
-                    setHasError(res.status == 409 ? json.message : 'Could not create student')
+            .then((updatedStudent) => {
+                if (!updatedStudent) {
+                    setHasError('Could not create student')
                     return;
                 }
-                onUpdate({...json.data, group_color: groups.find(g => g.id == groupId)?.color || '#000000'});
+                onUpdate({...updatedStudent, group_color: groups.find(g => g.id == groupId)?.color || '#000000'});
                 setIsOpen(false);    
             })
             .catch(err => {
@@ -60,10 +57,10 @@ function EditStudentButton({student, onUpdate, onCancel}: {student?: Enrollee, o
 
     useEffect(()=>{
         const populateGroups = async () => {
-            fetch(`/api/teachers/${student?.teacher_id}/groups`)
-            .then(res => res.json())
-            .then(json => {
-              setGroups([...json.data])
+            if (!student) return;
+            Groups(student?.teacher_id).getAll()
+            .then(gList => {
+              setGroups([...gList])
               modalRef.current?.showModal();
             })
             .catch(err => console.error(err))

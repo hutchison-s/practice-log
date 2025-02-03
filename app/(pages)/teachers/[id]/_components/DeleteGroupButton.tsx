@@ -1,4 +1,5 @@
 
+import { Groups } from '@/app/api/_controllers/tableControllers'
 import { Trash } from 'lucide-react'
 import React from 'react'
 
@@ -8,13 +9,9 @@ function DeleteGroupButton({teacher_id, groupId, onDelete}: {teacher_id: string,
     const handleDelete = () => {
         const confirmed = confirm('Are you sure you want to delete this group? Students will not be deleted.')
         if (confirmed) {
-            fetch(`/api/teachers/${teacher_id}/groups/${groupId}`, {
-                method: 'DELETE'})
-                .then(res => {
-                    if (res.ok) {
-                      onDelete(groupId);
-                      console.log('deleted group');  
-                    }
+            Groups(teacher_id).deleteOne(groupId)
+                .then(() => {
+                    onDelete(groupId);
                 })
                 .catch(err => {
                     console.error(err);
