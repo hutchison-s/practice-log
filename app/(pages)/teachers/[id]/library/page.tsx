@@ -1,6 +1,7 @@
 import PageTitle from "@/app/_ui_components/layout/PageTitle";
 import SubHeading from "@/app/_ui_components/layout/SubHeading";
 import { Teachers } from "@/app/api/_controllers/teacherController";
+import TransferButton from "../_components/TransferButton";
 
 export default async function LibraryPage({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
@@ -17,7 +18,7 @@ export default async function LibraryPage({params}: {params: Promise<{id: string
             <ul>
                 {goals.map(g => <li key={g.id}>{g.title}</li>)}
             </ul>
-            
+            <TransferButton />
         </>
     )
 }
