@@ -58,11 +58,18 @@ export type Goal = {
     id: string,
     student_id: string,
     created_at: string,
+    created_by: string,
     completed_at: string,
     is_complete: boolean,
     goal_content?: string,
     goal_title: string
-
+}
+export type LibraryGoal = {
+    id: string,
+    teacher_id: string,
+    created_at: string,
+    title: string,
+    content?: string
 }
 export type ResourceType = 'audio' | 'video' | 'image' | 'link' | 'pdf';
 
@@ -73,7 +80,22 @@ export type Resource = {
     key: string,
     url: string,
     type: string,
+    created_at: string,
+    created_by: string
+}
+export type LibraryResource = {
+    id: string,
+    teacher_id: string,
+    title: string,
+    key: string,
+    url: string,
+    type: string,
     created_at: string
+}
+
+export type Library = {
+    resources: LibraryResource[],
+    goals: LibraryGoal[]
 }
 
 export type Message = {
