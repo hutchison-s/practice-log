@@ -15,15 +15,15 @@ export async function PATCH(
         if (!(await userIs('teacher', {req_id: req_id, content_id: id}))) {
             return NextResponse.json({message: 'Access denied'}, {status: 403})
         }
-        const { goal_title, goal_content, is_complete } = await request.json();
-        if (!goal_title) {
+        const { title, content, is_complete } = await request.json();
+        if (!title) {
             return NextResponse.json({ message: 'Invalid request body' }, { status: 400 });
         }
         const { rows } = await sql`
             UPDATE goals
             SET 
-                goal_title = ${goal_title}, 
-                goal_content = ${goal_content}, 
+                title = ${title}, 
+                content = ${content}, 
                 is_complete = ${is_complete}
             WHERE id = ${goal_id}
             RETURNING *

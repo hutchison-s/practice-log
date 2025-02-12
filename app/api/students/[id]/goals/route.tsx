@@ -30,8 +30,8 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
 }
 
 export async function POST(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal> {
-    const {goal_title, goal_content} = await request.json();
-    if (!goal_title || !goal_content) {
+    const {title, content} = await request.json();
+    if (!title || !content) {
         return NextResponse.json({message: 'invalid request format'}, {status: 400})
     }
     
@@ -43,9 +43,9 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
         }
         const {rows}: {rows: Goal[]} = await sql`
             INSERT INTO goals 
-                (student_id, goal_title, goal_content, created_by)
+                (student_id, title, content, created_by)
             VALUES
-                (${id}, ${goal_title}, ${goal_content}, ${req_id})
+                (${id}, ${title}, ${content}, ${req_id})
             RETURNING *`
         revalidateTag('goals'+id)
         return NextResponse.json({data: rows[0], message: 'success'}, {status: 201});

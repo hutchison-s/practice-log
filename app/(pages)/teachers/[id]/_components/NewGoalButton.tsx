@@ -25,8 +25,8 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         Goals(student_id).createOne({
-            goal_title: fd.get('title') as string,
-            goal_content: fd.get('content') as string,
+            title: fd.get('title') as string,
+            content: fd.get('content') as string,
             student_id
         })
         .then(res => {

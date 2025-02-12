@@ -15,8 +15,8 @@ function StudentGoalDisplay({goal}: {goal: Goal}) {
             {goal.is_complete ? <CheckCircle /> : <Circle aria-label="Empty Checkbox"/>}
         </div>
         <div>
-            <h4>{goal.goal_title}</h4>
-            {!goal.is_complete && <p className='text-txtsecondary font-light'>{goal.goal_content}</p>}
+            <h4>{goal.title}</h4>
+            {!goal.is_complete && <p className='text-txtsecondary font-light'>{goal.content}</p>}
         </div>
     </li>
   )

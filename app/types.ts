@@ -60,8 +60,8 @@ export type Goal = {
     created_at: string,
     completed_at: string,
     is_complete: boolean,
-    goal_content?: string,
-    goal_title: string
+    content?: string,
+     title: string
 
 }
 export type ResourceType = 'audio' | 'video' | 'image' | 'link' | 'pdf';
