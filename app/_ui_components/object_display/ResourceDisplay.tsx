@@ -1,27 +1,15 @@
 'use client'
 
 import { Resource } from "@/app/types"
-import { Camera, File, Headphones, Link as LinkIcon, Trash, Video } from "lucide-react"
+import { Trash } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Elipsis from "../layout/Elipsis"
 import { useUser } from "@/app/_hooks/useUser"
 import { Resources } from "@/app/api/_controllers/tableControllers"
+import ResourceIcon from "./ResourceIcon"
 
-function ResourceIcon({t}: {t: string}) {
-    switch(true) {
-        case t.includes('image'):
-            return <Camera aria-label="Image"/>
-        case t.includes('pdf'):
-            return <File aria-label="File"/>
-        case t.includes('video'):
-            return <Video aria-label="Video"/>
-        case t.includes('audio'):
-            return <Headphones aria-label="Audio"/>
-        default:
-            return <LinkIcon aria-label="Link"/>
-    }
-}
+
 
 async function handleDelete(student_id: string, resource_id: string, onDelete: (id: string)=>void) {
     await Resources(student_id).deleteOne(resource_id);
