@@ -1,6 +1,6 @@
 import ResourceIcon from "@/app/_ui_components/object_display/ResourceIcon";
 import { LibraryResource } from "@/app/types";
-import { Trash, UserRoundPlus } from "lucide-react";
+import { Trash } from "lucide-react";
 import Link from "next/link";
 import AssignResourceButton from "./AssignResourceButton";
 
