@@ -28,8 +28,8 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
             {user.role == 'teacher' ? <GoalCheck goal={goal} onUpdate={onUpdate}/> : <CheckCircle aria-label='Empty Checkbox'/>}
         </div>
         <div>
-            <h4>{goal.goal_title}</h4>
-            {!goal.is_complete && <p className='text-zinc-400 font-light'>{goal.goal_content}</p>}
+            <h4>{goal.title}</h4>
+            {!goal.is_complete && <p className='text-zinc-400 font-light'>{goal.content}</p>}
         </div>
         {user.role == 'teacher' && 
         <button className='grid place-items-center' onClick={handleDelete}>

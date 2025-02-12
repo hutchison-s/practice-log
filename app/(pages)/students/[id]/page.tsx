@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
     const {student, teacher, records, weekTotal} = await fetchStudentPageInfo(id);
-    const percent = weekTotal ? Math.floor((parseInt(weekTotal.weekly_total) / (student.weekly_goal * 60)) * 100) : 0
+    const weekMinutes = weekTotal ? parseInt(weekTotal.weekly_total) / 60 : 0
+    const percent = weekTotal ? Math.floor(weekMinutes / student.weekly_goal) * 100 : 0
 
     return (
         <>
@@ -38,12 +39,13 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                     </span>
                 </p>
             </div>
-            <div className="flex flex flex-wrap gap-8 md:gap-4 justify-center w-full">
+            <div className="flex flex-wrap gap-8 md:gap-4 justify-center w-full">
                 <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] border-2 glass rounded-lg p-4 order-1">
                     <SubHeading>Weekly Goal</SubHeading>
                     <div className="flex w-full justify-items-center text-center">
                         <BigPie percent={percent} />
                     </div>
+                    <p className="text-sm text-zinc-400 text-center">{weekMinutes} of {student.weekly_goal} minutes</p>
                     <PracticeButton />
                 </section>
                 

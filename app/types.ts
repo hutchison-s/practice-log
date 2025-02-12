@@ -61,8 +61,8 @@ export type Goal = {
     created_by: string,
     completed_at: string,
     is_complete: boolean,
-    goal_content?: string,
-    goal_title: string
+    content?: string,
+     title: string
 }
 export type LibraryGoal = {
     id: string,
