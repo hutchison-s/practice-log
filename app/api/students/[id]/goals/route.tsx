@@ -31,7 +31,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
 
 export async function POST(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<Goal> {
     const {title, content} = await request.json();
-    if (!title || !content) {
+    if (!title) {
         return NextResponse.json({message: 'invalid request format'}, {status: 400})
     }
     
