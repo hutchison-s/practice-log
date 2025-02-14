@@ -13,7 +13,7 @@ export default async function LibraryPage({params}: {params: Promise<{id: string
 
     return (
         <>
-            <PageTitle>Library</PageTitle>
+            <PageTitle>Teacher Library</PageTitle>
             <StudentProvider>
                 <GroupProvider>
                     <section className="w-full max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-2">
