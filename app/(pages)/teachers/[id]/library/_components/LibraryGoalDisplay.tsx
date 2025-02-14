@@ -14,9 +14,6 @@ export default function LibraryGoalDisplay({goal}: {goal: LibraryGoal}) {
             <p className='text-zinc-400 font-light'>{goal.content}</p>
         </div>
         <AssignGoalButton goal={goal} />
-        {/* <button className="grid place-items-center">
-            <UserRoundPlus aria-label="Assign to user" className="brightness-90 cursor-pointer transition-all hover:scale-105 hover:brightness-105" />
-        </button> */}
         <button className='grid place-items-center'>
             <Trash aria-label="Trash Can"  className='brightness-90 cursor-pointer transition-all hover:scale-105 hover:brightness-105'/>
         </button>

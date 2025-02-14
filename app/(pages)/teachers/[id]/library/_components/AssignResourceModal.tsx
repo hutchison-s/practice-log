@@ -26,8 +26,6 @@ function AssignResourceModal({resource, assignTo, closeModal}: {resource: Librar
     }
 
 
-    
-
     function AssignToStudents() {
         const [assignees, setAssignees] = useState<Enrollee[]>([])
 
@@ -36,16 +34,14 @@ function AssignResourceModal({resource, assignTo, closeModal}: {resource: Librar
         }, [students])
 
         return (
-
-            <ul className='w-fit min-w-60 mx-auto max-h-[400px]'>
-                    
+            <div className='w-fit min-w-60 mx-auto max-h-[400px] grid gap-1'>
                     {students.map(
                         s => <AssigneeDisplay 
                                 student={s} 
                                 isAssigned={assignees.find(a => a.id == s.id) !== undefined} 
                                 key={s.id} />
                     )}
-            </ul>
+            </div>
         )
     }
 

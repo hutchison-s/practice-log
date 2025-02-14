@@ -4,14 +4,12 @@ import { Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 function AssigneeDisplay({student, isAssigned}: {student: Enrollee, isAssigned: boolean}) {
-  const [isChecked, setIsChecked] = useState(isAssigned);
+  const [isChecked, setIsChecked] = useState<boolean | undefined>();
 
   useEffect(()=>{
     setIsChecked(isAssigned)
   }, [isAssigned])
 
-    // TODO
-    // Add toggleAssignment as funciton to accept as parameter and change span to toggle on click
   return (
     <label className='hover:bg-indigo-800 p-1 rounded my-1 flex justify-between'>
         <span>{student.name}</span>
