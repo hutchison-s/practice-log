@@ -7,18 +7,36 @@ import { useStudents } from './StudentContext';
 import { useGroups } from './GroupContext';
 import ControlledModalForm from '@/app/_ui_components/forms/ControlledModalForm';
 import { PrimaryButton, SecondaryButton } from '@/app/_ui_components/layout/Buttons';
+import { Loader } from 'lucide-react';
 
 function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assignTo: 'students' | 'groups' | null, closeModal: ()=>void}) {
     
     const students = useStudents();
     const groups = useGroups();
+    const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
     const handleAssignment: FormEventHandler<HTMLFormElement> = (e)=>{
+        setIsProcessing(true);
         e.preventDefault()
         const fd = new FormData(e.currentTarget);
         const ids = Array.from(fd.values());
-        console.log('assigned to', ids);
-        closeModal();
+        fetch(`/api/teachers/${goal.teacher_id}/library/goals/${goal.id}/assignee`, {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({student_ids: ids})}
+        )
+            .then(res => res.json())
+            .then(json => {
+                console.log('assigned to', json.data);
+                closeModal();
+            })
+            .catch(err => {
+                console.error('Post error occured:', err);
+            })
+            .finally(()=>{
+                setIsProcessing(false);
+            })
+        
     }
     const handleGroupAssignment = (g: Group) => {
         console.log('assigned to ', g.name);
@@ -36,7 +54,7 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
         }, [students])
 
         return (
-
+            
             <ul className='w-fit min-w-60 mx-auto max-h-[400px]'>
                     
                     {students.map(
@@ -65,17 +83,28 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
     return (
         <>   
             <ControlledModalForm isOpen={assignTo == 'students'} handleSubmit={handleAssignment}>
-                <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
-                <AssignToStudents />
-                <div className="w-full flex gap-2 items-center">
-                    <PrimaryButton type='submit' size='sm' className='h-full grow'>Save</PrimaryButton>
-                    <SecondaryButton type='reset' onClick={closeModal} size='sm' className='h-full grow'>Cancel</SecondaryButton>
-                </div>
+                {isProcessing 
+                    ? <div className='size-full grid place-items-center'><Loader size={60} className='animate-spin text-teal-500'/></div> 
+                    : <>
+                        <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
+                        <AssignToStudents />
+                        <div className="w-full flex gap-2 items-center">
+                            <PrimaryButton type='submit' size='sm' className='h-full grow'>Save</PrimaryButton>
+                            <SecondaryButton type='reset' onClick={closeModal} size='sm' className='h-full grow'>Cancel</SecondaryButton>
+                        </div>
+                      </>
+                }
+                
             </ControlledModalForm>
             <ControlledModalForm isOpen={assignTo == 'groups'} handleSubmit={handleAssignment}>
-                <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
-                <AssignToGroups />
-                <SecondaryButton type='reset' onClick={closeModal} className='w-fit mx-auto' size='sm'>Cancel</SecondaryButton>
+                {isProcessing 
+                    ? <div className='size-full grid place-items-center'><Loader size={60} className='animate-spin text-teal-500'/></div> 
+                    : <>
+                        <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
+                        <AssignToGroups />
+                        <SecondaryButton type='reset' onClick={closeModal} className='w-fit mx-auto' size='sm'>Cancel</SecondaryButton>
+                      </>
+                 }
             </ControlledModalForm>
         </>
     )
