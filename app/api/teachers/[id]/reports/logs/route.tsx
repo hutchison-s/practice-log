@@ -13,6 +13,9 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
         INTERVAL '1 week'
     ) AS week_start
     FROM logs l
+    ORDER BY
+        week_start DESC
+    LIMIT 8
 ),
 student_weeks AS (
     -- Create combinations of students and week start dates
@@ -63,7 +66,7 @@ SELECT
         COALESCE(
             (COALESCE(la.practice_minutes, 0) / NULLIF(sw.weekly_goal, 0) * 100),
             0
-        ), 2
+        ), 0
     ) AS grade
 FROM 
     student_weeks sw

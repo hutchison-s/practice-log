@@ -12,28 +12,13 @@ type rowCollection = {
     rows: StudentWeekReport[]
 }[]
 
-function StudentSection({name, subject, children}: {name: string, subject: string, children: React.ReactNode}) {
-    return( 
-        <div className='p-2 rounded-xl glass w-full student-graph max-w-[800px] print:max-w-full'>
-            <SubHeading className='flex justify-between w-full items-end'>{name} <span className='font-light text-zinc-400 text-sm'>{subject}</span></SubHeading>
-            {children}
-        </div>
-    )
-}
 
-function StudentGraph({rows}: {rows: StudentWeekReport[]}) {
-    return (
-        <>
-            <BodyText className='text-left w-full mx-0'>Average weekly minutes: {Math.floor((rows.reduce((acc, val)=>acc + Number(val.mins), 0) / rows.length) * 10) / 10}</BodyText>
-            <BarGraph data={rows.map(r => r.mins)} data_labels={rows.map(r => r.grade+"%")} labels={rows.map(r => r.week.split(',')[0])} />
-        </>
-    )
-}
 
 function LogReportGraphs({rows, groups}: {rows: StudentWeekReport[], groups: Group[]}) {
     const [collection, setCollection] = useState<rowCollection>([]);
     const [searchVal, setSearchVal] = useState<string>('.')
     const [groupVal, setGroupVal] = useState<string>('.')
+    const [windowWidth, setWindowWidth] = useState(1000);
 
 
     const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e)=>{
@@ -55,11 +40,38 @@ function LogReportGraphs({rows, groups}: {rows: StudentWeekReport[], groups: Gro
             }
             return temp; 
         })
-        
-
     }, [])
 
-    
+    useEffect(()=>{
+        const adjustWidth = ()=> {
+            setWindowWidth(window.innerWidth);
+        }
+        window.addEventListener('resize', adjustWidth);
+        adjustWidth();
+  
+        return ()=>{
+            window.removeEventListener('resize', adjustWidth)
+        }
+  
+    }, [])
+    function StudentSection({name, subject, children}: {name: string, subject: string, children: React.ReactNode}) {
+        return( 
+            <div className='p-2 rounded-xl glass w-full student-graph max-w-[800px] print:max-w-full'>
+                <SubHeading className='flex justify-between w-full items-end'>{name} <span className='font-light text-zinc-400 text-sm'>{subject}</span></SubHeading>
+                {children}
+            </div>
+        )
+    }
+
+    function StudentGraph({rows}: {rows: StudentWeekReport[]}) {
+        const widthRows = windowWidth > 800 ? rows : rows.slice(-1 * Math.round(windowWidth / 100));
+        return (
+            <>
+                <BodyText className='text-left w-full mx-0'>Average weekly minutes: {Math.floor((rows.reduce((acc, val)=>acc + Number(val.mins), 0) / rows.length) * 10) / 10}</BodyText>
+                <BarGraph data={widthRows.map(r => r.mins)} data_labels={widthRows.map(r => r.grade+"%")} labels={widthRows.map(r => r.week.split(',')[0])} />
+            </>
+        )
+    }
   return (
     <div className='flex flex-wrap gap-4 justify-center'>
         <div className="w-full flex justify-start p-2 gap-2 flex-wrap max-w-[800px] md:flex-nowrap">
