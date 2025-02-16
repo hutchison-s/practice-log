@@ -2,27 +2,19 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "../../../../_ui_components/layout/Buttons";
-import { Plus, Upload } from "lucide-react";
+import { Loader, Plus, Upload } from "lucide-react";
 import { Resource } from "@/app/types";
 import { Resources } from "@/app/api/_controllers/tableControllers";
 import LibraryResourceChooser from "./LibraryResourceChooser";
+import ControlledModalForm from "@/app/_ui_components/forms/ControlledModalForm";
 
 function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate: (r: Resource)=>void}) {
+    const [isOpen, setIsOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [hasError, setHasError] = useState('');
     const [isLink, setIsLink] = useState(false);
     const [fileName, setFileName] = useState('audio, video, image, or pdf (max 12 MB)');
-    const modalRef = useRef<HTMLDialogElement>(null);
-    const formRef = useRef<HTMLFormElement>(null);
     const fileRef = useRef<HTMLInputElement>(null)
-
-    useEffect(()=>{
-        if (isSubmitting) {
-            modalRef.current?.showModal();
-        } else {
-            modalRef.current?.close();
-        }
-    }, [isSubmitting])
 
     useEffect(()=>{
         if (hasError) {
@@ -79,8 +71,8 @@ function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate
             console.error(err);
         })
         .finally(()=>{
+            setIsOpen(false)
             setIsSubmitting(false)
-            
         })
     }
 
@@ -112,13 +104,14 @@ function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate
             }).catch(err => {
                 console.error(err)
             }).finally(()=>{
-                setIsSubmitting(false)
-                formRef.current?.reset();
+                setIsOpen(false)
+                setIsSubmitting(false);
             })
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsSubmitting(true);
         const fd = new FormData(e.currentTarget);
         const title = fd.get('title');
         const content = fd.get('content');
@@ -131,15 +124,17 @@ function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate
 
   return (
     <>
-        <SecondaryButton onClick={()=>{setIsSubmitting(true)}} size="sm" 
+        <SecondaryButton onClick={()=>{setIsOpen(true)}} size="sm" 
                 className="relative flex justify-between items-center mx-auto px-4 my-4 min-w-48">Add Resource<Plus aria-label="Plus Mark" /></SecondaryButton>
-        <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
-            <form 
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="grid gap-4"
+        <ControlledModalForm
+                isOpen={isOpen}
+                handleSubmit={handleSubmit}
+                formClassName="grid gap-4"
             >
-                <LibraryResourceChooser student_id={student_id} onAssign={(r: Resource)=>{onCreate(r); setIsSubmitting(false)}}/>
+                {
+                    isSubmitting ? <Loader size={80} className="text-teal-500 mx-auto my-6 animate-spin"/> :
+                    <>
+                <LibraryResourceChooser student_id={student_id} onAssign={(r: Resource)=>{onCreate(r); setIsOpen(false)}}/>
                 <p className="text-center">- or -</p>
                 {hasError && <p className="text-red-400">{hasError}</p>}
                 <p className="text-center font-inter font-light text-zinc-400">Create a new resource</p>
@@ -165,12 +160,11 @@ function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate
                 </div>
                 <PrimaryButton size="md" type="submit" className='mx-auto' onClick={undefined}>Submit</PrimaryButton>
                 <SecondaryButton size="sm" type="reset" className='mx-auto' onClick={()=>{
-                    setIsSubmitting(false);
+                    setIsOpen(false);
                     setFileName('audio, video, image, or pdf (max 12 MB)');
-                    formRef.current?.reset();
                 }}>Cancel</SecondaryButton>
-            </form>
-        </dialog>   
+            </>}
+            </ControlledModalForm> 
     </>
   )
 }

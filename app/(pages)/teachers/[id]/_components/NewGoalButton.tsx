@@ -2,27 +2,20 @@
 
 import { Goal } from "@/app/types";
 import { PrimaryButton, SecondaryButton } from "@/app/_ui_components/layout/Buttons";
-import { Plus } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react"
+import { Loader, Plus } from "lucide-react";
+import { FormEvent, useState } from "react"
 import { Goals } from "@/app/api/_controllers/tableControllers";
 import LibraryGoalChooser from "./LibraryGoalChooser";
+import ControlledModalForm from "@/app/_ui_components/forms/ControlledModalForm";
 
 
 
 function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g: Goal)=>void}) {
+    const [isOpen, setIsOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const modalRef = useRef<HTMLDialogElement>(null);
-    const formRef = useRef<HTMLFormElement>(null);
-
-    useEffect(()=>{
-        if (isSubmitting) {
-            modalRef.current?.showModal();
-        } else {
-            modalRef.current?.close();
-        }
-    }, [isSubmitting])
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        setIsSubmitting(true)
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         Goals(student_id).createOne({
@@ -34,16 +27,18 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
             if (res) {
                 fetch(`/api/teachers/${res.created_by}/library/goals`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({title: res.title, content: res.content})})
                     .then(()=>{
-                        setIsSubmitting(false);
                         onCreate(res);
                     })
             } else {
                 throw new Error('Post failed')
             }
         })
+        .finally(()=>{
+            setIsSubmitting(false);
+            setIsOpen(false);
+        })
         .catch(err => {
             console.error(err);
-            formRef.current?.reset();
         })
         
     }
@@ -53,20 +48,22 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
 
             <SecondaryButton
                 onClick={async ()=>{
-                    setIsSubmitting(!isSubmitting)
+                    setIsOpen(!isOpen)
                 }}
                 size="sm" 
                 className="relative flex justify-between items-center mx-auto px-4 my-4 min-w-48">
                     <span>Add Goal</span> <Plus aria-label="Plus Mark" />
             </SecondaryButton>
         
-        <dialog ref={modalRef} className="w-[90vw] max-w-[600px] p-4 rounded-xl bg-[radial-gradient(circle_at_66%_30%,__var(--tw-gradient-stops))] from-indigo-950 via-background to-background backdrop-blur-2xl text-txtprimary border-[1px] border-white/25 md:p-8">
-            <form
-                ref={formRef} 
-                onSubmit={handleSubmit}
-                className="grid gap-4"
+        <ControlledModalForm
+                isOpen={isOpen}
+                handleSubmit={handleSubmit}
+                formClassName="grid gap-4"
             >
-                <LibraryGoalChooser student_id={student_id} onAssign={(g: Goal)=>{onCreate(g); setIsSubmitting(false)}}/>
+                {
+                    isSubmitting ? <Loader size={80} className="text-teal-500 mx-auto my-6 animate-spin"/> :
+                    <>
+                        <LibraryGoalChooser student_id={student_id} onAssign={(g: Goal)=>{onCreate(g); setIsOpen(false)}}/>
                 <p className="text-center">- or -</p>
                 <p className="text-center font-inter font-light text-zinc-400">Create a new goal</p>
                 <label htmlFor="title" className="w-full font-bold text-center font-golos text-white -mb-2">Goal Title</label>
@@ -75,9 +72,11 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
                 
                 <textarea name="content" id="content" className="size-full min-h-[300px] bg-background/50 rounded border-white/25 border-[1px] resize-none p-3"></textarea>
                 <PrimaryButton size="md" type="submit" className="mx-auto" onClick={undefined}>Submit</PrimaryButton>
-                <SecondaryButton size="sm" type="reset" className="py-0 mx-auto" onClick={()=>setIsSubmitting(false)}>Cancel</SecondaryButton>
-            </form>
-        </dialog>
+                <SecondaryButton size="sm" type="reset" className="py-0 mx-auto" onClick={()=>setIsOpen(false)}>Cancel</SecondaryButton>
+                    </>
+                }
+                
+        </ControlledModalForm>
         </>
         
     )
