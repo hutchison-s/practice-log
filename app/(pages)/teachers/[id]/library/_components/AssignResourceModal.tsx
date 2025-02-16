@@ -61,7 +61,7 @@ function AssignResourceModal({resource, assignTo, closeModal}: {resource: Librar
         }, [students])
 
         return (
-            <div className='w-fit min-w-60 mx-auto max-h-[400px] grid gap-1'>
+            <div className='w-fit min-w-60 mx-auto px-2 max-h-[400px] overflow-y-auto grid gap-1 py-4 mask-y'>
                     {students.map(
                         s => <AssigneeDisplay 
                                 student={s} 
@@ -76,7 +76,7 @@ function AssignResourceModal({resource, assignTo, closeModal}: {resource: Librar
 
         return (
 
-            <div className='w-fit min-w-60 mx-auto grid gap-2 max-h-[400px]'>
+            <div className='w-fit min-w-60 mx-auto px-2 max-h-[400px] overflow-y-auto grid gap-1 py-4 mask-y'>
                     {groups.map(
                         g => <PrimaryButton key={g.id} type='button' onClick={()=>{handleGroupAssignment(g)}} >{g.name}</PrimaryButton>
                     )}

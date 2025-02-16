@@ -42,6 +42,9 @@ body {
 .text-shadow-sm {
   text-shadow: 0 0 10px #00000088;
 }
+.mask-y {
+  mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+}
 
 
 option {
