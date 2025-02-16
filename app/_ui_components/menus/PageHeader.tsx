@@ -33,7 +33,7 @@ export default function PageHeader() {
             </button>
             
         </header>
-        {isOpen && <MobileNav close={()=>setIsOpen(false)} />}
+        {isOpen && <MobileNav closeMenu={()=>setIsOpen(false)} />}
         </>
     )
 }
