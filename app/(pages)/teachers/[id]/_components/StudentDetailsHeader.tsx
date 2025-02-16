@@ -11,12 +11,11 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { fetchGroup, fetchWeekHistory } from '../actions'
 import BarGraph from './BarGraph'
+import PopupMenu from '../library/_components/PopupMenu'
 
 function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee, onUpdate: (s: Enrollee)=>void, onDelete: (s: Enrollee)=>void}) {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   const [isLoading, setIsLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const popup = useRef<HTMLDivElement>(null)
   const groupName = useRef('No Group Assigned')
   const weekHistory = useRef<weeklyTotal[]>([])
 
@@ -32,18 +31,13 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
       .catch(err => console.error(err))
   }, [student])
 
-  function togglePopup(){
-    setIsOpen(o => !o)
-  }
 
   const handleEdit = (s: Enrollee)=>{
     onUpdate(s);
     student = s;
-    togglePopup();
   }
   const handleDelete = ()=>{
     onDelete(student);
-    togglePopup();
   }
   return (
     <>
@@ -73,15 +67,12 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
             className="transition-all hover:text-teal-300 hover:scale-105"
           />
         </Link>
-        <div className='relative -mx-1' >
-          <button onClick={togglePopup}>
-            <EllipsisVertical aria-label='Options' size={40} className='text-txtprimary transition-all hover:text-white hover:scale-105' />
-          </button>
-          <div ref={popup} className="absolute right-3/4 bottom-3/4 w-[54px] h-[98px] grid gap-2 p-2 rounded-xl transition-all origin-bottom-right bg-background/90 shadow-xl border-[1px] border-white/25" style={{scale: isOpen ? 1 : 0}}>
-            <EditStudentButton onUpdate={handleEdit} onCancel={()=>togglePopup()} student={student}/>
-            <DeleteStudentButton student={student} onDelete={handleDelete} onCancel={()=>togglePopup()} />
-          </div>
-        </div>
+        <PopupMenu className='-translate-x-full md:translate-x-1/2' clickable={<EllipsisVertical aria-label='Options' size={40} className='text-txtprimary transition-all hover:text-white hover:scale-105' />}>
+            <div className="grid gap-2">
+              <EditStudentButton onUpdate={handleEdit} onCancel={()=>null} student={student} />
+              <DeleteStudentButton student={student} onDelete={handleDelete} onCancel={()=>null}  />
+            </div>
+        </PopupMenu>
       </div>
     </div>
     <div className="w-full text-zinc-400 font-light font-inter flex justify-between mb-2">
