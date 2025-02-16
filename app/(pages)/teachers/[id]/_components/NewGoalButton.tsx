@@ -5,6 +5,7 @@ import { PrimaryButton, SecondaryButton } from "@/app/_ui_components/layout/Butt
 import { Plus } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react"
 import { Goals } from "@/app/api/_controllers/tableControllers";
+import LibraryGoalChooser from "./LibraryGoalChooser";
 
 
 
@@ -31,8 +32,11 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
         })
         .then(res => {
             if (res) {
-                setIsSubmitting(false);
-                return onCreate(res)
+                fetch(`/api/teachers/${res.created_by}/library/goals`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({title: res.title, content: res.content})})
+                    .then(()=>{
+                        setIsSubmitting(false);
+                        onCreate(res);
+                    })
             } else {
                 throw new Error('Post failed')
             }
@@ -62,6 +66,8 @@ function NewGoalButton({student_id, onCreate}: {student_id: string, onCreate: (g
                 onSubmit={handleSubmit}
                 className="grid gap-4"
             >
+                <LibraryGoalChooser student_id={student_id} onAssign={(g: Goal)=>{onCreate(g); setIsSubmitting(false)}}/>
+                <p className="text-center">- or -</p>
                 <p className="text-center font-inter font-light text-zinc-400">Create a new goal</p>
                 <label htmlFor="title" className="w-full font-bold text-center font-golos text-white -mb-2">Goal Title</label>
                 <input type="text" name="title" id="title" maxLength={120} className="size-full bg-background/50 rounded border-white/25 border-[1px] resize-none p-2"/>

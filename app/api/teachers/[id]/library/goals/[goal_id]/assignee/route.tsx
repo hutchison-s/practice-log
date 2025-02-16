@@ -6,6 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string, goal_id: string}>}): apiResponse<Enrollee[]> {
     const {id, goal_id} = await params;
+    const req_id = request.headers.get('x-user-id');
+    if (!req_id || id != req_id) return NextResponse.json({message: 'You do not have access to this content. Please login and try again.'}, {status: 403})
     const {rows} = await sql<LibraryGoal>`SELECT * FROM library_goals WHERE id = ${goal_id}`;
     if (!rows || rows.length == 0) return NextResponse.json({message: 'failure'}, {status: 404});
     const lg = rows[0];
@@ -20,17 +22,16 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
 
 export async function POST(request: NextRequest, {params}: {params: Promise<{id: string, goal_id: string}>}) {
     try {
-        const {id, goal_id} = await params;
-        const {student_ids}: {student_ids: string[]} = await request.json();
+        const {id} = await params;
+        const req_id = request.headers.get('x-user-id');
+        if (!req_id || id != req_id) return NextResponse.json({message: 'You do not have access to this content. Please login and try again.'}, {status: 403})    
+        const {student_ids, goal_template}: {student_ids: string[], goal_template: LibraryGoal} = await request.json();
         if (!student_ids) {
             return NextResponse.json({message: 'Missing required body in request'}, {status: 400});
         }
         if (student_ids.length == 0) {
             return NextResponse.json({message: 'success'}, {status: 200});
         }
-        const {rows: libgoals} = await sql<LibraryGoal>`SELECT * FROM library_goals WHERE id = ${goal_id}`;
-        if (!libgoals || libgoals.length == 0) return NextResponse.json({message: 'failure'}, {status: 404});
-        const goal_template = libgoals[0];
         const {rows: inserting_ids} = await sql`
             SELECT students.id
             FROM students

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-function PopupMenu({children, clickable}: {children: React.ReactNode, clickable: React.ReactNode}) {
+function PopupMenu({children, clickable, className}: {children: React.ReactNode, clickable: React.ReactNode, className?: string}) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(o => !o);
     const menuRef = useRef<HTMLDivElement>(null)
@@ -23,7 +23,7 @@ function PopupMenu({children, clickable}: {children: React.ReactNode, clickable:
     <>
         <div ref={menuRef} onClick={toggle} className="relative" role="button" aria-roledescription="Popup menu toggle button">
             {clickable}
-            <div className={`absolute sm:right-full -right-full bottom-full size-fit p-2 rounded bg-background border-[1px] border-teal-500 ${!isOpen ? 'hidden' : ''}`}>
+            <div className={`absolute sm:right-full -right-full bottom-full size-fit p-2 rounded bg-background border-[1px] border-teal-500 ${!isOpen ? 'hidden' : ''} ${className ?? ''}`}>
                 {children}
             </div>
         </div>

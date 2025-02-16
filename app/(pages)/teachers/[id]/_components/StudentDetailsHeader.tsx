@@ -47,7 +47,7 @@ function StudentDetailsHeader({student, onUpdate, onDelete}: {student: Enrollee,
   }
   return (
     <>
-    <div className="flex gap-2 justify-between items-start mb-4">
+    <div className="flex gap-2 justify-between items-start mb-4" id='detailsHeader'>
       <h3 className="font-golos font-bold text-lg grid md:text-2xl">
         <span>{student.name}</span>
         <span className="text-sm font-inter font-light md:text-xl">

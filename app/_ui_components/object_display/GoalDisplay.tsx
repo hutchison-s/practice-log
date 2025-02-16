@@ -29,7 +29,7 @@ function GoalDisplay({goal, onUpdate, onDelete}: {goal: Goal, onUpdate: (g: Goal
         </div>
         <div>
             <h4>{goal.title}</h4>
-            {!goal.is_complete && <p className='text-zinc-400 font-light'>{goal.content}</p>}
+            {!goal.is_complete && <p className='text-zinc-400 font-light whitespace-pre text-wrap'>{goal.content}</p>}
         </div>
         {user.role == 'teacher' && 
         <button className='grid place-items-center' onClick={handleDelete}>

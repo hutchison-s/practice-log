@@ -23,11 +23,27 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
         fetch(`/api/teachers/${goal.teacher_id}/library/goals/${goal.id}/assignee`, {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({student_ids: ids})}
+            body: JSON.stringify({student_ids: ids, goal_template: goal})}
         )
             .then(res => res.json())
-            .then(json => {
-                console.log('assigned to', json.data);
+            .then(() => {
+                closeModal();
+            }).catch(err => {
+                console.error('Post error occured:', err);
+            }).finally(()=>{
+                setIsProcessing(false);
+            })
+        
+    }
+    const handleGroupAssignment = (g: Group) => {
+        setIsProcessing(true);
+        fetch(`/api/teachers/${goal.teacher_id}/groups/${g.id}/assign_goal`, {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({goal_template: goal})}
+        )
+            .then(res => res.json())
+            .then(() => {
                 closeModal();
             })
             .catch(err => {
@@ -36,11 +52,6 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
             .finally(()=>{
                 setIsProcessing(false);
             })
-        
-    }
-    const handleGroupAssignment = (g: Group) => {
-        console.log('assigned to ', g.name);
-        closeModal();
     }
 
 
@@ -55,7 +66,7 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
 
         return (
             
-            <ul className='w-fit min-w-60 mx-auto max-h-[400px]'>
+            <div className='w-fit min-w-60 mx-auto max-h-[400px] grid gap-1'>
                     
                     {students.map(
                         s => <AssigneeDisplay 
@@ -63,7 +74,7 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
                                 isAssigned={assignees.find(a => a.id == s.id) !== undefined} 
                                 key={s.id} />
                     )}
-            </ul>
+            </div>
         )
     }
 
@@ -82,29 +93,19 @@ function AssignGoalModal({goal, assignTo, closeModal}: {goal: LibraryGoal, assig
     if (!assignTo) return null;
     return (
         <>   
-            <ControlledModalForm isOpen={assignTo == 'students'} handleSubmit={handleAssignment}>
+            <ControlledModalForm isOpen={assignTo !== null} handleSubmit={assignTo == 'students' ? handleAssignment : ()=>null}>
                 {isProcessing 
-                    ? <div className='size-full grid place-items-center'><Loader size={60} className='animate-spin text-teal-500'/></div> 
+                    ? <Loader size={60} className='animate-spin text-teal-500 m-6 mx-auto'/>
                     : <>
                         <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
-                        <AssignToStudents />
+                        {assignTo == 'students' ? <AssignToStudents /> : <AssignToGroups />}
                         <div className="w-full flex gap-2 items-center">
-                            <PrimaryButton type='submit' size='sm' className='h-full grow'>Save</PrimaryButton>
+                            {assignTo == 'students' && <PrimaryButton type='submit' size='sm' className='h-full grow'>Save</PrimaryButton>}
                             <SecondaryButton type='reset' onClick={closeModal} size='sm' className='h-full grow'>Cancel</SecondaryButton>
                         </div>
                       </>
                 }
                 
-            </ControlledModalForm>
-            <ControlledModalForm isOpen={assignTo == 'groups'} handleSubmit={handleAssignment}>
-                {isProcessing 
-                    ? <div className='size-full grid place-items-center'><Loader size={60} className='animate-spin text-teal-500'/></div> 
-                    : <>
-                        <p className='text-zinc-400 my-2 text-center'>Assign &apos;{goal.title}&apos; to:</p>
-                        <AssignToGroups />
-                        <SecondaryButton type='reset' onClick={closeModal} className='w-fit mx-auto' size='sm'>Cancel</SecondaryButton>
-                      </>
-                 }
             </ControlledModalForm>
         </>
     )

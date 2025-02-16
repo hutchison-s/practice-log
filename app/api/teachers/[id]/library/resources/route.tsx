@@ -1,5 +1,6 @@
 import { apiResponse, LibraryResource } from "@/app/types";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, {params}: {params: Promise<{id: string}>}): apiResponse<LibraryResource[]> {
@@ -28,6 +29,7 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
         
         const {rows} = await sql`INSERT INTO library_resources (title, url, key, type, teacher_id) VALUES (${title}, ${url}, ${key}, ${type}, ${id}) RETURNING *`;
         if (!rows || rows.length == 0) return NextResponse.json({message: "Could not add group"}, {status: 500})
+        revalidatePath(`/teachers/${id}/library`)
         return NextResponse.json({message: 'Success', data: rows[0] as LibraryResource}, {status: 201})
     } catch (error) {
         console.error(error);

@@ -2,7 +2,6 @@
 
 import useStudentBrowser from "@/app/_hooks/useStudentBrowser";
 import { Enrollee, Group } from "@/app/types";
-import { SecondaryLinkButton } from "@/app/_ui_components/layout/Buttons";
 import NewStudentButton from "@/app/(pages)/teachers/[id]/_components/NewStudentButton";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,7 +20,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
   const initialSelected = searchParams.get('student');
   const [isLoading, setIsLoading] = useState(false);
   const {state, logController, goalController, resourceController, studentDetailsController, studentListController, groupController} = useStudentBrowser({studentList: students, groups: groups, activeStudentDetails: null})
-  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(initialSelected)
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null)
   const [selectedStudent, setSelectedStudent] = useState<Enrollee | null>(null);
   const [activeGroupId, setActiveGroupId] = useState('0');
   const [isListView, setIsListView] = useState(true);
@@ -72,7 +71,7 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
   useEffect(()=>{
     window.addEventListener('click', handleClick)
     window.addEventListener('touchstart', handleTouch)
-
+    setSelectedStudentId(initialSelected)
     return ()=>{
       window.removeEventListener('click', handleClick)
       window.removeEventListener('touchstart', handleTouch)
@@ -81,15 +80,18 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
 
   useEffect(()=>{
     setSelectedStudent(findActive())
+    const header = document.getElementById('detailsHeader') as HTMLDivElement;
+    if (window.innerWidth < 1024 && header) {
+        const header = document.getElementById('detailsHeader') as HTMLDivElement;
+        const {top} = header.getBoundingClientRect();
+        window.scrollTo({top: top + window.scrollY - 100, behavior: 'smooth'})
+    }
+    
   }, [selectedStudentId])
 
   return (
     <>
-    <div className="flex justify-evenly w-full flex-wrap gap-2">
-        <SecondaryLinkButton href={`/teachers/${teacher_id}/reports/weekly_logs?view=table`} className="text-center my-1 md:min-w-[30%]">View Reports</SecondaryLinkButton>
-        <NewStudentButton teacher_id={teacher_id} onCreate={studentListController.add} />
-        <SecondaryLinkButton href={`/teachers/${teacher_id}/qr-codes`} className="text-center my-1 md:min-w-[30%]">View All QR Codes</SecondaryLinkButton>
-    </div>
+    
     <div className="relative w-full max-w-[1000px] justify-items-center grid grid-cols-1 lg:grid-cols-5">
       <div className="lg:col-span-5 w-full max-w-[500px] mx-auto flex items-center justify-start gap-2 my-2">
         <label htmlFor="filter" className="text-zinc-400 text-lg">Group:</label>
@@ -101,10 +103,14 @@ function StudentBrowser({ students, groups, teacher_id }: { students: Enrollee[]
         <DeleteGroupButton onDelete={handleDeleteGroup} groupId={activeGroupId == '0' ? undefined : activeGroupId} teacher_id={teacher_id} />
         <NewGroupButton teacher_id={teacher_id} onCreate={groupController.add}/>
       </div>
-      <div className="w-full lg:col-span-5 pl-2">
-        <button className="border-[1px] border-white/25 px-3 py-1 rounded-l" style={{backgroundImage: isListView ? 'linear-gradient(135deg, #3730a3, #1e1b4b)' : 'none'}} onClick={()=>setIsListView(true)}><List aria-label="List View"/></button>
-        <button className="border-[1px] border-white/25 px-3 py-1 rounded-r" style={{backgroundImage: isListView ? 'none' : 'linear-gradient(135deg, #3730a3, #1e1b4b)'}} onClick={()=>setIsListView(false)}><Calendar aria-label="Schedule View"/></button>
-      </div>
+      <div className="flex justify-between w-full lg:col-span-5 px-2 py-1 items-end">
+        <div className="">
+            <button className="border-[1px] border-white/25 py-2 px-4 rounded-l" style={{backgroundImage: isListView ? 'linear-gradient(135deg, #3730a3, #1e1b4b)' : 'none'}} onClick={()=>setIsListView(true)}><List size={20} aria-label="List View"/></button>
+            <button className="border-[1px] border-white/25 py-2 px-4 rounded-r" style={{backgroundImage: isListView ? 'none' : 'linear-gradient(135deg, #3730a3, #1e1b4b)'}} onClick={()=>setIsListView(false)}><Calendar size={20} aria-label="Schedule View"/></button>
+          </div>
+          <NewStudentButton teacher_id={teacher_id} onCreate={studentListController.add} />
+
+    </div>
       {isListView
         ? <StudentList
             students={filteredStudents}

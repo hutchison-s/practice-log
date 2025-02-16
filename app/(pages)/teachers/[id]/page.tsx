@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import NotificationAlert from "./_components/NotificationAlert";
 import { TeacherModel } from "@/app/api/_controllers/teacherController";
 
+
 export const metadata: Metadata = {
     title: "Teacher Portal",
     description: "Teacher dashboard for lessons studio management. Create goals, share resources, and track progress for each student with ease.",

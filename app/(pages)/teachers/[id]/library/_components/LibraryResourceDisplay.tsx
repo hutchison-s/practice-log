@@ -1,8 +1,8 @@
 import ResourceIcon from "@/app/_ui_components/object_display/ResourceIcon";
 import { LibraryResource } from "@/app/types";
-import { Trash } from "lucide-react";
 import Link from "next/link";
 import AssignResourceButton from "./AssignResourceButton";
+import DeleteLibraryResourceButton from "./DeleteLibraryResourceButton";
 
 
 function LibraryResourceDisplay({r}: {r: LibraryResource}) {
@@ -16,9 +16,7 @@ function LibraryResourceDisplay({r}: {r: LibraryResource}) {
                 <Link href={r.url} target="blank" className="w-full flex gap-2"><ResourceIcon t={r.type} /> {r.title}</Link>
             </div>
             <AssignResourceButton resource={r} />
-            <button>
-                <Trash aria-label="Trash Can" className="brightness-90 cursor-pointer transition-all hover:scale-105 hover:brightness-105"/>
-            </button>
+            <DeleteLibraryResourceButton resource={r}/>
         </li>
   )
 }

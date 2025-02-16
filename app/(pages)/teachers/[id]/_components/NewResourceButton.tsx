@@ -5,8 +5,9 @@ import { PrimaryButton, SecondaryButton } from "../../../../_ui_components/layou
 import { Plus, Upload } from "lucide-react";
 import { Resource } from "@/app/types";
 import { Resources } from "@/app/api/_controllers/tableControllers";
+import LibraryResourceChooser from "./LibraryResourceChooser";
 
-function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreate: (r: Resource)=>void}) {
+function NewResourceButton({student_id, onCreate}: {student_id: string, onCreate: (r: Resource)=>void}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [hasError, setHasError] = useState('');
     const [isLink, setIsLink] = useState(false);
@@ -47,7 +48,11 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
             })
         .then(newResource => {
             console.log('Created new Resource:', newResource.id, newResource.type, newResource.url);
-            onCreate(newResource)
+            fetch(`/api/teachers/${newResource.created_by}/library/resources`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key, url, type, title})})
+                .then(()=>{
+                    onCreate(newResource);
+                })
+            
         })
     }
 
@@ -65,7 +70,10 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
                 title: title
             })
         .then(newResource => {
-            onCreate(newResource)
+            fetch(`/api/teachers/${newResource.created_by}/library/resources`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: newResource.key, url: newResource.url, type: newResource.type, title: newResource.title})})
+                .then(()=>{
+                    onCreate(newResource);
+                })
         })
         .catch(err => {
             console.error(err);
@@ -131,6 +139,8 @@ function NewResourceButton({student_id, onCreate}: {student_id?: string, onCreat
                 onSubmit={handleSubmit}
                 className="grid gap-4"
             >
+                <LibraryResourceChooser student_id={student_id} onAssign={(r: Resource)=>{onCreate(r); setIsSubmitting(false)}}/>
+                <p className="text-center">- or -</p>
                 {hasError && <p className="text-red-400">{hasError}</p>}
                 <p className="text-center font-inter font-light text-zinc-400">Create a new resource</p>
                 <div className="grid gap-2 w-full">
