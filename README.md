@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Practice HQ
+
+Practice HQ is a web-based platform designed to connect music instructors and students by providing tools for managing lessons, tracking practice progress, and fostering better communication. The platform helps instructors stay organized and engage with their students more effectively, while also giving students a space to track their growth and stay motivated.
+
+## Features
+
+- **For Instructors**:
+  - Simplified workflow for managing resources such as videos, audio recordings, and PDFs.
+  - Tools for setting clear goals and tracking student progress.
+  - Messaging system for real-time communication with students between lessons.
+  - Easy access with secure email login.
+
+- **For Students**:
+  - Track and log practice sessions for better self-reflection and progress tracking.
+  - Goal-oriented system with instructor-set objectives to stay motivated.
+  - Easy access to resources provided by instructors via QR codes.
+  - Messaging system to ask questions and get feedback from instructors.
+
+- **Why Practice HQ?**:
+  - A community-driven platform designed to bridge the gap between lessons and practice.
+  - Empower both instructors and students to work toward meaningful progress.
+  - Ideal for private lesson teachers or music studios to streamline communication and lesson management.
 
 ## Getting Started
 
-First, run the development server:
+  - Create an account with a valid email address.
+  - Validate your account by checking your email for the confirmation link.
+  - Create your student profiles
+  - Print their QR Codes and start tracking their practice!
+  - Share resources and create goals to motivate and support.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Technologies Used
+  - React: For building the user interface.
+  - Next.js: A React framework for server-side rendering and static site generation.
+  - Lucide React Icons: A collection of SVG icons used throughout the platform.
+  - Tailwind CSS: A utility-first CSS framework for styling the app.
+### Contributing
+We welcome contributions! If you'd like to improve the platform or fix bugs, follow these steps:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Fork the repository.
+2. Create a new branch (git checkout -b feature/your-feature-name).
+3. Make your changes.
+4. Commit your changes (git commit -am 'Add new feature').
+5. Push to your fork (git push origin feature/your-feature-name).
+6. Open a pull request to the main repository.
+Please ensure that your code follows the existing style and passes any tests or linting checks.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Acknowledgements
+  - Next.js
+  - Lucide Icons
+  - Tailwind CSS
