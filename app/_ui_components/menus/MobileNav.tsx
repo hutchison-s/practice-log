@@ -22,13 +22,11 @@ export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
 
     function StudentTeacherSwitch({studentNode, teacherNode}: {studentNode?: React.ReactNode, teacherNode?: React.ReactNode}) {
       if (user.id == '') return null;
-      if (!studentNode) return teacherNode;
-      if (!teacherNode) return studentNode;
       switch(user.role) {
         case 'student':
-          return studentNode;
+          return studentNode || null;
         case 'teacher':
-          return teacherNode;
+          return teacherNode || null;
         default:
           return null;
       }
