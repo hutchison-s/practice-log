@@ -6,6 +6,7 @@ const siteURL = process.env.NEXT_PUBLIC_SITE_BASE_URL;
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
     if (!token) {
+        console.log('no token present')
         return NextResponse.redirect(`${siteURL}/login`);
     }
     try {
@@ -20,6 +21,7 @@ export async function middleware(request: NextRequest) {
         response.headers.set('x-user-id', req_id);
         return response;
     } catch (error) {
+        console.error(error)
         return NextResponse.redirect(`${siteURL}/login`);
     }
 }

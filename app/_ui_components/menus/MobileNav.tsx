@@ -11,7 +11,8 @@ import { useRef } from "react";
 
 export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
     const {user} = useUser();
-    const menuRef = useRef<HTMLElement>(null)
+    const menuRef = useRef<HTMLElement>(null);
+    
 
     // useEffect(()=>{
     //   menuRef.current?.addEventListener('click', closeMenu);
