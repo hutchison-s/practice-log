@@ -6,7 +6,7 @@ import metronome from '@/app/_assets/images/metronome.svg';
 import tuner from '@/app/_assets/images/tuner.svg';
 import Image from "next/image";
 import MobileNavLink from "./MobileNavLink";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 
 export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
