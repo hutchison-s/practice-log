@@ -37,7 +37,7 @@ export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
 
         <MobileNavLink label="Home" url="/" icon={<Home size={80} aria-label="Home"/>} closeMenu={closeMenu} />
         <MobileNavLink label="About" url="/about" icon={<Info size={80} aria-label="About"/>} closeMenu={closeMenu} />        
-        <LogInOutButton closeMenu={closeMenu} isMobile/>
+        <LogInOutButton isMobile/>
         <StudentTeacherSwitch
           teacherNode={<MobileNavLink
                 url={`/teachers/${user.id}/schedule`}
