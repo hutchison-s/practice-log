@@ -11,6 +11,9 @@ import { fetchStudentPageInfo } from "./actions";
 import UnreadMessageNotification from "@/app/_ui_components/UnreadMessageNotification";
 import LogDisplay from "@/app/_ui_components/object_display/LogDisplay";
 import BigPie from "./_components/BigPie";
+import BarGraph from "../../teachers/[id]/_components/BarGraph";
+import { weeklyTotal } from "@/app/types";
+import { monthsAbrev } from "@/app/_utils/dates";
 
 export const metadata: Metadata = {
     title: "Student Portal",
@@ -20,9 +23,19 @@ export const metadata: Metadata = {
 
 export default async function Page({params}: {params: Promise<{id: string}>}) {
     const {id} = await params;
-    const {student, teacher, records, weekTotal} = await fetchStudentPageInfo(id);
+    const {student, teacher, records, weekTotal, report} = await fetchStudentPageInfo(id);
     const weekMinutes = weekTotal ? parseInt(weekTotal.weekly_total) / 60 : 0
     const percent = weekTotal ? Math.floor(weekMinutes / student.weekly_goal) * 100 : 0
+
+    function ReportGraph({totals}: {totals: weeklyTotal[]}) {
+        const getMins = (n: string)=>Math.floor(parseInt(n) / 60);
+        const calcPercent = (wt: weeklyTotal) => Math.round((getMins(wt.weekly_total) / wt.weekly_goal) * 100)
+        const dateLabel = (date: Date)=>{return `${monthsAbrev[date.getMonth()]} ${date.getDate()}`}
+        return <BarGraph 
+                    data={totals.slice(-6).map(w => calcPercent(w))} 
+                    labels={totals.slice(-6).map(w => dateLabel(new Date(w.lesson_week_start)))} 
+                    data_labels={totals.slice(-6).map(w => getMins(w.weekly_total)+' m')} />
+    }
 
     return (
         <>
@@ -51,6 +64,9 @@ export default async function Page({params}: {params: Promise<{id: string}>}) {
                 
                 <section className="flex-[100%] flex flex-col gap-4 items-center md:flex-[40%] order-2">
                     <TotalPractice logs={records.logs} />
+                    <GlassDiv className="mb-4">
+                        <ReportGraph totals={report.slice(-6)} />
+                    </GlassDiv>
                     <GlassDiv>
                         <SubHeading className="text-center">Active Goals</SubHeading>
                         <GoalsList goals={records.goals} isStudentView/>

@@ -8,7 +8,8 @@ type StudentPageInfo = {
     student: Enrollee,
     records: AssociatedStudentRecords,
     teacher: User,
-    weekTotal: weeklyTotal | null
+    weekTotal: weeklyTotal | null,
+    report: weeklyTotal[]
 }
 
 export async function fetchStudentPageInfo(student_id: string): Promise<StudentPageInfo> {
@@ -18,12 +19,14 @@ export async function fetchStudentPageInfo(student_id: string): Promise<StudentP
     const goalsPromise = student.getGoals(5);
     const resourcesPromise = student.getResources(5);
     const weekPromise = student.getCurrentWeek();
-    const [teacher, logs, goals, resources, weekTotal] = await Promise.all([teacherPromise, logsPromise, goalsPromise, resourcesPromise, weekPromise]);
+    const reportPromise = student.getWeekTotals();
+    const [teacher, logs, goals, resources, weekTotal, report] = await Promise.all([teacherPromise, logsPromise, goalsPromise, resourcesPromise, weekPromise, reportPromise]);
     
     return {
         student: student as Enrollee,
         teacher,
         records: {logs, goals, resources},
-        weekTotal
+        weekTotal,
+        report
     }
 }
