@@ -2,32 +2,31 @@
 import { useUser } from "@/app/_hooks/useUser";
 import LogInOutButton from "./LogInOutButton";
 import { BookOpen, Calendar, ChartColumn, Home, Info, LayoutDashboard } from "lucide-react";
-import metronome from '../../_assets/images/metronome.svg'
-import tuner from '../../_assets/images/tuner.svg'
+import metronome from '@/app/_assets/images/metronome.svg';
+import tuner from '@/app/_assets/images/tuner.svg';
 import Image from "next/image";
 import MobileNavLink from "./MobileNavLink";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 
 export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
     const {user} = useUser();
-    const menuRef = useRef<HTMLElement>(null)
+    const menuRef = useRef<HTMLElement>(null);
+    
 
-    useEffect(()=>{
-      menuRef.current?.addEventListener('click', closeMenu);
+    // useEffect(()=>{
+    //   menuRef.current?.addEventListener('click', closeMenu);
 
-      return ()=>menuRef.current?.removeEventListener('click', closeMenu)
-    }, [])
+    //   return ()=>menuRef.current?.removeEventListener('click', closeMenu)
+    // }, [])
 
     function StudentTeacherSwitch({studentNode, teacherNode}: {studentNode?: React.ReactNode, teacherNode?: React.ReactNode}) {
       if (user.id == '') return null;
-      if (!studentNode) return teacherNode;
-      if (!teacherNode) return studentNode;
       switch(user.role) {
         case 'student':
-          return studentNode;
+          return studentNode || null;
         case 'teacher':
-          return teacherNode;
+          return teacherNode || null;
         default:
           return null;
       }
@@ -37,7 +36,7 @@ export default function MobileNav({ closeMenu }: { closeMenu: () => void }) {
 
         <MobileNavLink label="Home" url="/" icon={<Home size={80} aria-label="Home"/>} closeMenu={closeMenu} />
         <MobileNavLink label="About" url="/about" icon={<Info size={80} aria-label="About"/>} closeMenu={closeMenu} />        
-        <LogInOutButton isMobile/>
+        <LogInOutButton isMobile closeMenu={closeMenu}/>
         <StudentTeacherSwitch
           teacherNode={<MobileNavLink
                 url={`/teachers/${user.id}/schedule`}
