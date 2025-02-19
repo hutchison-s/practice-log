@@ -3,6 +3,7 @@
 import { sql } from "@vercel/postgres";
 import { generateRandomString } from "../generators";
 import WeeklyTeacherReport from "./WeeklyTeacherReport";
+import { Enrollee } from "@/app/types";
 
 const brevoKey = process.env.BREVO_API_KEY || 'NO_KEY';
 type RecipientType = {name: string, email: string}
@@ -88,6 +89,24 @@ export async function sendConfirmPasswordResetEmail(recipient: RecipientType) {
 
 export async function sendConfirmDeletedAccountEmail(recipient: RecipientType) {
     await sendTemplateEmail([{...recipient}], 6, {name: recipient.name});
+}
+
+export async function sendNewMessageEmail(recipient: RecipientType, student: Enrollee, message: string) {
+    const {rowCount: newMessages} = await sql`
+        SELECT m.id 
+        FROM messages AS m
+        INNER JOIN students AS s ON s.id = m.student_id
+        LEFT JOIN account_preferences AS ap ON ap.user_id = s.teacher_id 
+        WHERE 
+            m.is_read = FALSE AND 
+            m.student_id = ${student.id} AND 
+            m.sent_by = ${student.id} AND
+            ap.messages = TRUE`;
+    if (newMessages && newMessages == 1 ) {
+        return await sendTemplateEmail([{...recipient}], 7, {student_name: student.name, stuent_id: student.id, message: message})
+    }
+    return null;
+    
 }
 
 export async function getTeachersForWeeklyReport() {

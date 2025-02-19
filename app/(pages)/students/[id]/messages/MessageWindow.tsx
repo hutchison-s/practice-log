@@ -1,13 +1,14 @@
 'use client'
 import { useUser } from '@/app/_hooks/useUser'
-import { Message } from '@/app/types'
+import { Enrollee, Message, User } from '@/app/types'
 import { Send } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import ChatMessage from './ChatMessage';
 import Elipsis from '@/app/_ui_components/layout/Elipsis';
+import { sendNewMessageEmail } from '@/app/_utils/emails/controller';
 
-function MessageWindow({messages}: {messages: Message[]}) {
+function MessageWindow({teacher, student, messages}: {teacher: User, student: Enrollee, messages: Message[]}) {
     const {user} = useUser();
     const [content, setContent] = useState('');
     const [isSending, setIsSending] = useState(false);
@@ -30,11 +31,13 @@ function MessageWindow({messages}: {messages: Message[]}) {
         setIsSending(true)
         e.currentTarget.blur();
         fetch(`/api/students/${id}/messages`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content})})
-            .then(res => {
+            .then(async res => {
                 if (res.ok) {
+                    await sendNewMessageEmail({name: teacher.name, email: teacher.email!}, student, content);
                     setContent('');
                     router.refresh();
-                    setIsSending(false)
+                    setIsSending(false);
+                    
                 }
             })
             .catch(err => {
