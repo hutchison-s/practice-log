@@ -6,6 +6,8 @@ import { PracticeSession, SessionContext } from "./SessionContext";
 import ControlledModalForm from "../_ui_components/forms/ControlledModalForm";
 import BodyText from "../_ui_components/layout/BodyText";
 import { PrimaryButton, SecondaryButton } from "../_ui_components/layout/Buttons";
+import { sendApprovalRequestEmail } from "../_utils/emails/controller";
+import { Teachers } from "../api/_controllers/teacherController";
 
 type SessionTime = {
     start_string: string,
@@ -91,8 +93,10 @@ export default function SessionProvider({children}: {children: React.ReactNode})
             log_id: session?.log_id,
             estimated_time: time,
             reason: reason ? reason as string : 'No explanation provided'
-        })}).then(res => {
+        })}).then(async res => {
             if (res.ok) {
+                const teacher = await Teachers.getOneById(user.teacher_id!);
+                await sendApprovalRequestEmail({name: teacher.name, email: teacher.email!}, user.name, teacher.id)
                 setIsApprovalOpen(false);
                 handleSessionEnd(false, session?.journal, session?.journal_prompt);
             }

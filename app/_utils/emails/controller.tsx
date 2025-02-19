@@ -109,6 +109,14 @@ export async function sendNewMessageEmail(recipient: RecipientType, student: Enr
     
 }
 
+export async function sendApprovalRequestEmail(recipient: RecipientType, student_name: string, teacher_id: string) {
+    const {rowCount} = await sql`SELECT 1 FROM account_preferences WHERE user_id = ${teacher_id} AND approvals = TRUE`;
+    if (rowCount && rowCount != 0) {
+        return sendTemplateEmail([{...recipient}], 8, {student_name: student_name, teacher_id: teacher_id})
+    }
+    return null;
+}
+
 export async function getTeachersForWeeklyReport() {
     const {rows, rowCount} = await sql<teacherInfo>`SELECT t.id, t.name, t.email FROM teachers as t LEFT JOIN account_preferences as ap on ap.user_id = t.id WHERE ap.reports = true AND ap.report_frequency = 7 AND t.validated = true`;
     if (!rowCount || rowCount == 0) return;
