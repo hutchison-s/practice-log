@@ -1,6 +1,6 @@
 import { sendWeeklyReport } from "@/app/_utils/emails/controller";
 import { NextRequest, NextResponse } from "next/server";
-import { Teachers } from "../../_controllers/teacherController";
+import { sql } from "@vercel/postgres";
 
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
     try {
         // const teachers = await getTeachersForWeeklyReport();
-        const teachers = [await Teachers.getOneById(6)]
+        const {rows: teachers} = await sql`SELECT * FROM teachers WHERE id = ${6}`
         console.log(`sending report to ${teachers?.length} teachers for weekly cron job.`)
         await sendWeeklyReport(teachers.map(t => {return {id: t.id, name: t.name, email: t.email!}}));
         return NextResponse.json({message: 'success'}, {status: 200})
