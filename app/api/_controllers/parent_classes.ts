@@ -17,6 +17,7 @@ export class DB_Controller<T> {
         return data as E;
     }
     protected async apiGET<E>(path: string): Promise<E> {
+        console.log('fetching', `${this.API_URL}${this.endpoint_base}${path}`)
         const {data, message} = await fetchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
         if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
         return data as E;

@@ -19,7 +19,7 @@ async function ReportsPage({params, searchParams}: {params: Promise<{id: string}
     const {id} = await params;
     const {view} = await searchParams;
     const teacher = await TeacherModel(id);
-    const studentRows = await teacher.getLogReports();
+    const studentRows = await teacher.getLogReports({limit: 8});
     const groups = await teacher.getAllGroups();
   return (
     <>

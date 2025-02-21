@@ -132,6 +132,7 @@ export type StudentWeekReport = {
     day: string;                // The day of the week (e.g., "Monday")
     time: string;               // The time of day in 12-hour format (e.g., "10:00 AM")
     group: string | null;       // The group name the student belongs to, can be null
+    color: string | null;
     week: string;               // The start date of the week in format "Mon DD, YYYY"
     logs: number;          // The count of logs for the student in the week
     goal: number | null; // The weekly goal in minutes, can be null

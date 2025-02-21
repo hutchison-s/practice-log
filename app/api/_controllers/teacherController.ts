@@ -14,8 +14,8 @@ export class TeacherController extends DB_Controller<User> {
     async getAllGroups(teacher_id: idType) {
         return await this.apiGET<Group[]>(`/${teacher_id}/groups`);
     }
-    async getLogReports(teacher_id: idType) {
-        return await this.apiGET<StudentWeekReport[]>(`/${teacher_id}/reports/logs`);
+    async getLogReports(teacher_id: idType, limit: number) {
+        return await this.apiGET<StudentWeekReport[]>(`/${teacher_id}/reports/logs?limit=${limit}`);
     }
     async getPreferences(teacher_id: idType) {
         return await this.apiGET<NotificationSettings>(`/${teacher_id}/preferences`);
@@ -49,8 +49,8 @@ export async function TeacherModel(id: string | number) {
         async getAllGroups() {
             return await Teachers.getAllGroups(id)
         },
-        async getLogReports() {
-            return await Teachers.getLogReports(id)
+        async getLogReports({limit}: {limit: number}) {
+            return await Teachers.getLogReports(id, limit)
         },
         async getPreferences() {
             return await Teachers.getPreferences(id)

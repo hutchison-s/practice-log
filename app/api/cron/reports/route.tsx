@@ -1,6 +1,5 @@
-import { sendWeeklyReport } from "@/app/_utils/emails/controller";
-import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
@@ -11,10 +10,9 @@ export async function GET(request: NextRequest) {
         });
     }
     try {
-        // const teachers = await getTeachersForWeeklyReport();
-        const {rows: teachers} = await sql`SELECT * FROM teachers WHERE id = ${6}`
-        console.log(`sending report to ${teachers?.length} teachers for weekly cron job.`)
-        await sendWeeklyReport(teachers.map(t => {return {id: t.id, name: t.name, email: t.email!}}));
+        const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const {rows: teachers} = await sql<{id: string, name: string, email: string}>`SELECT teachers.id, teachers.name, teachers.email FROM teachers INNER JOIN account_preferences AS ap ON ap.user_id = teachers.id WHERE ap.reports = TRUE AND ap.report_frequency = 1`
+        fetch(`${apiURL}/send_report`, {method: 'POST', headers: {"Content-Type": 'application/json', "authorization": `Bearer ${process.env.CRON_SECRET}`}, body: JSON.stringify({teachers})})
         return NextResponse.json({message: 'success'}, {status: 200})
     } catch (error) {
         console.error(error)
