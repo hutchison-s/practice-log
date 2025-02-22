@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
         const {teachers}: {teachers: {id: string, name: string, email: string}[]} = await request.json();
         
         await sendWeeklyReport(teachers);
-        console.log(`sent reports to ${teachers.length} teachers successfully.`)
         return new NextResponse('Sending reports', {status: 200})
     } catch (error) {
         console.log('Error sending reports:', error);

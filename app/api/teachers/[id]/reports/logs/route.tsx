@@ -2,16 +2,11 @@ import { apiResponse, StudentWeekReport } from "@/app/types";
 import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }): apiResponse<StudentWeekReport[]> {
-    console.log('log request processing...');
-    
-    // Await params safely
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }): apiResponse<StudentWeekReport[]> {   
     const resolvedParams = await params;
     const { id } = resolvedParams;
 
-    // Parse limit safely
     const limit = parseInt(request.nextUrl.searchParams.get('limit') || '0', 10);
-    console.log('getting reports for students of teacher', id, `with${limit ? '' : 'out'} a limit`, limit);
 
     // Query setup
     let query;

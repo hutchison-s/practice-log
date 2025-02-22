@@ -27,7 +27,7 @@ export async function fetchJSONWithToken<T>(url: string, revalidate?: boolean): 
     if (!token) {
         throw new Error('Unauthorized');
     }
-    // try {
+    try {
         const response = await fetch(url, { 
             cache: revalidate ? 'no-cache' : 'force-cache', 
             next: {tags}, 
@@ -40,10 +40,10 @@ export async function fetchJSONWithToken<T>(url: string, revalidate?: boolean): 
         }
         const payload = await response.json()
         return payload as apiPayload<T>;
-    // } catch (error) {
-    //     console.error("Fetch Error:", error);
-    //     throw new Error("Fetch with JSON error");
-    // }
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        throw new Error("Fetch with JSON error");
+    }
 }
 
 export async function postJSONWithToken<T>(url: string, body: Partial<T>, revalidate?: string[]): Promise<apiPayload<T>> {
