@@ -31,26 +31,18 @@ student_weeks AS (
         s.teacher_id = ${id}
 ),
 logs_aggregated AS (
-    -- Aggregate logs data by student and week
     SELECT 
         l.student_id, 
-        DATE_TRUNC('week', l.start_time) 
-           + INTERVAL '1 day' * (CASE WHEN EXTRACT(DOW FROM l.start_time) = 0 
-                                      THEN 0 
-                                      ELSE -EXTRACT(DOW FROM l.start_time) END) 
-           AS week_start,
+        DATE_TRUNC('week', l.start_time) - INTERVAL '1 day' AS week_start,
         COUNT(l.id) AS log_count,
         COALESCE(SUM(l.total_time::numeric / 60), 0) AS practice_minutes
     FROM 
         logs l
     GROUP BY 
         l.student_id, 
-        DATE_TRUNC('week', l.start_time) 
-           + INTERVAL '1 day' * (CASE WHEN EXTRACT(DOW FROM l.start_time) = 0 
-                                      THEN 0 
-                                      ELSE -EXTRACT(DOW FROM l.start_time) END)
+        l.student_id, 
+        week_start
 )
--- Join the combinations with aggregated log data
 SELECT
     sw.student_id,
     sw.subject,
