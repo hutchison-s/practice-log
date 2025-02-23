@@ -10,7 +10,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
 
         if (!id) throw new Error('No id parameter present');
         const { rowCount, rows } = await sql`
-        SELECT 
+        SELECT DISTINCT ON (s.id)
             s.id, 
             s.name, 
             s.code, 
@@ -23,15 +23,17 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{id: 
             s.time_of_day,
             s.group_id,
             s.duration,
-            g.color as group_color
+            g.color as group_color,
+            (SELECT EXISTS(SELECT 1 FROM messages WHERE student_id = s.id AND is_read = false AND sent_by = s.id)) as has_unread
         FROM 
             students AS s
         LEFT JOIN
             groups AS g ON g.id = s.group_id
+        LEFT JOIN
+            messages ON messages.student_id = s.id
         WHERE 
             s.teacher_id = ${id}
         `;
-
         return NextResponse.json({
             message: 'success', 
             data: rowCount && rowCount > 0 ? rows as Enrollee[]: []

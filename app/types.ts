@@ -22,6 +22,7 @@ export interface Enrollee extends User {
     group_id: string | null,
     group_color: string
     duration: number
+    has_unread?: boolean
 }
 
 export type Group = {

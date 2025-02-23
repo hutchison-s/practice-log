@@ -1,8 +1,8 @@
 import { Enrollee } from "@/app/types";
 import AssignGroupButton from "@/app/(pages)/teachers/[id]/_components/AssignGroupButton";
 import CurrentWeekPieChart from "../../../../_ui_components/ProgressPieChart";
-import UnreadMessageNotification from "../../../../_ui_components/UnreadMessageNotification";
 import Link from "next/link";
+import { MessageCircleWarning, MessageCircle } from "lucide-react";
 
 function EnroleePreview({student, isSelected, onClick, onUpdate}: {student: Enrollee, isSelected: boolean, onClick: ()=>void, onUpdate: (s: Enrollee)=>void}) {
 
@@ -15,7 +15,7 @@ function EnroleePreview({student, isSelected, onClick, onUpdate}: {student: Enro
                 <p className="col-span-2 truncate font-light text-sm text-zinc-400 lg:col-span-3">{student.subject}</p>
                 <div className="w-full flex justify-center items-center">
                   <Link href={`/students/${student.id}/messages`}>
-                    <UnreadMessageNotification student_id={student.id} size={30} />
+                  {student.has_unread ? <MessageCircleWarning size={30} className='animate-bounce text-white'/> : <MessageCircle size={30} className='text-teal-500 transition-all hover:text-teal-300 hover:scale-105'/>}
                   </Link>
                 </div>
                 <div className="col-span-2 lg:col-span-1">
