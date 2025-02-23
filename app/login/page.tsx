@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Sign in to Practice HQ and get back to motivating and monitoring student progress.",
   };
 
-export default function Page() {
+export default async function Page() {
 
     return (
         <>

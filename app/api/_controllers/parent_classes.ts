@@ -1,4 +1,5 @@
 import { deleteWithToken, fetchJSONWithToken, patchJSONWithToken, postJSONWithToken } from "@/app/_utils/AuthHandler";
+import { redirect } from "next/navigation";
 
 export type idType = string | number
 
@@ -12,30 +13,69 @@ export class DB_Controller<T> {
     }
 
     protected async otherTableAPICall<E>(full_path: string): Promise<E> {
-        const {data, message} = await fetchJSONWithToken<T>(`${this.API_URL}${full_path}`)
-        if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
-        return data as E;
+        try {
+            const {data, message} = await fetchJSONWithToken<T>(`${this.API_URL}${full_path}`)
+            if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
+            return data as E;
+        } catch (error) {
+            if (error == 'Error: unauthorized') {
+                redirect('/unauthorized')
+            } else {
+                throw new Error('Something went wrong while trying to communicate with our api')
+            }
+        }
     }
     protected async apiGET<E>(path: string): Promise<E> {
-        console.log('fetching', `${this.API_URL}${this.endpoint_base}${path}`)
-        const {data, message} = await fetchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
-        if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
-        return data as E;
+        try {
+            const {data, message} = await fetchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
+            if (data == undefined) console.error("Error fetching data from", this.endpoint_base, ":", message);
+            return data as E;
+        } catch (error) {
+            if (error == 'Error: unauthorized') {
+                redirect('/unauthorized')
+            } else {
+                throw new Error('Something went wrong while trying to communicate with our api')
+            }
+        }
     }
     protected async apiPOST<T>(path: string, obj: Partial<T>, revalidatePath?: string[]): Promise<T> {
-        const {data, message} = await postJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
-        if (data == undefined) console.error("Error posting data to", this.endpoint_base, ":", message);
-        return data as T;
+        try {
+            const {data, message} = await postJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
+            if (data == undefined) console.error("Error posting data to", this.endpoint_base, ":", message);
+            return data as T;
+        } catch (error) {
+            if (error == 'Error: unauthorized') {
+                redirect('/unauthorized')
+            } else {
+                throw new Error('Something went wrong while trying to communicate with our api')
+            }
+        }
     }
     protected async apiPATCH<T>(path: string, obj: Partial<T>, revalidatePath?: string[]): Promise<T> {
-        const {data, message} = await patchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
-        if (data == undefined) console.error("Error patching data to", this.endpoint_base, ":", message);
-        return data as T;
+        try {
+            const {data, message} = await patchJSONWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`, obj, revalidatePath)
+            if (data == undefined) console.error("Error patching data to", this.endpoint_base, ":", message);
+            return data as T;
+        } catch (error) {
+            if (error == 'Error: unauthorized') {
+                redirect('/unauthorized')
+            } else {
+                throw new Error('Something went wrong while trying to communicate with our api')
+            }
+        }
     }
     protected async apiDELETE<T>(path: string): Promise<T> {
-        const {data, message} = await deleteWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
-        if (!data && !message) console.error("Error deleting data at", this.endpoint_base, ":", message);
-        return data as T;
+        try {
+            const {data, message} = await deleteWithToken<T>(`${this.API_URL}${this.endpoint_base}${path}`)
+            if (!data && !message) console.error("Error deleting data at", this.endpoint_base, ":", message);
+            return data as T;
+        } catch (error) {
+            if (error == 'Error: unauthorized') {
+                redirect('/unauthorized')
+            } else {
+                throw new Error('Something went wrong while trying to communicate with our api')
+            }
+        }
     }
 
     async getOneById(id: idType): Promise<T> {

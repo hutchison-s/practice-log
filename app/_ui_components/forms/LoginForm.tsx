@@ -5,7 +5,7 @@ import { ChangeEvent, FormEventHandler, useState } from "react"
 import { PrimaryButton, SecondaryButton, SecondaryLinkButton } from "../layout/Buttons"
 import { ControlledInput } from "./ControlledInput"
 import { useUser } from "@/app/_hooks/useUser"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 type Credentials = {email: string, password: string}
 
@@ -14,6 +14,7 @@ function LoginForm() {
     const [userInfo, setUserInfo] = useState<Credentials>({email: '', password: ''})
     const [statusMsg, setStatusMsg] = useState('');
     const router = useRouter();
+    const queries = useSearchParams();
     const {login, user, logout} = useUser();
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e)=>{
@@ -33,7 +34,8 @@ function LoginForm() {
             } else {
                 setStatusMsg('Login successful')
                 login(json.data);
-                return router.push(`/teachers/${json.data.id}`)
+                const intended = queries.get('callback')
+                return router.push(intended ?? `/teachers/${json.data.id}`)
             }
         })
         .catch(err => {
@@ -59,7 +61,7 @@ function LoginForm() {
 
   return (
     user.id
-    ? <><p>Logged in as {user.name}</p><SecondaryButton onClick={handleLogout}>Log out</SecondaryButton></>
+    ? <><p>Logged in as {user.name}</p><p><em className="text-txtsecondary">{user.email}</em></p><SecondaryButton onClick={handleLogout}>Log out</SecondaryButton></>
     : <form onSubmit={handleSubmit} className="w-full max-w-[500px]">
         <ControlledInput 
             label='Email' 

@@ -36,12 +36,15 @@ export async function fetchJSONWithToken<T>(url: string, revalidate?: boolean): 
 
         if (!response.ok) {
             console.error("Fetch failed:", response.status, response.statusText);
-            throw new Error(`Request failed with status: ${response.status}`);
+            throw new Error(response.status == 403 ? '403' : `Request failed with status: ${response.status}`);
         }
         const payload = await response.json()
         return payload as apiPayload<T>;
     } catch (error) {
         console.error("Fetch Error:", error);
+        if (/403/gi.test(String(error))) {
+            throw new Error('unauthorized')
+        }
         throw new Error("Fetch with JSON error");
     }
 }

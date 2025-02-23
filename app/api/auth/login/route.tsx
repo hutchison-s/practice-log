@@ -9,7 +9,6 @@ export async function POST(request: Request) {
     const email = fd.get('email') as string;
     const password = fd.get('password') as string;
 
-    // Check if the user exists
     const existingUsers = await sql`SELECT id, name, password, validated, timezone FROM teachers WHERE email = ${email}`;
     if (!existingUsers || existingUsers.rows.length === 0) {
         return Response.json({ message: 'No user found' }, { status: 401 });
@@ -17,13 +16,11 @@ export async function POST(request: Request) {
 
     const user = existingUsers.rows[0];
 
-    // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return Response.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Generate JWT token
     const secret = new TextEncoder().encode(jwtSecret);
     const token = await new jose.SignJWT(
         { userId: user.id, email: email, name: user.name, isVerified: user.validated, timezone: user.timezone })
@@ -32,17 +29,15 @@ export async function POST(request: Request) {
         .setExpirationTime('1 day')
         .sign(secret);
 
-    // Set the token in an HTTP-only, secure cookie
     const cookieOptions = [
-        `HttpOnly`,              // Prevents JavaScript access to the cookie        
-        `SameSite=Lax`,          // CSRF protection
-        `Path=/`,                // Cookie is sent for all routes
-        `Max-Age=86400`,          // Cookie expires in 24 hours
+        `HttpOnly`,              
+        `SameSite=Lax`,          
+        `Path=/`,                
+        `Max-Age=86400`,          
     ];
     // Ensures cookie is only sent over HTTPS (only in production)
     if (process.env.NODE_ENV === 'production') cookieOptions.push('Secure');
 
-    // Return a response with the token set as a cookie
     return new Response(JSON.stringify({ message: 'success', data: { id: user.id, name: user.name, email: email, role: 'teacher', isVerified: user.validated, timezone: user.timezone } }), {
         status: 200,
         headers: {
