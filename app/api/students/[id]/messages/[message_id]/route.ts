@@ -1,6 +1,6 @@
 import { userIs } from "@/app/api/helpers";
 import { sql } from "@vercel/postgres";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { Message } from "postcss";
 
@@ -20,6 +20,10 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{id:
             WHERE
                 id = ${message_id}`;
         revalidateTag(`messages${id}`)
+        if (id != req_id) {
+            revalidatePath(`/teachers/${req_id}`)
+        }
+        
         return NextResponse.json({data: rows, message: 'success'}, {status: 200});
         } catch (error) {
             console.error(error);
